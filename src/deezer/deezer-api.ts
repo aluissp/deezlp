@@ -1,5 +1,4 @@
-import { api } from './api';
-import { AxiosError, isAxiosError } from 'axios';
+import axios, { AxiosError, isAxiosError, type AxiosInstance } from 'axios';
 import {
 	APIException,
 	DataNotFoundException,
@@ -13,13 +12,26 @@ import {
 	TokenInvalidException,
 	type DeezerExceptionResponse,
 } from './exceptions';
+import constants from './constants';
 
-export class DeezerApiClient {
+export class DeezerApi {
+	private api: AxiosInstance;
+
+	constructor() {
+		this.api = axios.create({
+			baseURL: constants.DEEZER_API_URL,
+			timeout: 5000, // 5 seconds timeout for all requests
+			headers: {
+				'Content-Type': 'application/json',
+			},
+		});
+	}
+
 	async searchTrack(query: string) {
 		const queryParams = `/search?q=${encodeURIComponent(query)}`;
 
 		try {
-			const response = await api.get(queryParams);
+			const response = await this.api.get(queryParams);
 
 			if (!response.data?.error) return response.data;
 

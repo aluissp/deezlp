@@ -1,1 +1,2 @@
-export * from './client';
+export * from './deezer-api';
+export * from './deezer-gw';
