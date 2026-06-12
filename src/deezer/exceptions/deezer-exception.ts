@@ -164,3 +164,11 @@ export class IndividualAccountChangedNotAllowedException extends APIException {
 		this.name = 'IndividualAccountChangedNotAllowedException';
 	}
 }
+
+export class GWAPIException extends DeezerException {
+	constructor(message: string) {
+		super(message);
+		this.name = 'GWAPIException';
+		this.message = 'Track unavailable on Deezer';
+	}
+}

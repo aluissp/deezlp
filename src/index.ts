@@ -6,7 +6,7 @@ const ARL =
 const deezer = new DeezerCore();
 
 try {
-	console.log('Get artist info: Runallacta');
+	// console.log('Get artist info: Runallacta');
 
 	// const data = await client.searchTrack('Runallacta');
 	// const data = await client.getTrackPageData(1034678592);

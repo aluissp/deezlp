@@ -27,5 +27,7 @@ export class DeezerCore {
 		await this.cookieJar.setCookie(cookieObj.toString(), 'https://www.deezer.com');
 
 		const userData = await this.gw.getUserData();
+
+    console.log(JSON.stringify(userData));
 	}
 }

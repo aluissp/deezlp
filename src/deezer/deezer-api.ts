@@ -12,14 +12,14 @@ import {
 	TokenInvalidException,
 	type DeezerExceptionResponse,
 } from './exceptions';
-import constants from './constants';
+import { DEEZER_URLS } from './constants';
 
 export class DeezerApi {
 	private api: AxiosInstance;
 
 	constructor() {
 		this.api = axios.create({
-			baseURL: constants.DEEZER_API_URL,
+			baseURL: DEEZER_URLS.DEEZER_API_URL,
 			timeout: 5000, // 5 seconds timeout for all requests
 			headers: {
 				'Content-Type': 'application/json',
