@@ -34,8 +34,7 @@ export class DeezerCore {
 
 		const userData = await this.gw.getUserData();
 
-		// console.log({ id: userData.USER.USER_ID });
-		console.log({ user: userData.USER });
+		console.log({ id: userData.USER.USER_ID });
 
 		// If userData is empty or not returned, set loggedIn to false
 		if (!userData || (userData && Object.keys(userData).length === 0)) return (this.loggedIn = false);
@@ -52,7 +51,7 @@ export class DeezerCore {
 	private async getChildren(userData: GWUserData) {
 		this.children = [];
 
-		const isFamily = userData?.USER?.MULTI_ACCOUNT?.ENABLE && !userData?.USER?.MULTI_ACCOUNT?.IS_SUB_ACCOUNT;
+		const isFamily = userData?.USER?.MULTI_ACCOUNT?.ENABLED && !userData?.USER?.MULTI_ACCOUNT?.IS_SUB_ACCOUNT;
 
 		if (isFamily) {
 			// TODO: Implement getChildren method to fetch child users for family accounts

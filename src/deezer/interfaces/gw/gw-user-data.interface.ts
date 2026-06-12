@@ -28,7 +28,6 @@ export interface GWUserData {
 	thirdParty: ThirdParty;
 	URL_MEDIA: string;
 	GAIN: Gain;
-	checkFormLogin: string;
 }
 
 interface Gain {
@@ -38,9 +37,8 @@ interface Gain {
 
 interface User {
 	USER_ID: number;
-	BLOG_NAME?: string;
 	USER_PICTURE: string;
-	INSCRIPTION_DATE: string;
+	INSCRIPTION_DATE: Date;
 	TRY_AND_BUY: TryAndBuy;
 	PARTNERS: string;
 	TOOLBAR: any[];
@@ -54,10 +52,10 @@ interface User {
 	APPLE: Apple;
 	FAVORITE_TAG: number;
 	ABTEST: Abtest;
-	MULTI_ACCOUNT: any | any[];
+	MULTI_ACCOUNT: MultiAccount;
 	ONBOARDING_MODAL: boolean;
 	ADS_OFFER: string;
-	ENTRYPOINTS: Apple;
+	ENTRYPOINTS: Entrypoints;
 	ADS_TEST_FORMAT: string;
 	NEW_USER: boolean;
 	CONSENT_STRING: any[];
@@ -65,9 +63,16 @@ interface User {
 	CAN_BE_CONVERTED_TO_INDEPENDENT: boolean;
 	IS_FREEMIUM_COUNTRY: number;
 	HARDBOUNCED_EMAIL: boolean;
+	ADS_CONFIG: AdsConfig;
 	EXPLICIT_CONTENT_LEVEL: string;
 	EXPLICIT_CONTENT_LEVELS_AVAILABLE: string[];
 	CAN_EDIT_EXPLICIT_CONTENT_LEVEL: boolean;
+	BLOG_NAME: string;
+	FIRSTNAME: string;
+	LASTNAME: string;
+	USER_GENDER: string;
+	USER_AGE: string;
+	EMAIL: string;
 	DEVICES_COUNT: number;
 	HAS_UPNEXT: boolean;
 	LOVEDTRACKS_ID: string;
@@ -85,6 +90,10 @@ interface ModuleLibraryAbtestQA {
 	option: string;
 	behaviour: string;
 	percent: number;
+}
+
+interface AdsConfig {
+	SEGMENTS: any[];
 }
 
 interface Apple {}
@@ -106,10 +115,69 @@ interface Preset {
 	description: string;
 }
 
+interface Entrypoints {
+	LYRICS_PANEL: ConversionBannerFree;
+	AUDIO_SETTING_PREMIUM: AudioSettingPremium;
+	CONVERSION_BANNER_FREE: ConversionBannerFree;
+	SUBSCRIBE_FROM_SETTINGS: ConversionBannerFree;
+	SUBSCRIBE_FROM_USER_PROFILE: ConversionBannerFree;
+}
+
+interface AudioSettingPremium {
+	label: string;
+	action: string;
+}
+
+interface ConversionBannerFree {
+	label: string;
+	description?: string;
+	action: string;
+	origin?: string;
+}
+
+interface MultiAccount {
+	ENABLED: boolean;
+	ACTIVE: boolean;
+	CHILD_COUNT: null;
+	MAX_CHILDREN: null;
+	PARENT: null;
+	IS_KID: boolean;
+	IS_SUB_ACCOUNT: boolean;
+}
+
 interface Optins {
-	channel: any[];
-	optin: any[];
-	group: any[];
+	channel: ChannelElement[];
+	group: ChannelElement[];
+	optin: Optin[];
+	service_name: string;
+}
+
+interface ChannelElement {
+	name: string;
+	label: string;
+	description: string;
+}
+
+interface Optin {
+	name: string;
+	label: string;
+	description: string;
+	channel: OptinChannel;
+	group: Group;
+	channels_requiring_validation: any[];
+}
+
+interface OptinChannel {
+	optin_push?: boolean;
+	optin_sms?: boolean;
+	optin_mail?: boolean;
+	optin_whatsapp?: boolean;
+}
+
+export enum Group {
+	Extras = 'extras',
+	Music = 'music',
+	Podcasts = 'podcasts',
 }
 
 interface Options {
@@ -171,6 +239,7 @@ interface Options {
 	streaming: boolean;
 	streaming_duration: number;
 	sound_quality: SoundQuality;
+	upgrade: Upgrade;
 }
 
 interface AudioQualities {
@@ -188,7 +257,34 @@ interface SoundQuality {
 	reality: boolean;
 }
 
+interface Upgrade {
+	type: string;
+	offer: Offer;
+	cta: Cta;
+}
+
+interface Cta {
+	label: string;
+	label_extend: string;
+	log_name: string;
+}
+
+interface Offer {
+	id: number;
+	name: string;
+	description: string;
+	duration: number;
+	price: Price;
+}
+
+interface Price {
+	amount: string;
+	currency: string;
+	display: string;
+}
+
 interface Setting {
+	newsletter: Newsletter;
 	global: Global;
 	site: Site;
 	twitter: GoogleClass;
@@ -196,33 +292,123 @@ interface Setting {
 	google: GoogleClass;
 	notification_mail: NotificationM;
 	notification_mobile: NotificationM;
-	newsletter: Newsletter;
-	optin_mail: any[];
-	optin_push: any[];
-	optin_inapp: any[];
-	optin_sms: any[];
+	beta_user: BetaUser;
 	tips: Tips;
 	audio_quality_settings: AudioQualitySettings;
-	customer_message: any[];
-	mobile_message: any[];
-	adjust: any[];
-	abtest: any[];
 	ads: Ads;
+	adjust: Adjust;
+	customer_message: CustomerMessage;
+	location: Location;
+	optin_mail: OptinInappClass;
+	optin_push: OptinInappClass;
+	optin_inapp: OptinInappClass;
+	optin_sms: OptinInappClass;
 	webviews: Webviews;
-	tracking: any[];
 	partner: Partner;
 }
 
+interface Adjust {
+	device: { [key: string]: Device };
+	dzero_stream: number;
+	first_stream_id: number;
+	devicesInfo: DevicesInfo;
+}
+
+interface Device {
+	login: Login;
+}
+
+interface Login {
+	last_trigger: number;
+}
+
+interface DevicesInfo {
+	'293562af-2cf3-4cc0-a847-02e4eb93557c': The293562_AF2_Cf34_Cc0A84702_E4Eb93557C;
+	'ce1121e8-674e-4f6f-8442-d9f3916126d8': Ce1121E8674E4F6F8442D9F3916126D8;
+	'203276b8070375941a9c32158f4d8f38': The203276B8070375941A9C32158F4D8F38;
+	'940aa42e-c27c-46f1-b5fa-e228d9dbd0e9': The293562_AF2_Cf34_Cc0A84702_E4Eb93557C;
+}
+
+interface The203276B8070375941A9C32158F4D8F38 {
+	identifier_type: string;
+	platform: string;
+	device_identifier: string;
+	device_identifier_type: string;
+}
+
+interface The293562_AF2_Cf34_Cc0A84702_E4Eb93557C {
+	identifier_type: string;
+}
+
+interface Ce1121E8674E4F6F8442D9F3916126D8 {
+	identifier_type: string;
+	has_adid: string;
+}
+
 interface Ads {
+	featurefm_token: FeaturefmToken;
 	test_format: boolean;
 	force_adsource: string;
 	force_mediation: string;
 }
 
+interface FeaturefmToken {
+	token: string;
+	date: Date;
+	api_url: string;
+}
+
 interface AudioQualitySettings {
 	preset: string;
+	device_streaming_quality: boolean;
 	download_on_mobile_network: boolean;
 	connected_device_streaming_preset: boolean;
+}
+
+interface BetaUser {
+	ios: boolean;
+	android: boolean;
+	windowsphone: boolean;
+	windows: boolean;
+}
+
+interface CustomerMessage {
+	conversion_pplus: ConversionPplus;
+	push_trialend_freexp: Push;
+	whats_new_flow: WhatsNewFlow;
+	push_collect_optin: Push;
+}
+
+interface ConversionPplus {
+	android: Android;
+	desktop: Desktop;
+}
+
+interface Android {
+	reg_d1: boolean;
+	trial_end_period: TrialEndPeriod;
+	seasonal_offer: string;
+}
+
+interface TrialEndPeriod {
+	'20181017': boolean;
+}
+
+interface Desktop {
+	reg_d1: boolean;
+	trial_end: boolean;
+	seasonal_offer: string;
+}
+
+interface Push {
+	properties: any[];
+	display_count: number;
+	last_display: Date;
+}
+
+interface WhatsNewFlow {
+	is_eligible: boolean;
+	triggered: boolean;
 }
 
 interface GoogleClass {
@@ -236,24 +422,31 @@ interface GoogleClass {
 
 interface Global {
 	language: string;
+	onboarding_progress: number;
+	cookie_consent_string: string;
+	happy_hour: string;
 	social: boolean;
 	popup_unload: boolean;
 	filter_explicit_lyrics: boolean;
 	is_kid: boolean;
 	has_up_next: boolean;
 	dark_mode: string;
-	accent_palette_identifier: string;
 	onboarding: boolean;
-	onboarding_progress: number;
-	onboarding_musictogether: boolean;
-	onboarding_musictogether_progress: number;
-	cookie_consent_string: string;
 	has_root_consent: number;
-	happy_hour: string;
 	recommendation_country: string;
 	has_joined_family: boolean;
-	has_already_tried_premium: boolean;
 	explicit_level_forced: boolean;
+	accent_palette_identifier: string;
+	onboarding_musictogether: boolean;
+	onboarding_musictogether_progress: number;
+	has_already_tried_premium: boolean;
+}
+
+interface Location {
+	city: string;
+	lat: number;
+	lon: number;
+	source: string;
 }
 
 interface Newsletter {
@@ -275,11 +468,27 @@ interface NotificationM {
 	new_message: boolean;
 }
 
+interface OptinInappClass {
+	update: number;
+	special_offer: number;
+	social: number;
+	event: number;
+	third_party: number;
+	survey: number;
+}
+
 interface Partner {
 	partner_ids: string;
 }
 
 interface Site {
+	version: string;
+	player_fade: number;
+	player_hq: boolean;
+	player_audio_quality: string;
+	push_audiobooks: boolean;
+	nb_flowplayer_like_notification: number;
+	labs: Labs;
 	livebar_state: string;
 	livebar_tab: string;
 	push_mobile: number;
@@ -287,6 +496,10 @@ interface Site {
 	edito_tag: number;
 	display_confirm_discovery: number;
 	cast_audio_quality: string;
+}
+
+interface Labs {
+	ElectronUI: boolean;
 }
 
 interface Tips {
@@ -304,8 +517,8 @@ interface Webviews {
 interface TryAndBuy {
 	AVAILABLE: boolean;
 	ACTIVE: string;
-	DATE_START: string;
-	DATE_END: string;
+	DATE_START: Date;
+	DATE_END: Date;
 	PLATEFORM: string;
 	DAYS_LEFT_MOB: number;
 }

@@ -23,7 +23,7 @@ export class DeezerGW {
 		});
 	}
 
-	async call(method: string, args?: any, params?: any): Promise<unknown> {
+	private async call(method: string, args?: any, params?: any): Promise<unknown> {
 		// 1. Ensure args and params are always objects
 		args ??= {};
 		params ??= {};
@@ -42,19 +42,6 @@ export class DeezerGW {
 
 		try {
 			// 4. Make API call
-
-			// const response = await got
-			// 	.post(DEEZER_URLS.DEEZER_GW_URL, {
-			// 		json: args,
-			// 		searchParams,
-			// 		headers: this.headers,
-			// 		cookieJar: this.cookieJar,
-			// 		https: { rejectUnauthorized: false },
-			// 	})
-			// 	.json<GWRawData>();
-
-			// 	const data = { ...response };
-
 			const data = await this.api
 				.post('', {
 					json: args,
@@ -81,10 +68,6 @@ export class DeezerGW {
 			return results;
 		} catch (error: any) {
 			console.error('[ERROR] deezer.gw', method, args, error.name, error.message);
-
-			// Check if error is AxiosError
-			if (!axios.isAxiosError(error))
-				throw new GWAPIException(`${method} ${args}:: ${error?.name ?? 'Unknown error'}: ${error?.message ?? 'Unknown error'}`);
 
 			if (!['ECONNABORTED', 'ECONNREFUSED', 'ECONNRESET', 'ENETRESET', 'ETIMEDOUT'].includes(error.code ?? ''))
 				throw new GWAPIException(`${method} ${args}:: ${error.name}: ${error.message}`);
