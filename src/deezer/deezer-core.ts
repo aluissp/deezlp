@@ -34,8 +34,6 @@ export class DeezerCore {
 
 		const userData = await this.gw.getUserData();
 
-		console.log({ id: userData.USER.USER_ID });
-
 		// If userData is empty or not returned, set loggedIn to false
 		if (!userData || (userData && Object.keys(userData).length === 0)) return (this.loggedIn = false);
 
@@ -44,6 +42,8 @@ export class DeezerCore {
 
 		// Get children users
 		await this.getChildren(userData);
+
+		console.log(this.children);
 
 		return (this.loggedIn = true);
 	}
@@ -67,7 +67,7 @@ export class DeezerCore {
 			can_stream_lossless: userData.USER.OPTIONS.web_lossless || userData.USER.OPTIONS.mobile_lossless,
 			country: userData.USER.OPTIONS.license_country,
 			language: userData.USER.SETTING.global.language || '',
-			loved_tracks: +userData.USER.LOVEDTRACKS_ID,
+			loved_tracks: userData.USER.LOVEDTRACKS_ID,
 		});
 	}
 }

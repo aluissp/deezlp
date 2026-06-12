@@ -7,5 +7,5 @@ export interface UserCore {
 	can_stream_lossless?: boolean;
 	country?: string;
 	language?: string;
-	loved_tracks?: number;
+	loved_tracks?: string;
 }

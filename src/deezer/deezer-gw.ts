@@ -42,12 +42,7 @@ export class DeezerGW {
 
 		try {
 			// 4. Make API call
-			const data = await this.api
-				.post('', {
-					json: args,
-					searchParams,
-				})
-				.json<GWRawData>();
+			const data = await this.api.post('', { json: args, searchParams }).json<GWRawData>();
 
 			// 5. Handle token errors and retry once if needed
 			if (data.error && (data.error?.length || Object.keys(data?.error).length)) {
