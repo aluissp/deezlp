@@ -1,3 +1,6 @@
+/**
+ * Interface representing the raw user data returned by the Deezer GW API.
+ */
 export interface GWUserData {
 	USER: User;
 	SETTING_LANG: string;
@@ -35,6 +38,7 @@ interface Gain {
 
 interface User {
 	USER_ID: number;
+	BLOG_NAME?: string;
 	USER_PICTURE: string;
 	INSCRIPTION_DATE: string;
 	TRY_AND_BUY: TryAndBuy;
@@ -50,7 +54,7 @@ interface User {
 	APPLE: Apple;
 	FAVORITE_TAG: number;
 	ABTEST: Abtest;
-	MULTI_ACCOUNT: any[];
+	MULTI_ACCOUNT: any | any[];
 	ONBOARDING_MODAL: boolean;
 	ADS_OFFER: string;
 	ENTRYPOINTS: Apple;

@@ -1,13 +1,11 @@
-import axios from 'axios';
-import type { AxiosInstance } from 'axios';
+import got, { type Got } from 'got';
 import type { CookieJar } from 'tough-cookie';
-import { HttpsCookieAgent } from 'http-cookie-agent/http';
 import { DEEZER_GW_METHODS, DEEZER_URLS } from './constants';
 import type { GWRawData, GWUserData } from './interfaces';
 import { GWAPIException } from './exceptions';
 
 export class DeezerGW {
-	private api: AxiosInstance;
+	private api: Got;
 	private apiToken?: string;
 
 	cookieJar: CookieJar;
@@ -17,18 +15,11 @@ export class DeezerGW {
 		this.cookieJar = cookieJar;
 		this.headers = headers;
 
-		const httpsAgent = new HttpsCookieAgent({
-			cookies: { jar: cookieJar },
-			rejectUnauthorized: false,
-			keepAlive: true,
-		});
-
-		this.api = axios.create({
-			baseURL: DEEZER_URLS.DEEZER_GW_URL,
-			timeout: 5000, // 5 seconds timeout for all requests
+		this.api = got.extend({
+			prefixUrl: DEEZER_URLS.DEEZER_GW_URL,
 			headers: this.headers,
-			withCredentials: true,
-			httpsAgent,
+			cookieJar: this.cookieJar,
+			https: { rejectUnauthorized: false },
 		});
 	}
 
@@ -42,16 +33,34 @@ export class DeezerGW {
 
 		// 3. Build search params
 		const searchParams = {
-			method,
-			input: '3',
 			api_version: '1.0',
 			api_token: method === DEEZER_GW_METHODS.GET_USER_DATA ? 'null' : this.apiToken,
+			input: '3',
+			method,
 			...params,
 		};
 
 		try {
 			// 4. Make API call
-			const { data } = await this.api.post<GWRawData>('', args, { params: searchParams });
+
+			// const response = await got
+			// 	.post(DEEZER_URLS.DEEZER_GW_URL, {
+			// 		json: args,
+			// 		searchParams,
+			// 		headers: this.headers,
+			// 		cookieJar: this.cookieJar,
+			// 		https: { rejectUnauthorized: false },
+			// 	})
+			// 	.json<GWRawData>();
+
+			// 	const data = { ...response };
+
+			const data = await this.api
+				.post('', {
+					json: args,
+					searchParams,
+				})
+				.json<GWRawData>();
 
 			// 5. Handle token errors and retry once if needed
 			if (data.error && (data.error?.length || Object.keys(data?.error).length)) {

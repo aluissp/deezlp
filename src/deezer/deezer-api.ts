@@ -1,4 +1,5 @@
-import axios, { AxiosError, isAxiosError, type AxiosInstance } from 'axios';
+import got from 'got';
+import type { Got } from 'got';
 import {
 	APIException,
 	DataNotFoundException,
@@ -13,17 +14,23 @@ import {
 	type DeezerExceptionResponse,
 } from './exceptions';
 import { DEEZER_URLS } from './constants';
+import type { CookieJar } from 'tough-cookie';
 
 export class DeezerApi {
-	private api: AxiosInstance;
+	private api: Got;
 
-	constructor() {
-		this.api = axios.create({
-			baseURL: DEEZER_URLS.DEEZER_API_URL,
-			timeout: 5000, // 5 seconds timeout for all requests
-			headers: {
-				'Content-Type': 'application/json',
-			},
+	headers: Record<string, string>;
+	cookieJar: CookieJar;
+
+	constructor(cookieJar: CookieJar, headers: Record<string, string>) {
+		this.headers = headers;
+		this.cookieJar = cookieJar;
+
+		this.api = got.extend({
+			prefixUrl: DEEZER_URLS.DEEZER_GW_URL,
+			headers: this.headers,
+			cookieJar: this.cookieJar,
+			https: { rejectUnauthorized: false },
 		});
 	}
 
@@ -31,21 +38,21 @@ export class DeezerApi {
 		const queryParams = `/search?q=${encodeURIComponent(query)}`;
 
 		try {
-			const response = await this.api.get(queryParams);
+			// const response = await this.api.get(queryParams);
 
-			if (!response.data?.error) return response.data;
+			// if (!response.data?.error) return response.data;
 
-			this.handleAPIError(response.data.error);
-		} catch (error) {
-			if (!(error instanceof AxiosError)) {
-				console.error('An unexpected error occurred:', error);
-				throw new Error('An unexpected error occurred while fetching data from Deezer API.');
-			}
+			// this.handleAPIError(response.data.error);
+		} catch (error: any) {
+			// if (!(error instanceof AxiosError)) {
+			// 	console.error('An unexpected error occurred:', error);
+			// 	throw new Error('An unexpected error occurred while fetching data from Deezer API.');
+			// }
 
-			if (!isAxiosError(error)) {
-				console.error('An unexpected error occurred:', error);
-				throw new Error('An unexpected error occurred while fetching data from Deezer API.');
-			}
+			// if (!isAxiosError(error)) {
+			// 	console.error('An unexpected error occurred:', error);
+			// 	throw new Error('An unexpected error occurred while fetching data from Deezer API.');
+			// }
 
 			if (error.code && ['ECONNABORTED', 'ECONNREFUSED', 'ECONNRESET', 'ENETRESET', 'ETIMEDOUT'].includes(error.code || '')) {
 				// !Refactor: Implement retry logic with exponential backoff

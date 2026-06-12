@@ -1,6 +1,5 @@
 import { DeezerApi, DeezerCore, DeezerGW } from './deezer';
-const ARL =
-	'29ef1f90fb42d3f8a499d55edaf86e1339a02321b68651d480c5c3c11c1a520367b389b3aa104ee1868fb782ca039d4c4aaa41e2c1c4f0e675d2deaf867a943ef1f9fba10234f9e452abf546825aa4a981ecbef0d87e21b8dfad6e14301978dd';
+const ARL = '70612925e45ee2c68d002efad20bdaf8b26b9b9d8bd6ca334b9daaf544ce9b6690406f1085d1b830e23cc4583e90454d0792431b50c947be2c0525cf62382f6f52aa2b2885e04ef5d8179657a14ee8a671965accf60cd619471653d90d50e4d7';
 // const client = new DeezerApi();
 // const client = new DeezerGW(ARL);
 const deezer = new DeezerCore();
