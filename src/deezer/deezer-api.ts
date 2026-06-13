@@ -16,63 +16,59 @@ import {
 import { DEEZER_URLS } from './constants';
 import type { CookieJar } from 'tough-cookie';
 
+type APIArgs = Record<string | number, string | number>;
+
 export class DeezerApi {
 	private api: Got;
 
 	headers: Record<string, string>;
 	cookieJar: CookieJar;
+	// access_token?: string;
 
 	constructor(cookieJar: CookieJar, headers: Record<string, string>) {
 		this.headers = headers;
 		this.cookieJar = cookieJar;
 
 		this.api = got.extend({
-			prefixUrl: DEEZER_URLS.DEEZER_GW_URL,
+			prefixUrl: DEEZER_URLS.DEEZER_API_URL,
 			headers: this.headers,
 			cookieJar: this.cookieJar,
 			https: { rejectUnauthorized: false },
 		});
 	}
 
-	async searchTrack(query: string) {
-		const queryParams = `/search?q=${encodeURIComponent(query)}`;
-
+	private async call(endpoint: string, args: APIArgs = {}): Promise<unknown> {
 		try {
-			// const response = await this.api.get(queryParams);
+			const response = await this.api.get(endpoint, { searchParams: args }).json<any>();
 
-			// if (!response.data?.error) return response.data;
+			if (!response?.error) return response;
 
-			// this.handleAPIError(response.data.error);
+			await this.handleAPIError(response.error, endpoint, args);
 		} catch (error: any) {
-			// if (!(error instanceof AxiosError)) {
-			// 	console.error('An unexpected error occurred:', error);
-			// 	throw new Error('An unexpected error occurred while fetching data from Deezer API.');
-			// }
-
-			// if (!isAxiosError(error)) {
-			// 	console.error('An unexpected error occurred:', error);
-			// 	throw new Error('An unexpected error occurred while fetching data from Deezer API.');
-			// }
-
 			if (error.code && ['ECONNABORTED', 'ECONNREFUSED', 'ECONNRESET', 'ENETRESET', 'ETIMEDOUT'].includes(error.code || '')) {
-				// !Refactor: Implement retry logic with exponential backoff
+				await this.retryCall(endpoint, args);
 
 				// `${endpoint} ${args}:: ${e.name}: ${e.message}`
-				throw new APIException(`${error.name}: ${error.message} (code: ${error.code})`);
+				throw new APIException(`${endpoint} ${args}:: ${error.name}: ${error.message} (code: ${error.code})`);
 			}
 
 			throw new Error('An unexpected error occurred while fetching data from Deezer API.');
 		}
 	}
 
-	private handleAPIError(error: DeezerExceptionResponse) {
+	private async retryCall(endpoint: string, args: APIArgs = {}, delay = 2000): Promise<unknown> {
+		await new Promise(resolve => setTimeout(resolve, delay));
+
+		return this.call(endpoint, args);
+	}
+
+	private async handleAPIError(error: DeezerExceptionResponse, endpoint: string, args: APIArgs = {}) {
 		if (!error?.code) throw new APIException(error?.message || 'An unknown error occurred while fetching data from Deezer API.');
 
 		const message = error.message || '';
 
-		if ([DeezerExceptionCodes.QUOTA, DeezerExceptionCodes.SERVICE_BUSY].includes(error.code)) {
-			// !Refactor: Implement a retry logic
-		}
+		// Retry the call for quota and service busy errors
+		if ([DeezerExceptionCodes.QUOTA, DeezerExceptionCodes.SERVICE_BUSY].includes(error.code)) await this.retryCall(endpoint, args);
 
 		if (error.code === DeezerExceptionCodes.ITEMS_LIMIT_EXCEEDED) throw new ItemsLimitExceededException(`ItemsLimitExceededException: ${message}`);
 

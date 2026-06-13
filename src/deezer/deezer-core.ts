@@ -3,10 +3,13 @@ import { DeezerGW } from './deezer-gw';
 import type { GWUserData, UserCore } from './interfaces';
 
 export class DeezerCore {
+	/** The Deezer gateway instance */
 	gw: DeezerGW;
+	/** Indicates if the user is logged in */
 	loggedIn: boolean;
 	/** Refers to the list of child users */
 	children: UserCore[];
+	/** The cookie jar for managing cookies */
 	cookieJar: CookieJar;
 	httpHeaders: { 'User-Agent': string };
 
@@ -20,7 +23,13 @@ export class DeezerCore {
 		this.gw = new DeezerGW(this.cookieJar, this.httpHeaders);
 	}
 
-	async loginViaArl(arl: string) {
+	/**
+	 * Logs in to Deezer using the provided ARL cookie
+	 *
+	 * @param arl The deezer arl from cookies
+	 * @returns
+	 */
+	async loginViaArl(arl: string): Promise<boolean> {
 		// Create cookie
 		const cookieObj = new Cookie({
 			key: 'arl',
@@ -42,8 +51,6 @@ export class DeezerCore {
 
 		// Get children users
 		await this.getChildren(userData);
-
-		console.log(this.children);
 
 		return (this.loggedIn = true);
 	}
