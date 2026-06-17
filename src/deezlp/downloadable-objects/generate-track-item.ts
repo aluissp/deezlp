@@ -2,6 +2,7 @@ import type { DeezerCore } from '../../deezer';
 import type { DeezerTrack } from '../../deezer/schemas';
 import { GenerationException, InvalidID } from '../exceptions';
 import { mapGwTrackToDeezer } from '../utils';
+import { Single } from './Single';
 
 export const generateTrackItem = async (dz: DeezerCore, id: string | number, bitrate: number) => {
 	let deezerTrack: DeezerTrack;
@@ -27,4 +28,15 @@ export const generateTrackItem = async (dz: DeezerCore, id: string | number, bit
 	}
 
 	delete deezerTrack.track_token;
+
+	return new Single({
+		id,
+		type: 'track',
+		bitrate,
+		title: deezerTrack.title,
+		artist: deezerTrack.artist.name,
+		cover,
+		explicit: deezerTrack.explicit_lyrics,
+		single: deezerTrack,
+	});
 };
