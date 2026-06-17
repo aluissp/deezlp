@@ -1,7 +1,7 @@
 import got, { type Got } from 'got';
 import type { CookieJar } from 'tough-cookie';
 import { DEEZER_GW_METHODS, DEEZER_URLS } from './constants';
-import type { GWRawData, GWUserData } from './interfaces';
+import type { GWRawData, GWTrack, GWUserData } from './interfaces';
 import { GWAPIException } from './exceptions';
 
 export class DeezerGW {
@@ -81,5 +81,9 @@ export class DeezerGW {
 
 	async getUserData(): Promise<GWUserData> {
 		return this.call(DEEZER_GW_METHODS.GET_USER_DATA) as Promise<GWUserData>;
+	}
+
+	async getTrack(songId: number | string): Promise<GWTrack> {
+		return this.call(DEEZER_GW_METHODS.GET_TRACK, { SNG_ID: songId }) as Promise<GWTrack>;
 	}
 }

@@ -1,10 +1,13 @@
 import { Cookie, CookieJar } from 'tough-cookie';
 import { DeezerGW } from './deezer-gw';
 import type { GWUserData, UserCore } from './interfaces';
+import { DeezerApi } from './deezer-api';
 
 export class DeezerCore {
 	/** The Deezer gateway instance */
 	gw: DeezerGW;
+	/** The Deezer api instance */
+	api: DeezerApi;
 	/** Indicates if the user is logged in */
 	loggedIn: boolean;
 	/** Refers to the list of child users */
@@ -21,6 +24,7 @@ export class DeezerCore {
 		this.loggedIn = false;
 		this.cookieJar = new CookieJar();
 		this.gw = new DeezerGW(this.cookieJar, this.httpHeaders);
+		this.api = new DeezerApi(this.cookieJar, this.httpHeaders);
 	}
 
 	/**

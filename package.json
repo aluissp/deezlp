@@ -19,6 +19,7 @@
   "dependencies": {
     "got": "^15.0.5",
     "nanostores": "^1.3.0",
-    "tough-cookie": "^6.0.1"
+    "tough-cookie": "^6.0.1",
+    "zod": "^4.4.3"
   }
 }

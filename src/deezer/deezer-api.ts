@@ -15,6 +15,7 @@ import {
 } from './exceptions';
 import { DEEZER_URLS } from './constants';
 import type { CookieJar } from 'tough-cookie';
+import { deezerTrackSchema, type DeezerTrack } from './schemas';
 
 type APIArgs = Record<string | number, string | number>;
 
@@ -86,5 +87,16 @@ export class DeezerApi {
 
 		if (error.code === DeezerExceptionCodes.INDIVIDUAL_ACCOUNT_NOT_ALLOWED)
 			throw new IndividualAccountChangedNotAllowedException(`IndividualAccountChangedNotAllowedException: ${message}`);
+	}
+
+	/**
+	 * Fetches a track by its ID from the Deezer API.
+	 *
+	 * @param songId Identifier of music
+	 * @returns DeezerTrack object with all the information about the track
+	 */
+	async getTrack(songId: string | number): Promise<DeezerTrack> {
+		const response = await this.call(`track/${songId}`);
+		return deezerTrackSchema.parse(response);
 	}
 }

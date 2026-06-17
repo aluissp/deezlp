@@ -24,3 +24,13 @@ export class LinkNotRecognized extends GenerationException {
 		this.errId = 'invalidURL';
 	}
 }
+
+export class InvalidID extends GenerationException {
+	errid: string;
+
+	constructor(link: string) {
+		super(link, 'Link ID is invalid!');
+		this.name = 'InvalidID';
+		this.errid = 'invalidID';
+	}
+}
