@@ -13,6 +13,8 @@ test('Should login via ARL', async () => {
 });
 
 test('Should find track by ID', async () => {
-	const track = await deezer.api.getTrack(1380101222);
+	// const track = await deezer.api.getTrack(1380101222); // Life goes on
+	// const track = await deezer.api.getTrack(105920318); // Gorriones
+	const track = await deezer.api.getTrack(1908153427); // Sueno o pesadilla
 	expect(track).toBeDefined();
 });

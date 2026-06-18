@@ -12,13 +12,14 @@ export const artistSchema = z.object({
 	picture_xl: z.string().optional(),
 	tracklist: z.string().optional(),
 	md5_image: z.string().optional(),
+	radio: z.boolean(),
 	type: z.literal('artist'),
 });
 
-export type Artist = z.infer<typeof artistSchema>;
+export type DeezerArtist = z.infer<typeof artistSchema>;
 
 export const contributorSchema = artistSchema.extend({
 	role: z.string().optional().nullable(),
 });
 
-export type Contributor = z.infer<typeof contributorSchema>;
+export type DeezerContributor = z.infer<typeof contributorSchema>;
