@@ -14,6 +14,7 @@ export class DeezerCore {
 	children: UserCore[];
 	/** The cookie jar for managing cookies */
 	cookieJar: CookieJar;
+	/** The HTTP headers for requests */
 	httpHeaders: { 'User-Agent': string };
 
 	constructor() {

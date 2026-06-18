@@ -7,7 +7,7 @@
     "node": ">=24"
   },
   "scripts": {
-    "dev": "bun src/index.ts"
+    "test": "vitest run"
   },
   "type": "module",
   "workspaces": [
