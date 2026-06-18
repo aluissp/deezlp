@@ -1,8 +1,13 @@
 import { DeezerCore } from '@/deezer-core';
 
 const deezer = new DeezerCore();
+const token = process.env.VITE_DEEZER_ARL_TOKEN;
 
 test('Should login via ARL', async () => {
-	const token = process.env.VITE_DEEZER_ARL_TOKEN;
-	console.log({ token });
+	expect(token).toBeDefined()
+
+	const result = await deezer.loginViaArl(token!);
+
+	expect(result).toBe(true);
+	expect(deezer.loggedIn).toBe(true);
 });
