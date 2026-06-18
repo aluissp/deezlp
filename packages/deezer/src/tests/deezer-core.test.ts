@@ -43,4 +43,20 @@ describe('Testing DeezerCore class', () => {
 		expect(track.RANK).toBe(String(exampleTrack.rank));
 		expect(track.EXPLICIT_LYRICS).toBe(String(exampleTrack.explicit_lyrics ? 1 : 0));
 	});
+
+	test('Should find track by ISRC and must be equal a example json object | DeezerApi', async () => {
+		const track = await deezer.api.getTrackByISRC(exampleTrack.isrc); // Gorriones
+
+		expect(track).toBeDefined();
+		expect(track.id).toBe(exampleTrack.id);
+		expect(track.title).toBe(exampleTrack.title);
+		expect(track.title_short).toBe(exampleTrack.title_short);
+		expect(track.title_version).toBe(exampleTrack.title_version);
+		expect(track.release_date).toBe(exampleTrack.release_date);
+		expect(track.share).toBeTypeOf('string');
+		expect(track.preview).toBeTypeOf('string');
+		expect(track.duration).toBe(exampleTrack.duration);
+		expect(track.rank).toBe(exampleTrack.rank);
+		expect(track.explicit_lyrics).toBe(exampleTrack.explicit_lyrics);
+	});
 });

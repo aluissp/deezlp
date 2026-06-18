@@ -99,4 +99,14 @@ export class DeezerApi {
 		const response = await this.call(`track/${songId}`);
 		return deezerTrackSchema.parse(response);
 	}
+
+	/**
+	 * Fetches a track by its ISRC code from the Deezer API.
+	 *
+	 * @param isrc ISRC code of the track to fetch
+	 * @returns DeezerTrack
+	 */
+	getTrackByISRC(isrc: string): Promise<DeezerTrack> {
+		return this.getTrack(`isrc:${isrc}`);
+	}
 }
