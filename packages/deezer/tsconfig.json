@@ -30,6 +30,8 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
     "rootDir": "./src",
     "outDir": "./dist",
     "paths": {
@@ -39,6 +41,7 @@
     }
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "./src/**/*.json"
   ]
 }

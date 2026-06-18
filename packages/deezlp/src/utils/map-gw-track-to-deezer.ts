@@ -1,5 +1,5 @@
-import type { GWTrack } from '../../deezer/interfaces';
-import type { Contributor, DeezerTrack } from '../../deezer/schemas';
+import type { GWTrack } from '@/interfaces';
+import type { DeezerTrack } from '@/schemas';
 
 export const RoleID = ['Main', null, null, null, null, 'Featured'];
 

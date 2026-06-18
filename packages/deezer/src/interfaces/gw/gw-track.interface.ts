@@ -10,7 +10,6 @@ export interface GWTrack {
 	DISK_NUMBER: string;
 	DURATION: string;
 	EXPLICIT_LYRICS: string;
-	// EXPLICIT_LYRICS(EXPLICIT_LYRICS: any): boolean;
 	EXPLICIT_TRACK_CONTENT: ExplicitTrackContent;
 	GENRE_ID: string;
 	HIERARCHICAL_TITLE: string;
@@ -27,9 +26,9 @@ export interface GWTrack {
 	TRACK_NUMBER: string;
 	USER_ID: number;
 	VERSION: string;
+	MD5_ORIGIN?: string;
 	FILESIZE_AAC_64: string;
 	FILESIZE_MP3_64: string;
-	FILESIZE_MP3_MISC: string;
 	FILESIZE_MP3_128: string;
 	FILESIZE_MP3_256: string;
 	FILESIZE_MP3_320: string;
@@ -45,7 +44,6 @@ export interface GWTrack {
 	MEDIA: Media[];
 	RIGHTS: Rights;
 	__TYPE__: string;
-	MD5_ORIGIN?: number;
 	LYRICS?: string;
 }
 
