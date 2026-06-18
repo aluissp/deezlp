@@ -55,7 +55,7 @@ interface User {
 	MULTI_ACCOUNT: MultiAccount;
 	ONBOARDING_MODAL: boolean;
 	ADS_OFFER: string;
-	ENTRYPOINTS: Entrypoints;
+	ENTRYPOINTS: Apple;
 	ADS_TEST_FORMAT: string;
 	NEW_USER: boolean;
 	CONSENT_STRING: any[];
@@ -63,7 +63,6 @@ interface User {
 	CAN_BE_CONVERTED_TO_INDEPENDENT: boolean;
 	IS_FREEMIUM_COUNTRY: number;
 	HARDBOUNCED_EMAIL: boolean;
-	ADS_CONFIG: AdsConfig;
 	EXPLICIT_CONTENT_LEVEL: string;
 	EXPLICIT_CONTENT_LEVELS_AVAILABLE: string[];
 	CAN_EDIT_EXPLICIT_CONTENT_LEVEL: boolean;
@@ -80,6 +79,7 @@ interface User {
 }
 
 interface Abtest {
+	triforce_queuelist_ui: ModuleLibraryAbtestQA;
 	share_android_image_preview: ModuleLibraryAbtestQA;
 	module_library_abtest_qa: ModuleLibraryAbtestQA;
 	poc_aampe: ModuleLibraryAbtestQA;
@@ -90,10 +90,6 @@ interface ModuleLibraryAbtestQA {
 	option: string;
 	behaviour: string;
 	percent: number;
-}
-
-interface AdsConfig {
-	SEGMENTS: any[];
 }
 
 interface Apple {}
@@ -113,26 +109,6 @@ interface Preset {
 	id: string;
 	title: string;
 	description: string;
-}
-
-interface Entrypoints {
-	LYRICS_PANEL: ConversionBannerFree;
-	AUDIO_SETTING_PREMIUM: AudioSettingPremium;
-	CONVERSION_BANNER_FREE: ConversionBannerFree;
-	SUBSCRIBE_FROM_SETTINGS: ConversionBannerFree;
-	SUBSCRIBE_FROM_USER_PROFILE: ConversionBannerFree;
-}
-
-interface AudioSettingPremium {
-	label: string;
-	action: string;
-}
-
-interface ConversionBannerFree {
-	label: string;
-	description?: string;
-	action: string;
-	origin?: string;
 }
 
 interface MultiAccount {
@@ -206,9 +182,9 @@ interface Options {
 	ads_display: boolean;
 	ads_audio: boolean;
 	dj: boolean;
-	nb_devices: number;
+	nb_devices: string;
 	multi_account: boolean;
-	multi_account_max_allowed: number;
+	multi_account_max_allowed: null;
 	radio_skips: number;
 	too_many_devices: boolean;
 	business: boolean;
@@ -218,7 +194,7 @@ interface Options {
 	business_box: boolean;
 	business_no_right: boolean;
 	allow_subscription: boolean;
-	allow_trial_mobile: boolean;
+	allow_trial_mobile: boolean | string;
 	timestamp: number;
 	can_subscribe: boolean;
 	can_subscribe_family: boolean;
@@ -239,7 +215,6 @@ interface Options {
 	streaming: boolean;
 	streaming_duration: number;
 	sound_quality: SoundQuality;
-	upgrade: Upgrade;
 }
 
 interface AudioQualities {
@@ -257,158 +232,58 @@ interface SoundQuality {
 	reality: boolean;
 }
 
-interface Upgrade {
-	type: string;
-	offer: Offer;
-	cta: Cta;
-}
-
-interface Cta {
-	label: string;
-	label_extend: string;
-	log_name: string;
-}
-
-interface Offer {
-	id: number;
-	name: string;
-	description: string;
-	duration: number;
-	price: Price;
-}
-
-interface Price {
-	amount: string;
-	currency: string;
-	display: string;
-}
-
 interface Setting {
 	newsletter: Newsletter;
-	global: Global;
-	site: Site;
-	twitter: GoogleClass;
-	facebook: GoogleClass;
-	google: GoogleClass;
-	notification_mail: NotificationM;
-	notification_mobile: NotificationM;
-	beta_user: BetaUser;
-	tips: Tips;
-	audio_quality_settings: AudioQualitySettings;
-	ads: Ads;
-	adjust: Adjust;
-	customer_message: CustomerMessage;
-	location: Location;
 	optin_mail: OptinInappClass;
 	optin_push: OptinInappClass;
 	optin_inapp: OptinInappClass;
 	optin_sms: OptinInappClass;
+	notification_mail: NotificationM;
+	notification_mobile: NotificationM;
+	global: Global;
+	site: Site;
+	adjust: Adjust;
+	twitter: GoogleClass;
+	facebook: GoogleClass;
+	google: GoogleClass;
+	tips: Tips;
+	audio_quality_settings: AudioQualitySettings;
+	ads: Ads;
 	webviews: Webviews;
 	partner: Partner;
 }
 
 interface Adjust {
-	device: { [key: string]: Device };
-	dzero_stream: number;
-	first_stream_id: number;
 	devicesInfo: DevicesInfo;
 }
 
-interface Device {
-	login: Login;
-}
-
-interface Login {
-	last_trigger: number;
-}
-
 interface DevicesInfo {
-	'293562af-2cf3-4cc0-a847-02e4eb93557c': The293562_AF2_Cf34_Cc0A84702_E4Eb93557C;
-	'ce1121e8-674e-4f6f-8442-d9f3916126d8': Ce1121E8674E4F6F8442D9F3916126D8;
-	'203276b8070375941a9c32158f4d8f38': The203276B8070375941A9C32158F4D8F38;
-	'940aa42e-c27c-46f1-b5fa-e228d9dbd0e9': The293562_AF2_Cf34_Cc0A84702_E4Eb93557C;
+	'35cf6690-994f-47f1-86fa-c77891514443': The35Cf6690994F47F186FaC77891514443;
+	'62313dd96a5f9fb42c3bfa11e475f30d': The62313Dd96A5F9Fb42C3Bfa11E475F30D;
 }
 
-interface The203276B8070375941A9C32158F4D8F38 {
+interface The35Cf6690994F47F186FaC77891514443 {
+	identifier_type: string;
+	has_adid: string;
+}
+
+interface The62313Dd96A5F9Fb42C3Bfa11E475F30D {
 	identifier_type: string;
 	platform: string;
 	device_identifier: string;
 	device_identifier_type: string;
 }
 
-interface The293562_AF2_Cf34_Cc0A84702_E4Eb93557C {
-	identifier_type: string;
-}
-
-interface Ce1121E8674E4F6F8442D9F3916126D8 {
-	identifier_type: string;
-	has_adid: string;
-}
-
 interface Ads {
-	featurefm_token: FeaturefmToken;
 	test_format: boolean;
 	force_adsource: string;
 	force_mediation: string;
 }
 
-interface FeaturefmToken {
-	token: string;
-	date: Date;
-	api_url: string;
-}
-
 interface AudioQualitySettings {
-	preset: string;
-	device_streaming_quality: boolean;
 	download_on_mobile_network: boolean;
 	connected_device_streaming_preset: boolean;
-}
-
-interface BetaUser {
-	ios: boolean;
-	android: boolean;
-	windowsphone: boolean;
-	windows: boolean;
-}
-
-interface CustomerMessage {
-	conversion_pplus: ConversionPplus;
-	push_trialend_freexp: Push;
-	whats_new_flow: WhatsNewFlow;
-	push_collect_optin: Push;
-}
-
-interface ConversionPplus {
-	android: Android;
-	desktop: Desktop;
-}
-
-interface Android {
-	reg_d1: boolean;
-	trial_end_period: TrialEndPeriod;
-	seasonal_offer: string;
-}
-
-interface TrialEndPeriod {
-	'20181017': boolean;
-}
-
-interface Desktop {
-	reg_d1: boolean;
-	trial_end: boolean;
-	seasonal_offer: string;
-}
-
-interface Push {
-	properties: any[];
-	display_count: number;
-	last_display: Date;
-}
-
-interface WhatsNewFlow {
-	is_eligible: boolean;
-	triggered: boolean;
+	preset: string;
 }
 
 interface GoogleClass {
@@ -422,50 +297,43 @@ interface GoogleClass {
 
 interface Global {
 	language: string;
-	onboarding_progress: number;
-	cookie_consent_string: string;
-	happy_hour: string;
 	social: boolean;
 	popup_unload: boolean;
 	filter_explicit_lyrics: boolean;
 	is_kid: boolean;
 	has_up_next: boolean;
 	dark_mode: string;
-	onboarding: boolean;
-	has_root_consent: number;
-	recommendation_country: string;
-	has_joined_family: boolean;
-	explicit_level_forced: boolean;
 	accent_palette_identifier: string;
+	onboarding_progress: number;
 	onboarding_musictogether: boolean;
 	onboarding_musictogether_progress: number;
+	cookie_consent_string: string;
+	has_root_consent: number;
+	happy_hour: string;
+	recommendation_country: string;
+	has_joined_family: boolean;
 	has_already_tried_premium: boolean;
-}
-
-interface Location {
-	city: string;
-	lat: number;
-	lon: number;
-	source: string;
+	explicit_level_forced: boolean;
+	onboarding: boolean;
 }
 
 interface Newsletter {
 	editor: boolean;
 	talk: boolean;
+	special_offer: boolean;
 	event: boolean;
 	game: boolean;
-	special_offer: boolean;
 	panel: boolean;
 }
 
 interface NotificationM {
+	artist_new_release: boolean;
 	share: boolean;
 	friend_follow: boolean;
 	playlist_comment: boolean;
 	playlist_follow: boolean;
-	artist_new_release: boolean;
-	artist_status: boolean;
 	new_message: boolean;
+	artist_status: boolean;
 }
 
 interface OptinInappClass {
@@ -483,12 +351,6 @@ interface Partner {
 
 interface Site {
 	version: string;
-	player_fade: number;
-	player_hq: boolean;
-	player_audio_quality: string;
-	push_audiobooks: boolean;
-	nb_flowplayer_like_notification: number;
-	labs: Labs;
 	livebar_state: string;
 	livebar_tab: string;
 	push_mobile: number;
@@ -496,10 +358,6 @@ interface Site {
 	edito_tag: number;
 	display_confirm_discovery: number;
 	cast_audio_quality: string;
-}
-
-interface Labs {
-	ElectronUI: boolean;
 }
 
 interface Tips {
