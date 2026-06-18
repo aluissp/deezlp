@@ -2,5 +2,8 @@
   "name": "deezlp",
   "version": "1.0.0",
   "type": "module",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "deezer": "workspace:*"
+  }
 }

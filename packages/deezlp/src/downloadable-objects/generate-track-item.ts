@@ -1,8 +1,7 @@
-import type { DeezerCore } from '../../deezer';
-import type { DeezerTrack } from '../../deezer/schemas';
-import { GenerationException, InvalidID } from '../exceptions';
-import { mapGwTrackToDeezer } from '../utils';
+import { DeezerCore, type DeezerTrack } from 'deezer';
 import { Single } from './Single';
+import { GenerationException, InvalidID } from '@/exceptions';
+import { mapGwTrackToDeezer } from '@/utils';
 
 export const generateTrackItem = async (dz: DeezerCore, id: string | number, bitrate: number) => {
 	let deezerTrack: DeezerTrack;
@@ -27,7 +26,7 @@ export const generateTrackItem = async (dz: DeezerCore, id: string | number, bit
 		cover = `https://e-cdns-images.dzcdn.net/images/cover/${deezerTrack.md5_image}/75x75-000000-80-0-0.jpg`;
 	}
 
-	delete deezerTrack.track_token;
+	// delete deezerTrack.track_token;
 
 	return new Single({
 		id,

@@ -23,6 +23,9 @@
     "packages/deezlp": {
       "name": "deezlp",
       "version": "1.0.0",
+      "dependencies": {
+        "deezer": "workspace:*",
+      },
     },
   },
   "packages": {
