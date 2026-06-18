@@ -1,25 +1,21 @@
 {
   "name": "deezlp",
-  "description": "Deezlp is a simple library highly inspired on deemix.",
-  "type": "module",
-  "private": true,
   "author": "aluissp",
+  "description": "Deezlp is a simple library highly inspired on deemix.",
+  "private": true,
   "engines": {
     "node": ">=24"
   },
   "scripts": {
     "dev": "bun src/index.ts"
   },
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
-    "@types/bun": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5"
-  },
-  "dependencies": {
-    "got": "^15.0.5",
-    "nanostores": "^1.3.0",
-    "tough-cookie": "^6.0.1",
-    "zod": "^4.4.3"
+    "@types/bun": "^1.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
   }
 }

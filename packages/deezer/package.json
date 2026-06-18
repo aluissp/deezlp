@@ -1,0 +1,12 @@
+{
+  "name": "deezer",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "got": "^15.0.5",
+    "nanostores": "^1.3.0",
+    "tough-cookie": "^6.0.1",
+    "zod": "^4.4.3"
+  }
+}
