@@ -24,7 +24,7 @@ export const deezerTrackSchema = z.object({
 	explicit_content_lyrics: z.number(),
 	explicit_content_cover: z.number(),
 	preview: z.string().optional(),
-	bpm: z.number(),
+	bpm: z.number().nullable(),
 	gain: z.number(),
 	available_countries: z.array(z.string()),
 	md5_image: z.string(),

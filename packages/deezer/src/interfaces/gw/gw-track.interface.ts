@@ -89,6 +89,7 @@ interface Rights {
 }
 
 interface SngContributors {
-	main_artist: string[];
-	author: string[];
+	main_artist?: string[];
+	author?: string[];
+	composer?: string[];
 }
