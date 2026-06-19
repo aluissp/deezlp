@@ -34,3 +34,13 @@ export class InvalidID extends GenerationException {
 		this.errid = 'invalidID';
 	}
 }
+
+export class ISRCnotOnDeezer extends GenerationException {
+	errid: string;
+
+	constructor(link: string) {
+		super(link, 'Track ISRC not found on Deezer!');
+		this.name = 'ISRCnotOnDeezer';
+		this.errid = 'ISRCnotOnDeezer';
+	}
+}

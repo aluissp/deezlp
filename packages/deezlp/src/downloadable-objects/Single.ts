@@ -1,10 +1,10 @@
-import type { DeezerTrack } from '../../deezer/schemas';
+import type { EnrichedDeezerTrack } from '@/interfaces';
 import { DownloadableObject } from './DownloadableObject';
 
 export class Single extends DownloadableObject {
-	single: DeezerTrack;
+	single: EnrichedDeezerTrack;
 
-	constructor({ single, ...rest }: { single: DeezerTrack } & Partial<DownloadableObject>) {
+	constructor({ single, ...rest }: { single: EnrichedDeezerTrack } & Partial<DownloadableObject>) {
 		super(rest as DownloadableObject);
 		this.single = single;
 		this.__type__ = 'Single';

@@ -26,7 +26,7 @@ export const mapGwTrackToDeezer = (track: GWTrack): EnrichedDeezerTrack => {
 		title: track.ALB_TITLE,
 		link: `https://www.deezer.com/album/${track.ALB_ID}`,
 		cover: `https://api.deezer.com/album/${track.ALB_ID}/image`,
-		cover_small: `https://e-cdns-images.dzcdn.net/images/cover/${track.ALB_PICTURE}/56x56-000000-80-0-0.jpg`,
+		cover_small: `https://e-cdns-images.dzcdn.net/images/cover/${track.ALB_PICTURE}/75x75-000000-80-0-0.jpg`, // before: /56x56-000000-80-0-0.jpg
 		cover_medium: `https://e-cdns-images.dzcdn.net/images/cover/${track.ALB_PICTURE}/250x250-000000-80-0-0.jpg`,
 		cover_big: `https://e-cdns-images.dzcdn.net/images/cover/${track.ALB_PICTURE}/500x500-000000-80-0-0.jpg`,
 		cover_xl: `https://e-cdns-images.dzcdn.net/images/cover/${track.ALB_PICTURE}/1000x1000-000000-80-0-0.jpg`,
@@ -69,7 +69,7 @@ export const mapGwTrackToDeezer = (track: GWTrack): EnrichedDeezerTrack => {
 		link: `https://www.deezer.com/artist/${contributor.ART_ID}`,
 		share: `https://www.deezer.com/artist/${contributor.ART_ID}`,
 		picture: `https://www.deezer.com/artist/${contributor.ART_ID}/image`,
-		picture_small: `https://e-cdns-images.dzcdn.net/images/artist/${contributor.ART_PICTURE}/56x56-000000-80-0-0.jpg`,
+		picture_small: `https://e-cdns-images.dzcdn.net/images/artist/${contributor.ART_PICTURE}/75x75-000000-80-0-0.jpg`, // before: /56x56-000000-80-0-0.jpg
 		picture_medium: `https://e-cdns-images.dzcdn.net/images/artist/${contributor.ART_PICTURE}/250x250-000000-80-0-0.jpg`,
 		picture_big: `https://e-cdns-images.dzcdn.net/images/artist/${contributor.ART_PICTURE}/500x500-000000-80-0-0.jpg`,
 		picture_xl: `https://e-cdns-images.dzcdn.net/images/artist/${contributor.ART_PICTURE}/1000x1000-000000-80-0-0.jpg`,
