@@ -25,6 +25,16 @@ export class LinkNotRecognized extends GenerationException {
 	}
 }
 
+export class LinkNotSupported extends GenerationException {
+	errId: string;
+
+	constructor(link: string) {
+		super(link, 'Link is not supported');
+		this.name = 'LinkNotSupported';
+		this.errId = 'unsupportedURL';
+	}
+}
+
 export class InvalidID extends GenerationException {
 	errid: string;
 

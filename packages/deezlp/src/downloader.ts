@@ -1,4 +1,4 @@
-import { DeezerCore } from '../deezer';
+import type { DeezerCore } from 'deezer';
 
 export class Downloader {
 	dz: DeezerCore;

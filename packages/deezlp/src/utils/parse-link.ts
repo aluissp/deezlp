@@ -7,7 +7,7 @@ export const parseLink = (link: string): [string, string | undefined, string | u
 	// Remove query parameters and trailing slashes
 	if (link.includes('?')) link = link.slice(0, link.indexOf('?'));
 	if (link.includes('&')) link = link.slice(0, link.indexOf('&'));
-	if (link.includes('/')) link = link.slice(0, -1);
+	if (link.endsWith('/')) link = link.slice(0, -1);
 
 	let linkType: string | undefined, linkId: string | undefined, linkData: RegExpExecArray | null;
 
