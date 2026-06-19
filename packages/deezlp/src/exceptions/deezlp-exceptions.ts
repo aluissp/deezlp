@@ -15,6 +15,13 @@ export class GenerationException extends DeezlpException {
 	}
 }
 
+export class NotLoggedInException extends DeezlpException {
+	constructor(message: string) {
+		super(message);
+		this.name = 'NotLoggedInException';
+	}
+}
+
 export class LinkNotRecognized extends GenerationException {
 	errId: string;
 
