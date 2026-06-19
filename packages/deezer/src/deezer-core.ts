@@ -28,6 +28,9 @@ export class DeezerCore {
 		this.api = new DeezerApi(this.cookieJar, this.httpHeaders);
 	}
 
+	// TODO: Implement login via email and password
+	// async login() {}
+
 	/**
 	 * Logs in to Deezer using the provided ARL cookie
 	 *
