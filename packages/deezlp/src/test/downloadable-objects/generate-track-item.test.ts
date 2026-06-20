@@ -1,5 +1,5 @@
 import { DeezerCore, type GWTrack } from 'deezer';
-import { generateTrackItem } from '@/downloadable-objects';
+import { generateTrackItem } from '@/factory';
 import { mapGwTrackToDeezer } from '@/utils';
 
 describe('Testing the generateTrackItem function', () => {

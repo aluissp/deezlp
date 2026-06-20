@@ -1,5 +1,5 @@
 import { DeezerCore } from 'deezer';
-import { DownloadableObject, generateDownloadableObjects, Single } from '@/downloadable-objects';
+import { DownloadableObject, generateDownloadableObjects, Single } from '@/factory';
 import { parseLink } from '@/utils';
 
 describe('Testing the generateDownloadableObjects function', () => {

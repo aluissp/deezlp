@@ -1,7 +1,7 @@
 import { DeezerCore, TRACK_FORMATS } from 'deezer';
 import type { Settings } from './interfaces';
 import { DEFAULT_SETTINGS } from './constants';
-import { generateDownloadableObjects, Single, type DownloadableObject } from './downloadable-objects';
+import { generateDownloadableObjects, Single, type DownloadableObject } from './factory';
 import { NotLoggedInException } from './exceptions';
 
 /**
