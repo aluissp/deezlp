@@ -5,6 +5,13 @@ export class DeezlpException extends Error {
 	}
 }
 
+export class StrategyNotFoundException extends DeezlpException {
+	constructor(message: string) {
+		super(message);
+		this.name = 'StrategyNotFoundException';
+	}
+}
+
 export class GenerationException extends DeezlpException {
 	link: string;
 

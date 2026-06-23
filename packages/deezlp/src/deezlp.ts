@@ -1,8 +1,11 @@
 import { DeezerCore, TRACK_FORMATS } from 'deezer';
-import type { Settings } from './interfaces';
+import type { Listener, Settings } from './interfaces';
 import { DEFAULT_SETTINGS } from './constants';
-import { generateDownloadableObjects, Single, type DownloadableObject } from './factory';
 import { NotLoggedInException } from './exceptions';
+import { resolveDeezerUrl } from './resolvers';
+import { createDownloadJob, type DownloadJob } from './entities/DownloadJob';
+import { getStrategy } from './strategies';
+import type { DownloadPayload } from './entities';
 
 /**
  * Deezlp is the main class that manages the Deezer API interactions and provides methods to access and manipulate data related to tracks, albums, artists, playlists.
@@ -12,22 +15,21 @@ import { NotLoggedInException } from './exceptions';
  * */
 export class Deezlp {
 	private dz: DeezerCore;
-	private downloadObject: DownloadableObject[];
 	settings: Settings;
 	bitrate: number;
 	playlistCovername?: string;
 	playlistURLs: { url: string; ext: string }[];
 	coverQueue: Record<string, string>;
-	// listener: () => void;
+	listener: Listener;
 
 	constructor(settings?: Settings) {
 		this.dz = new DeezerCore();
-		this.downloadObject = [];
 
 		this.settings = settings ?? DEFAULT_SETTINGS;
 		this.bitrate = this.settings.maxBitrate ?? TRACK_FORMATS.MP3_128;
 		this.playlistURLs = [];
 		this.coverQueue = {};
+		this.listener = { send: () => {} };
 	}
 
 	/**
@@ -41,6 +43,14 @@ export class Deezlp {
 	}
 
 	/**
+	 * Sets the listener for download events
+	 * @param listener The listener function
+	 */
+	setListener(listener: Listener) {
+		this.listener = listener;
+	}
+
+	/**
 	 * Start download urls
 	 */
 	async download(urls: string | string[]) {
@@ -48,27 +58,41 @@ export class Deezlp {
 
 		if (!this.dz.loggedIn) throw new NotLoggedInException('You must be logged in to download tracks! Use arl or username/password to log in.');
 
-		await this.generateDownloadObject(urls);
+		for (const url of urls) {
+			const job = createDownloadJob<DownloadPayload>(url);
+			this.listener.send('download:start', { job });
 
-		// Start downloads
-		await Promise.all(this.downloadObject.map(downloadObject => this.start(downloadObject)));
-	}
+			try {
+				// 1. Resolve the URL
+				this.updateJob(job, 'resolving');
+				const resolvedUrl = resolveDeezerUrl(url);
 
-	private async generateDownloadObject(urls: string[]) {
-		const downloadObjectsPromises = urls.map(url => generateDownloadableObjects(this.dz, url, this.bitrate));
+				// 2. Get strategy
+				const strategy = getStrategy(resolvedUrl.type);
 
-		const downloadObjects = await Promise.all(downloadObjectsPromises);
+				// 3. Execute strategy
+				this.updateJob(job, 'fetching');
+				const items = await strategy.process(resolvedUrl, this.dz, { bitrate: this.bitrate });
 
-		this.downloadObject.push(...downloadObjects.flat());
-	}
+				this.updateJob(job, 'downloading');
+				job.payload = items;
 
-	private async start(downloadObject: DownloadableObject) {
-		if (downloadObject instanceof Single) {
-			const track = await this.downloadTrack(downloadObject);
+				// 4. Start download with worker
+				// await this.downloaderWorker.start(job.payload, progressValue => {
+				// 	job.progress = progressValue;
+
+				// 	this.listener.send('download:progress', { job });
+				// });
+			} catch (error) {
+				job.error = error;
+				this.updateJob(job, 'error');
+				this.listener.send('download:error', { job, error });
+			}
 		}
 	}
 
-	private async downloadTrack(track: Single) {
-
+	private updateJob(job: DownloadJob, status: DownloadJob['status']) {
+		job.status = status;
+		job.updatedAt = Date.now();
 	}
 }
