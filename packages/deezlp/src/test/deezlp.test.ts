@@ -1,3 +1,4 @@
+import { DEFAULT_SETTINGS } from '@/constants';
 import { Deezlp } from '@/deezlp';
 
 describe('Testing the generateTrackItem function', () => {
@@ -11,7 +12,12 @@ describe('Testing the generateTrackItem function', () => {
 	];
 
 	beforeAll(async () => {
-		deezlp = new Deezlp();
+		deezlp = new Deezlp({
+			...DEFAULT_SETTINGS,
+			maxBitrate: 3,
+			downloadLocation: '/home/luis/Música/deemix Music',
+			syncedLyrics: true,
+		});
 		await deezlp.loginViaArl(process.env.VITE_DEEZER_ARL_TOKEN || '');
 	});
 
