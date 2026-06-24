@@ -1,4 +1,16 @@
-export type DownloadJobStatus = 'queued' | 'resolving' | 'fetching' | 'building' | 'downloading' | 'finished' | 'error' | 'canceled';
+export type DownloadJobStatus = 'queued' | 'started' | 'resolving' | 'fetching' | 'building' | 'downloading' | 'finished' | 'error' | 'canceled';
+
+export const DownloadJobStatus: Record<DownloadJobStatus, DownloadJobStatus> = {
+	started: 'started',
+	queued: 'queued',
+	resolving: 'resolving',
+	fetching: 'fetching',
+	building: 'building',
+	downloading: 'downloading',
+	finished: 'finished',
+	error: 'error',
+	canceled: 'canceled',
+};
 
 export interface DownloadJob<T = unknown> {
 	id: string;
