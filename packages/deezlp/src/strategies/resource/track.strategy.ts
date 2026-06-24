@@ -2,12 +2,12 @@ import { fetchTrack } from '@/fetch';
 import type { DeezerCore } from 'deezer';
 import { type ResolvedURL } from '@/resolvers';
 import type { ResourceStrategy } from './resource.strategy';
-import { buildSingleFromTrack } from './build-single-from-track';
+import { buildEnrichedTrackFromData } from './build-enriched-track-from-data';
 
 export class TrackStrategy implements ResourceStrategy {
 	public async process(resolvedUrl: ResolvedURL, dz: DeezerCore, setting: { bitrate: number }) {
-		const rawTrack = await fetchTrack(dz, resolvedUrl);
+		const data = await fetchTrack(dz, resolvedUrl);
 
-		return buildSingleFromTrack(rawTrack, setting.bitrate);
+		return buildEnrichedTrackFromData(data, setting.bitrate);
 	}
 }

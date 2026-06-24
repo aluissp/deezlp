@@ -138,7 +138,6 @@ export const mapGwTrackToDeezer = (track: GWTrack): EnrichedDeezerTrack => {
 		explicit_content_cover: track.EXPLICIT_TRACK_CONTENT?.EXPLICIT_COVER_STATUS,
 		preview: track.MEDIA?.[0]?.HREF,
 		gain: +track.GAIN,
-		lyrics: track.LYRICS,
 		lyrics_id: track.LYRICS_ID,
 		genre_id: +track.GENRE_ID,
 		digital_release_date: track.DIGITAL_RELEASE_DATE,
@@ -147,6 +146,7 @@ export const mapGwTrackToDeezer = (track: GWTrack): EnrichedDeezerTrack => {
 		album,
 		filesizes,
 		contributors,
+		lyrics: undefined, // not provided
 		genres: undefined, // not provided
 		alternative: undefined, // not provided
 		copyright: undefined, // not provided

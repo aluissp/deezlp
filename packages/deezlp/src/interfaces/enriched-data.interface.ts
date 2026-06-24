@@ -1,4 +1,4 @@
-import type { DeezerAlbum, DeezerArtist, DeezerContributor, DeezerTrack } from 'deezer';
+import type { DeezerAlbum, DeezerArtist, DeezerContributor, DeezerTrack, GWLyrics } from 'deezer';
 
 export interface EnrichedDeezerArtist extends DeezerArtist {
 	role?: string;
@@ -29,10 +29,11 @@ export interface EnrichedDeezerAlbum extends DeezerAlbum {
 }
 
 export interface EnrichedDeezerTrack extends Omit<DeezerTrack, 'artist' | 'album' | 'contributors'> {
+	cover?: string;
 	unseen: boolean;
 	size?: number;
 	lyrics_id?: number;
-	lyrics?: string;
+	lyrics?: GWLyrics;
 	position?: number;
 	copyright?: string;
 	physical_release_date?: string;

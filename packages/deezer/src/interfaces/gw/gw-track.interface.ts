@@ -44,7 +44,6 @@ export interface GWTrack {
 	MEDIA: Media[];
 	RIGHTS: Rights;
 	__TYPE__: string;
-	LYRICS?: string;
 }
 
 interface Artist {

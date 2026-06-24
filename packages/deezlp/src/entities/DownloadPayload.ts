@@ -1,4 +1,4 @@
-import type { EnrichedDeezerArtist, EnrichedDeezerTrack } from '@/interfaces';
+import type { EnrichedDeezerAlbum, EnrichedDeezerArtist, EnrichedDeezerTrack } from '@/interfaces';
 
 export interface Single {
 	id: number;
@@ -42,4 +42,4 @@ export interface Collection {
 	tracks: Single[];
 }
 
-export type DownloadPayload = Single | Collection;
+export type DownloadPayload = EnrichedDeezerTrack | EnrichedDeezerAlbum;

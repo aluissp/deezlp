@@ -33,3 +33,19 @@ export const createDownloadJob = <T>(url: string): DownloadJob<T> => ({
 	updatedAt: Date.now(),
 	attempts: 0,
 });
+
+// type: 'track';
+// bitrate: number;
+// title: string;
+// artist: EnrichedDeezerArtist;
+// cover: string;
+// explicit: boolean;
+// size: number;
+// downloaded: number;
+// failed: number;
+// progress: number;
+// errors?: any;
+// files?: any;
+// extrasPath: string;
+// progressNext: number;
+// isCanceled: boolean;
