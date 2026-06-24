@@ -1,8 +1,8 @@
 import got, { type Got } from 'got';
 import type { CookieJar } from 'tough-cookie';
-import { DEEZER_GW_METHODS, DEEZER_URLS } from './constants';
-import type { GWRawData, GWTrack, GWUserData } from './interfaces';
 import { GWAPIException } from './exceptions';
+import { DEEZER_GW_METHODS, DEEZER_URLS } from './constants';
+import type { GWLyrics, GWRawData, GWTrack, GWTrackPage, GWUserData } from './interfaces';
 
 export class DeezerGW {
 	private api: Got;
@@ -79,11 +79,19 @@ export class DeezerGW {
 		return userData?.checkForm;
 	}
 
-	async getUserData(): Promise<GWUserData> {
+	getUserData(): Promise<GWUserData> {
 		return this.call(DEEZER_GW_METHODS.GET_USER_DATA) as Promise<GWUserData>;
 	}
 
-	async getTrack(songId: number | string): Promise<GWTrack> {
+	getTrack(songId: number | string): Promise<GWTrack> {
 		return this.call(DEEZER_GW_METHODS.GET_TRACK, { SNG_ID: songId }) as Promise<GWTrack>;
+	}
+
+	getTrackPage(songId: number | string): Promise<GWTrackPage> {
+		return this.call(DEEZER_GW_METHODS.GET_TRACK_PAGE, { SNG_ID: songId }) as Promise<GWTrackPage>;
+	}
+
+	getTrackLyrics(songId: number | string): Promise<GWLyrics> {
+		return this.call(DEEZER_GW_METHODS.GET_TRACK_LYRICS, { SNG_ID: songId }) as Promise<GWLyrics>;
 	}
 }

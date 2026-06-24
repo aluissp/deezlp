@@ -1,13 +1,16 @@
 import { DeezerCore } from '@/deezer-core';
 import exampleTrack from './deezer-track.example.json';
 
-const deezer = new DeezerCore();
-const token = process.env.VITE_DEEZER_ARL_TOKEN;
-
 describe('Testing DeezerCore class', () => {
-	test('Should login via ARL', async () => {
-		expect(token).toBeDefined();
+	let deezer: DeezerCore;
+	let token: string | undefined;
 
+	beforeAll(async () => {
+		deezer = new DeezerCore();
+		token = process.env.VITE_DEEZER_ARL_TOKEN;
+	});
+
+	test('Should login via ARL', async () => {
 		const result = await deezer.loginViaArl(token!);
 
 		expect(result).toBe(true);
@@ -58,5 +61,28 @@ describe('Testing DeezerCore class', () => {
 		expect(track.duration).toBe(exampleTrack.duration);
 		expect(track.rank).toBe(exampleTrack.rank);
 		expect(track.explicit_lyrics).toBe(exampleTrack.explicit_lyrics);
+	});
+
+	test('Should find track page | DeezerGW', async () => {
+		const track = await deezer.gw.getTrackPage(1380101222); // Life goes on
+
+		expect(track).toBeDefined();
+		expect(track.DATA.SNG_ID).toBe(String(1380101222));
+		expect(track.DATA.SNG_TITLE).toBe('Life Goes On');
+		expect(track.DATA.PHYSICAL_RELEASE_DATE).toBe('2021-05-28');
+		expect(track.DATA.DURATION).toBe(String(161));
+		expect(track.LYRICS.LYRICS_ID).toBe('54389432');
+	});
+
+	test('Should find track lyrics | DeezerGW', async () => {
+		const lyrics = await deezer.gw.getTrackLyrics(1380101222); // Life goes on
+
+		expect(lyrics).toBeDefined();
+		expect(lyrics.LYRICS_ID).toBe('54389432');
+		expect(lyrics.LYRICS_COPYRIGHTS).toBe(
+			'CONCORD MUSIC PUBLISHING LLC, Kobalt Music Publishing Ltd., Universal Music Publishing Group, Warner Chappell Music, Inc.',
+		);
+		expect(lyrics.LYRICS_TEXT).toBeDefined();
+		expect(lyrics.LYRICS_WRITERS).toBe('Oliver Tree Nickell, Tanner Petula');
 	});
 });

@@ -3,7 +3,6 @@ import type { DownloadSession, Settings } from './interfaces';
 import { DEFAULT_SETTINGS } from './constants';
 import { NotLoggedInException } from './exceptions';
 import { DownloadPipeline } from './pipelines';
-import type { DownloadJobStatus } from './entities';
 
 /**
  * Deezlp is the main class that manages the Deezer API interactions and provides methods to access and manipulate data related to tracks, albums, artists, playlists.
