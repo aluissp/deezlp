@@ -6,6 +6,7 @@ import { resolveDeezerUrl } from './resolvers';
 import { createDownloadJob, type DownloadJob } from './entities/DownloadJob';
 import { getStrategy } from './strategies';
 import type { DownloadPayload } from './entities';
+import { DownloadWorker } from './workers';
 
 /**
  * Deezlp is the main class that manages the Deezer API interactions and provides methods to access and manipulate data related to tracks, albums, artists, playlists.
@@ -78,11 +79,13 @@ export class Deezlp {
 				job.payload = items;
 
 				// 4. Start download with worker
-				// await this.downloaderWorker.start(job.payload, progressValue => {
-				// 	job.progress = progressValue;
+				console.log({ location: this.settings.downloadLocation });
+				const downloaderWorker = new DownloadWorker(this.settings.downloadLocation);
+				await downloaderWorker.start(job.payload, progressValue => {
+					job.progress = progressValue;
 
-				// 	this.listener.send('download:progress', { job });
-				// });
+					this.listener.send('download:progress', { job });
+				});
 			} catch (error) {
 				job.error = error;
 				this.updateJob(job, 'error');

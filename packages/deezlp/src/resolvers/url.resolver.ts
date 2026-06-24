@@ -67,13 +67,13 @@ const resolveNumericId: ResolverRule = id => {
 const resolveISRC: ResolverRule = id => {
 	if (!id.toLowerCase().startsWith('isrc:')) return undefined;
 
-	return { type: 'track', id: id.slice(5), kind: 'id' };
+	return { type: 'track', id: id.slice(5), kind: 'isrc' };
 };
 
 const resolveUPC: ResolverRule = id => {
 	if (!id.toLowerCase().startsWith('upc:')) return undefined;
 
-	return { type: 'album', id: id.slice(4), kind: 'id' };
+	return { type: 'album', id: id.slice(4), kind: 'upc' };
 };
 
 const rules: ResolverRule[] = [resolveUrl, resolveNumericId, resolveISRC, resolveUPC];
