@@ -1,5 +1,5 @@
 import { LyricsStatus } from '@/constants';
-import type { EnrichedDeezerAlbum, EnrichedDeezerTrack, TrackDataFetched } from '@/interfaces';
+import type { EnrichedDeezerAlbum, EnrichedDeezerArtist, EnrichedDeezerTrack, TrackDataFetched } from '@/interfaces';
 import { parseLyrics } from './parse-lyrics';
 
 function isExplicit(explicitLyrics: number) {
@@ -7,7 +7,7 @@ function isExplicit(explicitLyrics: number) {
 }
 
 export const enrichMissingTrackFields = (track: EnrichedDeezerTrack, data: Omit<TrackDataFetched, 'gwTrack'>): EnrichedDeezerTrack => {
-	const { deezerTrack, gwTrackPage, gwLyrics, gwAlbum } = data;
+	const { deezerTrack, deezerArtist, gwTrackPage, gwLyrics, gwAlbum } = data;
 
 	// 1. Enrich track with gwTrackPage data
 	track = enrichWithGwTrackPageData(track, gwTrackPage);
@@ -31,7 +31,11 @@ export const enrichMissingTrackFields = (track: EnrichedDeezerTrack, data: Omit<
 	// 5. Parse lyrics if available
 	if (track.gwLyrics) track.lyrics = parseLyrics(track.gwLyrics);
 
+	// 6. Enrich track with album data
 	track = enrichWithAlbumData(track, gwAlbum);
+
+	// 7. Enrich track with artist data
+	track = enrichWithDeezerArtistData(track, deezerArtist);
 
 	return track;
 };
@@ -83,7 +87,17 @@ const enrichWithDeezerTrackData = (track: EnrichedDeezerTrack, deezerTrack: Trac
 
 	// Enrich track with deezerTrack data
 	track.bpm = deezerTrack.bpm;
+
+	if (!track.title_short) track.title_short = deezerTrack.title_short;
 	if (!track.release_date) track.release_date = deezerTrack.release_date;
+	if (!track.duration) track.duration = deezerTrack.duration;
+	if (!track.track_position) track.track_position = deezerTrack.track_position;
+	if (!track.disk_number) track.disk_number = deezerTrack.disk_number;
+	if (!track.preview) track.preview = deezerTrack.preview;
+	if (!track.rank) track.rank = deezerTrack.rank;
+	if (!track.md5_image) track.md5_image = deezerTrack.md5_image;
+	if (!track.gain) track.gain = deezerTrack.gain;
+	if (!track.share) track.share = deezerTrack.share;
 
 	return track;
 };
@@ -174,6 +188,60 @@ const enrichWithAlbumData = (track: EnrichedDeezerTrack, gwAlbum: TrackDataFetch
 	if (!track?.album?.nb_disk) track.album.nb_disk = albumData.nb_disk;
 	if (!track?.album?.copyright) track.album.copyright = albumData.copyright;
 	if (!track?.album?.type) track.album.type = albumData.type;
+
+	return track;
+};
+
+const enrichWithDeezerArtistData = (track: EnrichedDeezerTrack, deezerArtist: TrackDataFetched['deezerArtist']): EnrichedDeezerTrack => {
+	if (!deezerArtist) return track;
+
+	// Enrich track with album data
+	const artistData: EnrichedDeezerArtist = {
+		id: deezerArtist.id,
+		name: deezerArtist.name,
+		link: deezerArtist.link,
+		picture: deezerArtist.picture,
+		picture_small: deezerArtist.picture_small,
+		picture_medium: deezerArtist.picture_medium,
+		picture_big: deezerArtist.picture_big,
+		picture_xl: deezerArtist.picture_xl,
+		radio: deezerArtist.radio,
+		share: deezerArtist.share,
+		tracklist: deezerArtist.tracklist,
+		md5_image: deezerArtist.md5_image,
+		// Extras
+		role: undefined, // not provided
+		nb_album: deezerArtist.nb_album,
+		nb_fan: deezerArtist.nb_fan,
+		type: deezerArtist.type as 'artist',
+	};
+
+	if (!track.artist) {
+		track.artist = artistData;
+		return track;
+	}
+
+	if (!track?.artist?.id) track.artist.id = artistData.id;
+	if (!track?.artist?.name) track.artist.name = artistData.name;
+	if (!track?.artist?.link) track.artist.link = artistData.link;
+	if (!track?.artist?.picture) track.artist.picture = artistData.picture;
+	if (!track?.artist?.picture_small) track.artist.picture_small = artistData.picture_small;
+	if (!track?.artist?.picture_medium) track.artist.picture_medium = artistData.picture_medium;
+	if (!track?.artist?.picture_big) track.artist.picture_big = artistData.picture_big;
+	if (!track?.artist?.picture_xl) track.artist.picture_xl = artistData.picture_xl;
+	if (!track?.artist?.radio) track.artist.radio = artistData.radio;
+	if (!track?.artist?.share) track.artist.share = artistData.share;
+	if (!track?.artist?.tracklist) track.artist.tracklist = artistData.tracklist;
+	if (!track?.artist?.md5_image) track.artist.md5_image = artistData.md5_image;
+	// if (!track?.artist?.role) track.artist.role = artistData.role; if not provided, we don't overwrite it
+	if (!track?.artist?.nb_album) track.artist.nb_album = artistData.nb_album;
+	if (!track?.artist?.nb_fan) track.artist.nb_fan = artistData.nb_fan;
+	if (!track?.artist?.type) track.artist.type = artistData.type;
+
+	// If the md5_image is missing, we extract it from the picture_small URL if available
+	if (!track?.artist?.md5_image && track?.artist?.picture_small) {
+		track.artist.md5_image = track.artist.picture_small.match(/artist\/([^/]+)/)?.[1];
+	}
 
 	return track;
 };

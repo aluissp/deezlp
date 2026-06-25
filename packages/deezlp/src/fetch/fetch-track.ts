@@ -1,6 +1,6 @@
 import { DeezerCore } from 'deezer';
 import type { ResolvedURL } from '@/resolvers';
-import type { DeezerTrack, GwAlbum, GWLyrics, GWTrack, GWTrackPage } from 'deezer';
+import type { DeezerArtist, DeezerTrack, GwAlbum, GWLyrics, GWTrack, GWTrackPage } from 'deezer';
 import { GenerationException, ISRCnotOnDeezer } from '@/exceptions';
 import type { TrackDataFetched } from '@/interfaces';
 
@@ -49,16 +49,29 @@ const fetchGwAlbum = async (dz: DeezerCore, albumId: string | number): Promise<G
 	});
 };
 
+const fetchDeezerArtist = async (dz: DeezerCore, artistId: string | number): Promise<DeezerArtist | undefined> => {
+	return dz.api.getArtist(artistId).catch((error: any) => {
+		throw new GenerationException(`https://deezer.com/artist/${artistId}`, error.message);
+	});
+};
+
+interface Options {
+	includeAlbumInfo?: boolean;
+	includeArtistInfo?: boolean;
+}
+
 /**
  * Fetches track data from Deezer and GW (if available) based on the provided ResolvedURL.
  * @param dz DeezerCore instance to interact with Deezer API.
  * @param input ResolvedURL object containing the track ID or ISRC and its type.
- * @param includeAlbumInfo Optional boolean to indicate whether to fetch album information. Defaults to false.
+ * @param options Options for fetching additional information.
  * @returns A Promise that resolves to a TrackDataFetched object containing the fetched track data.
  */
-export const fetchTrack = async (dz: DeezerCore, input: ResolvedURL, includeAlbumInfo?: boolean): Promise<TrackDataFetched> => {
+export const fetchTrack = async (dz: DeezerCore, input: ResolvedURL, options: Options): Promise<TrackDataFetched> => {
 	if (input.type !== 'track')
 		throw new GenerationException(`https://deezer.com/track/${input.id}`, `El tipo de recurso no es una pista: ${input.type}`);
+
+	const { includeAlbumInfo = false, includeArtistInfo = false } = options;
 
 	// 1. Fetch Deezer Track
 	const deezerTrack = await fetchDeezerTrack(dz, input);
@@ -72,10 +85,17 @@ export const fetchTrack = async (dz: DeezerCore, input: ResolvedURL, includeAlbu
 	const gwTrackPage = await fetchGwTrackPage(dz, songId);
 	const gwLyrics = await fetchLyrics(dz, songId);
 
+	// Album
 	const albumId = gwTrack?.ALB_ID || deezerTrack?.album?.id;
 
 	let gwAlbum: GwAlbum | undefined = undefined;
 	if (includeAlbumInfo && albumId) gwAlbum = await fetchGwAlbum(dz, albumId);
+
+	// Artist
+	const artistId = gwTrack?.ART_ID || deezerTrack?.artist?.id;
+
+	let deezerArtist: DeezerArtist | undefined = undefined;
+	if (includeArtistInfo && artistId) deezerArtist = await fetchDeezerArtist(dz, artistId);
 
 	return {
 		deezerTrack,
@@ -83,5 +103,6 @@ export const fetchTrack = async (dz: DeezerCore, input: ResolvedURL, includeAlbu
 		gwTrackPage,
 		gwLyrics,
 		gwAlbum,
+		deezerArtist,
 	};
 };

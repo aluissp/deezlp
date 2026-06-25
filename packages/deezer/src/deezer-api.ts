@@ -15,7 +15,7 @@ import {
 } from './exceptions';
 import { DEEZER_URLS } from './constants';
 import type { CookieJar } from 'tough-cookie';
-import { deezerTrackSchema, type DeezerTrack } from './schemas';
+import { artistSchema, deezerTrackSchema, type DeezerArtist, type DeezerTrack } from './schemas';
 
 type APIArgs = Record<string | number, string | number>;
 
@@ -108,5 +108,10 @@ export class DeezerApi {
 	 */
 	getTrackByISRC(isrc: string): Promise<DeezerTrack> {
 		return this.getTrack(`isrc:${isrc}`);
+	}
+
+	async getArtist(artistId: string | number): Promise<DeezerArtist> {
+		const response = await this.call(`artist/${artistId}`);
+		return artistSchema.parse(response);
 	}
 }

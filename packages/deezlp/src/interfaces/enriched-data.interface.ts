@@ -4,8 +4,6 @@ import type { DeezerAlbum, DeezerArtist, DeezerContributor, DeezerTrack, GWLyric
 
 export interface EnrichedDeezerArtist extends DeezerArtist {
 	role?: string;
-	nb_fan?: number;
-	nb_album?: number;
 }
 
 export interface EnrichedDeezerContributor extends Omit<DeezerContributor, 'radio'> {

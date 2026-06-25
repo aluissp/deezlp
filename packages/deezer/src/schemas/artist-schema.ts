@@ -13,6 +13,8 @@ export const artistSchema = z.object({
 	tracklist: z.string().optional(),
 	md5_image: z.string().optional(),
 	radio: z.boolean(),
+	nb_album: z.number().optional(),
+	nb_fan: z.number().optional(),
 	type: z.literal('artist'),
 });
 

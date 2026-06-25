@@ -94,4 +94,15 @@ describe('Testing DeezerCore class', () => {
 		expect(album.ART_NAME).toBe('Oliver Tree');
 		expect(album.DIGITAL_RELEASE_DATE).toBe('2021-05-28');
 	});
+
+	test('Should find album by id | DeezerApi', async () => {
+		const artist = await deezer.api.getArtist('10799102'); // Oliver tree
+
+		expect(artist).toBeDefined();
+		expect(artist).toHaveProperty('id');
+		expect(artist).toHaveProperty('name');
+		expect(artist).toHaveProperty('link');
+		expect(artist).toHaveProperty('share');
+		expect(artist).toHaveProperty('picture');
+	});
 });

@@ -6,7 +6,7 @@ import { buildEnrichedTrackFromData } from './build-enriched-track-from-data';
 
 export class TrackStrategy implements ResourceStrategy {
 	public async process(resolvedUrl: ResolvedURL, dz: DeezerCore, setting: { bitrate: (typeof TRACK_FORMATS)[keyof typeof TRACK_FORMATS] }) {
-		const data = await fetchTrack(dz, resolvedUrl, true);
+		const data = await fetchTrack(dz, resolvedUrl, { includeAlbumInfo: true, includeArtistInfo: true });
 
 		return buildEnrichedTrackFromData(data, setting.bitrate);
 	}
