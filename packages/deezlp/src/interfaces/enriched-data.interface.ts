@@ -1,5 +1,6 @@
-import type { DeezerAlbum, DeezerArtist, DeezerContributor, DeezerTrack, GWLyrics } from 'deezer';
+import { TRACK_FORMATS } from 'deezer';
 import type { Lyrics } from './lyrics.interface';
+import type { DeezerAlbum, DeezerArtist, DeezerContributor, DeezerTrack, GWLyrics } from 'deezer';
 
 export interface EnrichedDeezerArtist extends DeezerArtist {
 	role?: string;
@@ -21,15 +22,25 @@ export interface EnrichedDeezerAlbum extends DeezerAlbum {
 	upc?: string;
 	label?: string;
 	copyright?: string;
-	original_release_date?: string;
+	share?: string;
+	duration?: string;
+	fans?: number;
+	explicit_content_lyrics?: number;
+	explicit_content_cover?: number;
+	rating?: string;
 	genres?: { data?: { name?: string }[] };
 	artist?: EnrichedDeezerArtist;
 	root_artist?: EnrichedDeezerArtist;
 	tracks?: EnrichedDeezerTrack[];
 	contributors?: EnrichedDeezerContributor[];
+	digital_release_date?: string;
+	physical_release_date?: string;
+	original_release_date?: string;
+	genre_id?: number;
 }
 
 export interface EnrichedDeezerTrack extends Omit<DeezerTrack, 'artist' | 'album' | 'contributors'> {
+	bitrate?: (typeof TRACK_FORMATS)[keyof typeof TRACK_FORMATS];
 	cover?: string;
 	unseen: boolean;
 	size?: number;

@@ -1,8 +1,8 @@
-import type { Single } from '@/entities';
+import type { EnrichedDeezerTrack } from '@/interfaces';
 import type { DownloadStrategy, ProgressCallback } from './download-strategy.interface';
 
-export class SingleDownloadStrategy implements DownloadStrategy<Single> {
+export class SingleDownloadStrategy implements DownloadStrategy<EnrichedDeezerTrack> {
 	constructor(private outputDir: string) {}
 
-	public async execute(single: Single, onProgress: ProgressCallback): Promise<void> {}
+	public async execute(single: EnrichedDeezerTrack, onProgress: ProgressCallback): Promise<void> {}
 }

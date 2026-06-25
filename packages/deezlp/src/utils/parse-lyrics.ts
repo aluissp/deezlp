@@ -13,7 +13,7 @@ export const parseLyrics = (gwLyrics: GWLyrics): Lyrics => {
 	const writers = gwLyrics.LYRICS_WRITERS ?? '';
 	const syncLyricsJson = gwLyrics.LYRICS_SYNC_JSON ?? [];
 
-	const syncLyrics = syncLyricsJson
+	const sync = syncLyricsJson
 		.map((line, index, array) => {
 			const currentLine = line.line;
 			const timestamp = line.lrc_timestamp ?? '';
@@ -34,9 +34,9 @@ export const parseLyrics = (gwLyrics: GWLyrics): Lyrics => {
 
 	return {
 		id,
+		sync,
 		unsync,
-		copyright,
 		writers,
-		syncLyrics,
+		copyright,
 	};
 };

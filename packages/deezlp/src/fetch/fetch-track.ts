@@ -1,6 +1,6 @@
 import { DeezerCore } from 'deezer';
 import type { ResolvedURL } from '@/resolvers';
-import type { DeezerTrack, GWLyrics, GWTrack, GWTrackPage } from 'deezer';
+import type { DeezerTrack, GwAlbum, GWLyrics, GWTrack, GWTrackPage } from 'deezer';
 import { GenerationException, ISRCnotOnDeezer } from '@/exceptions';
 import type { TrackDataFetched } from '@/interfaces';
 
@@ -43,7 +43,20 @@ const fetchLyrics = async (dz: DeezerCore, songId: number): Promise<GWLyrics | u
 	});
 };
 
-export const fetchTrack = async (dz: DeezerCore, input: ResolvedURL): Promise<TrackDataFetched> => {
+const fetchGwAlbum = async (dz: DeezerCore, albumId: string | number): Promise<GwAlbum | undefined> => {
+	return dz.gw.getAlbum(albumId).catch((error: any) => {
+		throw new GenerationException(`https://deezer.com/album/${albumId}`, error.message);
+	});
+};
+
+/**
+ * Fetches track data from Deezer and GW (if available) based on the provided ResolvedURL.
+ * @param dz DeezerCore instance to interact with Deezer API.
+ * @param input ResolvedURL object containing the track ID or ISRC and its type.
+ * @param includeAlbumInfo Optional boolean to indicate whether to fetch album information. Defaults to false.
+ * @returns A Promise that resolves to a TrackDataFetched object containing the fetched track data.
+ */
+export const fetchTrack = async (dz: DeezerCore, input: ResolvedURL, includeAlbumInfo?: boolean): Promise<TrackDataFetched> => {
 	if (input.type !== 'track')
 		throw new GenerationException(`https://deezer.com/track/${input.id}`, `El tipo de recurso no es una pista: ${input.type}`);
 
@@ -59,10 +72,16 @@ export const fetchTrack = async (dz: DeezerCore, input: ResolvedURL): Promise<Tr
 	const gwTrackPage = await fetchGwTrackPage(dz, songId);
 	const gwLyrics = await fetchLyrics(dz, songId);
 
+	const albumId = gwTrack?.ALB_ID || deezerTrack?.album?.id;
+
+	let gwAlbum: GwAlbum | undefined = undefined;
+	if (includeAlbumInfo && albumId) gwAlbum = await fetchGwAlbum(dz, albumId);
+
 	return {
 		deezerTrack,
 		gwTrack,
 		gwTrackPage,
 		gwLyrics,
+		gwAlbum,
 	};
 };
