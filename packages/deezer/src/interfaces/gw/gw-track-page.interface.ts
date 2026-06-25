@@ -26,6 +26,7 @@ interface Data {
 	ALB_PICTURE: string;
 	ART_PICTURE: string;
 	RANK_SNG: string;
+	FALLBACK?: { SNG_ID?: string };
 	FILESIZE_AAC_64: string;
 	FILESIZE_MP3_64: string;
 	FILESIZE_MP3_128: string;

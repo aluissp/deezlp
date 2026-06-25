@@ -1,4 +1,5 @@
 import type { GWTrack } from 'deezer';
+import { isExplicit } from './enrich-missing-track-fields';
 import type { EnrichedDeezerAlbum, EnrichedDeezerArtist, EnrichedDeezerContributor, EnrichedDeezerTrack } from '@/interfaces';
 
 export const RoleID = ['Main', null, null, null, null, 'Featured'];
@@ -133,7 +134,8 @@ export const mapGwTrackToDeezer = (track: GWTrack): EnrichedDeezerTrack => {
 		disk_number: +track.DISK_NUMBER,
 		rank: +track.RANK,
 		release_date: track.PHYSICAL_RELEASE_DATE,
-		explicit_lyrics: Boolean(track.EXPLICIT_LYRICS),
+		fallback_id: track?.FALLBACK?.SNG_ID ? +track.FALLBACK.SNG_ID : undefined,
+		explicit_lyrics: isExplicit(+track.EXPLICIT_LYRICS),
 		explicit_content_lyrics: track.EXPLICIT_TRACK_CONTENT?.EXPLICIT_LYRICS_STATUS,
 		explicit_content_cover: track.EXPLICIT_TRACK_CONTENT?.EXPLICIT_COVER_STATUS,
 		preview: track.MEDIA?.[0]?.HREF,
@@ -150,7 +152,6 @@ export const mapGwTrackToDeezer = (track: GWTrack): EnrichedDeezerTrack => {
 		genres: undefined, // not provided
 		alternative: undefined, // not provided
 		copyright: undefined, // not provided
-		fallback_id: undefined, // not provided
 		alternative_albums: undefined, // not provided
 		position: undefined, // not provided
 		size: undefined, // not provided

@@ -27,6 +27,7 @@ export interface GWTrack {
 	USER_ID: number;
 	VERSION: string;
 	MD5_ORIGIN?: string;
+	FALLBACK?: { SNG_ID?: string };
 	FILESIZE_AAC_64: string;
 	FILESIZE_MP3_64: string;
 	FILESIZE_MP3_128: string;

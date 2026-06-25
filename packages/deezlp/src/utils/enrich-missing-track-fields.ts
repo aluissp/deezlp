@@ -1,8 +1,8 @@
 import { LyricsStatus } from '@/constants';
-import type { EnrichedDeezerAlbum, EnrichedDeezerArtist, EnrichedDeezerTrack, TrackDataFetched } from '@/interfaces';
 import { parseLyrics } from './parse-lyrics';
+import type { EnrichedDeezerAlbum, EnrichedDeezerArtist, EnrichedDeezerTrack, TrackDataFetched } from '@/interfaces';
 
-function isExplicit(explicitLyrics: number) {
+export function isExplicit(explicitLyrics: number) {
 	return [LyricsStatus.EXPLICIT, LyricsStatus.PARTIALLY_EXPLICIT].includes((explicitLyrics as any) || LyricsStatus.UNKNOWN);
 }
 
@@ -54,6 +54,9 @@ const enrichWithGwTrackPageData = (track: EnrichedDeezerTrack, gwTrackPage: Trac
 	track.lyrics_id = +gwTrackPage.LYRICS.LYRICS_ID;
 	track.explicit_lyrics = isExplicit(+data.EXPLICIT_LYRICS);
 	track.gwLyrics = gwTrackPage.LYRICS;
+
+	// Fallback ID if exists
+	if (track?.fallback_id) track.fallback_id = data.FALLBACK?.SNG_ID ? +data.FALLBACK.SNG_ID : undefined;
 
 	// Alternative albums
 	track.alternative_albums = gwTrackPage.ISRC?.data?.map(isrc => ({
