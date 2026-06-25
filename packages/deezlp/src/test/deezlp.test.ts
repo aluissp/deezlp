@@ -1,5 +1,5 @@
-import { DEFAULT_SETTINGS } from '@/constants';
 import { Deezlp } from '@/deezlp';
+import { DEFAULT_SETTINGS } from '@/constants';
 
 describe('Testing the generateTrackItem function', () => {
 	let deezlp: Deezlp;
@@ -22,7 +22,9 @@ describe('Testing the generateTrackItem function', () => {
 	});
 
 	test('Should download deezer tracks', async () => {
-		await deezlp.download(links);
+		const result = deezlp.download(links);
+		await result.done;
+		// expect().toBeDefined();
 	});
 
 	// test('Should generate a single track item with number ID', async () => {

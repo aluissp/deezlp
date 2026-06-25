@@ -1,16 +1,20 @@
+import type { DeezerCore } from 'deezer';
 import type { DownloadPayload } from '@/entities';
 import { StrategyNotFoundException } from '@/exceptions';
-import { SingleDownloadStrategy, type DownloadStrategy, type ProgressCallback } from '@/strategies';
+import { TrackDownloadStrategy, type DownloadStrategy, type ProgressCallback } from '@/strategies';
 
 export class DownloadWorker {
-	constructor(private outputDir: string) {}
+	constructor(
+		private dz: DeezerCore,
+		private outputDir: string,
+	) {}
 
 	public start(payload: DownloadPayload, onProgress: ProgressCallback): Promise<void> {
 		let strategy: DownloadStrategy<DownloadPayload>;
 
 		switch (payload.type) {
 			case 'track':
-				strategy = new SingleDownloadStrategy(this.outputDir);
+				strategy = new TrackDownloadStrategy(this.dz, this.outputDir);
 				break;
 
 			default:

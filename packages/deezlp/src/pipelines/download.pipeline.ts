@@ -71,7 +71,7 @@ export class DownloadPipeline extends EventEmitter {
 				job.payload = items;
 
 				// 4. Start download with worker
-				const downloaderWorker = new DownloadWorker(this.settings.downloadLocation);
+				const downloaderWorker = new DownloadWorker(this.dz, this.settings.downloadLocation);
 				await downloaderWorker.start(job.payload, progressValue => {
 					job.progress = progressValue;
 

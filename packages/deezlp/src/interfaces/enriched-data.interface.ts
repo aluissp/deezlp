@@ -65,4 +65,6 @@ export interface EnrichedDeezerTrack extends Omit<DeezerTrack, 'artist' | 'album
 	contributors: EnrichedDeezerContributor[];
 	/** Only have artist names */
 	song_contributors?: string[];
+	// Additional
+	urls?: Partial<Record<keyof typeof TRACK_FORMATS, string>>;
 }
