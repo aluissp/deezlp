@@ -85,4 +85,13 @@ describe('Testing DeezerCore class', () => {
 		expect(lyrics.LYRICS_TEXT).toBeDefined();
 		expect(lyrics.LYRICS_WRITERS).toBe('Oliver Tree Nickell, Tanner Petula');
 	});
+
+	test('Should find album by id | DeezerGW', async () => {
+		const album = await deezer.gw.getAlbum('231948702'); // Oliver tree album
+
+		expect(album).toBeDefined();
+		expect(album.ART_ID).toBe('10799102');
+		expect(album.ART_NAME).toBe('Oliver Tree');
+		expect(album.DIGITAL_RELEASE_DATE).toBe('2021-05-28');
+	});
 });

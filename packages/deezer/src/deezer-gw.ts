@@ -2,7 +2,7 @@ import got, { type Got } from 'got';
 import type { CookieJar } from 'tough-cookie';
 import { GWAPIException } from './exceptions';
 import { DEEZER_GW_METHODS, DEEZER_URLS } from './constants';
-import type { GWLyrics, GWRawData, GWTrack, GWTrackPage, GWUserData } from './interfaces';
+import type { GwAlbum, GWLyrics, GWRawData, GWTrack, GWTrackPage, GWUserData } from './interfaces';
 
 export class DeezerGW {
 	private api: Got;
@@ -93,5 +93,9 @@ export class DeezerGW {
 
 	getTrackLyrics(songId: number | string): Promise<GWLyrics> {
 		return this.call(DEEZER_GW_METHODS.GET_TRACK_LYRICS, { SNG_ID: songId }) as Promise<GWLyrics>;
+	}
+
+	getAlbum(albumId: number | string): Promise<GwAlbum> {
+		return this.call(DEEZER_GW_METHODS.GET_ALBUM, { ALB_ID: albumId }) as Promise<GwAlbum>;
 	}
 }

@@ -3,3 +3,4 @@ export * from './gw-user-data.interface';
 export * from './gw-track.interface';
 export * from './gw-track-page.interface';
 export * from './gw-lyrics.interface';
+export * from './gw-album.interface';
