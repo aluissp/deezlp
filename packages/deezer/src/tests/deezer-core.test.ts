@@ -1,5 +1,6 @@
 import { DeezerCore } from '@/deezer-core';
 import exampleTrack from './deezer-track.example.json';
+import { TRACK_FORMAT_NAMES, TRACK_FORMATS } from '@/constants';
 
 describe('Testing DeezerCore class', () => {
 	let deezer: DeezerCore;
@@ -104,5 +105,29 @@ describe('Testing DeezerCore class', () => {
 		expect(artist).toHaveProperty('link');
 		expect(artist).toHaveProperty('share');
 		expect(artist).toHaveProperty('picture');
+	});
+
+	test('Should find track urls by tokens | DeezerMedia', async () => {
+		// Please run the first test loginViaArl!
+		if (!deezer.loggedIn) return;
+
+		const track1 = await deezer.gw.getTrack(exampleTrack.id); // Gorriones
+		const track2 = await deezer.gw.getTrack(776837); // Nosebleed
+
+		const format128 = TRACK_FORMAT_NAMES[TRACK_FORMATS.MP3_128];
+		const format320 = TRACK_FORMAT_NAMES[TRACK_FORMATS.MP3_320];
+		const formatFLAC = TRACK_FORMAT_NAMES[TRACK_FORMATS.FLAC];
+
+		const trackTokens = [track1.TRACK_TOKEN, track2.TRACK_TOKEN];
+
+		const [urls128, urls320, urlsFLAC] = await Promise.all([
+			deezer.getTracksByUrls(trackTokens, format128),
+			deezer.getTracksByUrls(trackTokens, format320),
+			deezer.getTracksByUrls(trackTokens, formatFLAC),
+		]);
+
+		expect(urls128?.[0]?.media?.[0]?.sources?.[0]?.url).toBeDefined();
+		expect(urls320?.[0]?.media?.[0]?.sources?.[0]?.url).toBeDefined();
+		expect(urlsFLAC?.[0]?.media?.[0]?.sources?.[0]?.url).toBeDefined();
 	});
 });

@@ -1,13 +1,17 @@
 import { Cookie, CookieJar } from 'tough-cookie';
 import { DeezerGW } from './deezer-gw';
-import type { GWUserData, UserCore } from './interfaces';
+import type { GWUserData, TrackURLData, UserCore } from './interfaces';
 import { DeezerApi } from './deezer-api';
+import { DeezerMedia } from './deezer-media';
+import { DeezerException, DeezerExceptionCodes } from './exceptions';
 
 export class DeezerCore {
 	/** The Deezer gateway instance */
 	gw: DeezerGW;
 	/** The Deezer api instance */
 	api: DeezerApi;
+	/** The Deezer media instance */
+	private media: DeezerMedia;
 	/** Indicates if the user is logged in */
 	loggedIn: boolean;
 	/** Refers to the list of child users */
@@ -30,6 +34,7 @@ export class DeezerCore {
 		this.cookieJar = new CookieJar();
 		this.gw = new DeezerGW(this.cookieJar, this.httpHeaders);
 		this.api = new DeezerApi(this.cookieJar, this.httpHeaders);
+		this.media = new DeezerMedia(this.cookieJar, this.httpHeaders);
 		this.currentUser = {};
 		this.selectedUserIndex = 0;
 	}
@@ -116,5 +121,27 @@ export class DeezerCore {
 		this.httpHeaders['Accept-Language'] = lang;
 
 		return { currentUser: this.currentUser, selectedUserIndex: this.selectedUserIndex };
+	}
+
+	public async getTrackUrl(trackToken: string, format: string): Promise<TrackURLData | undefined> {
+		if (!this.currentUser?.license_token) return undefined;
+
+		const tracksUrls = await this.media.getTrackUrls([trackToken], this.currentUser.license_token, format).then(urls => urls[0]);
+
+		if (!tracksUrls) return undefined;
+
+		// Throw error if not is WRONG_GEOLOCATION
+		if (tracksUrls.errors && tracksUrls.errors.length && tracksUrls.errors?.[0]?.code !== DeezerExceptionCodes.WRONG_GEOLOCATION) {
+			throw new DeezerException(`Failed to get track URL by token: ${trackToken}.`);
+		}
+
+		return tracksUrls;
+	}
+
+	/** Finds track URLs based on the provided tokens, your license token, and format */
+	public getTracksByUrls(trackTokens: string[], format: string): Promise<TrackURLData[]> {
+		if (!this.currentUser?.license_token) return Promise.resolve([]);
+
+		return this.media.getTrackUrls(trackTokens, this.currentUser.license_token, format);
 	}
 }

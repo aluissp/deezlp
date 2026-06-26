@@ -1,5 +1,6 @@
 export * from './deezer-api';
 export * from './deezer-gw';
+export * from './deezer-media';
 export * from './deezer-core';
 export * from './constants';
 export * from './exceptions';

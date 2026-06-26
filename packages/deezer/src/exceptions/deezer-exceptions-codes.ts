@@ -24,4 +24,6 @@ export enum DeezerExceptionCodes {
 	DATA_NOT_FOUND = 800,
 	/** Type: IndividualAccountChangedNotAllowedException */
 	INDIVIDUAL_ACCOUNT_NOT_ALLOWED = 901,
+	/** Type: Exception thrown https://media.deezer.com/v1 api. */
+	WRONG_GEOLOCATION = 2002,
 }
