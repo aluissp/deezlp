@@ -49,7 +49,6 @@ export interface EnrichedDeezerTrack extends Omit<DeezerTrack, 'artist' | 'album
 	copyright?: string;
 	physical_release_date?: string;
 	genres?: string[];
-	token: string;
 	user_id: number;
 	md5_origin?: string;
 	filesizes?: Record<string, number>;

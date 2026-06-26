@@ -172,3 +172,23 @@ export class GWAPIException extends DeezerException {
 		this.message = 'Track unavailable on Deezer';
 	}
 }
+
+export class WrongLicense extends DeezerException {
+	format: string;
+
+	constructor(format: string) {
+		super(`Your account can't request urls for ${format} tracks`);
+		this.name = 'WrongLicense';
+		this.format = format;
+	}
+}
+
+export class WrongGeolocation extends DeezerException {
+	country?: string;
+
+	constructor(country?: string) {
+		super(`The track you requested can't be streamed in country ${country}`);
+		this.name = 'WrongGeolocation';
+		this.country = country;
+	}
+}

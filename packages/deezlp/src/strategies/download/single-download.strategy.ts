@@ -1,11 +1,13 @@
 import type { DeezerCore } from 'deezer';
 import type { EnrichedDeezerTrack } from '@/interfaces';
 import type { DownloadStrategy, ProgressCallback } from './download-strategy.interface';
+import type { DeezerTrackUrlResolver } from '@/resolvers';
 
 export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTrack> {
 	constructor(
 		private dz: DeezerCore,
 		private outputDir: string,
+		private trackResolver: DeezerTrackUrlResolver,
 	) {}
 
 	public async execute(track: EnrichedDeezerTrack, onProgress: ProgressCallback): Promise<void> {

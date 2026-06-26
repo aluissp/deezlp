@@ -15,7 +15,11 @@ export class DeezerCore {
 	/** The cookie jar for managing cookies */
 	cookieJar: CookieJar;
 	/** The HTTP headers for requests */
-	httpHeaders: { 'User-Agent': string };
+	httpHeaders: { 'User-Agent': string; 'Accept-Language'?: string };
+	/** The current logged-in user */
+	currentUser: UserCore;
+	/** The index of the currently selected user from the children list */
+	selectedUserIndex: number;
 
 	constructor() {
 		this.httpHeaders = {
@@ -26,6 +30,8 @@ export class DeezerCore {
 		this.cookieJar = new CookieJar();
 		this.gw = new DeezerGW(this.cookieJar, this.httpHeaders);
 		this.api = new DeezerApi(this.cookieJar, this.httpHeaders);
+		this.currentUser = {};
+		this.selectedUserIndex = 0;
 	}
 
 	// TODO: Implement login via email and password
@@ -60,6 +66,9 @@ export class DeezerCore {
 		// Get children users
 		await this.getChildren(userData);
 
+		// Set the first user as the current user by default
+		this.selectUserAccount(this.selectedUserIndex);
+
 		return (this.loggedIn = true);
 	}
 
@@ -84,5 +93,28 @@ export class DeezerCore {
 			language: userData.USER.SETTING.global.language || '',
 			loved_tracks: userData.USER.LOVEDTRACKS_ID,
 		});
+	}
+
+	/**
+	 * Selects a user account from the children list based on the provided index.
+	 * If the index is out of bounds, it defaults to the first user.
+	 * @param index the index of children users
+	 * @returns An object containing the current user and the selected user index.
+	 */
+	public selectUserAccount(index: number) {
+		// Fallback to the first user if the index is out of bounds
+		if (index < 0 || index >= this.children.length) index = 0;
+
+		this.currentUser = this.children[index] ?? {};
+		this.selectedUserIndex = index;
+
+		// example language: 'en-US;q=0.9,fr;q=0.8'
+		const match = this.currentUser?.language?.match(/^[a-zA-Z]{2}(-[a-zA-Z]{2})?/);
+		const lang = match?.[0] ?? 'us'; // By default 'us'
+
+		// Set headers
+		this.httpHeaders['Accept-Language'] = lang;
+
+		return { currentUser: this.currentUser, selectedUserIndex: this.selectedUserIndex };
 	}
 }

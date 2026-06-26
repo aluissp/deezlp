@@ -127,7 +127,6 @@ export const mapGwTrackToDeezer = (track: GWTrack): EnrichedDeezerTrack => {
 		// Extras
 		md5_origin: track.MD5_ORIGIN,
 		media_version: track.MEDIA_VERSION,
-		token: track.TRACK_TOKEN,
 		track_token: track.TRACK_TOKEN,
 		track_token_expire: track.TRACK_TOKEN_EXPIRE,
 		track_position: +track.TRACK_NUMBER,

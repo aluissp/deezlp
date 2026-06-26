@@ -2,6 +2,7 @@ import type { DeezerCore } from 'deezer';
 import type { DownloadPayload } from '@/entities';
 import { StrategyNotFoundException } from '@/exceptions';
 import { TrackDownloadStrategy, type DownloadStrategy, type ProgressCallback } from '@/strategies';
+import { DeezerTrackUrlResolver } from '@/resolvers';
 
 export class DownloadWorker {
 	constructor(
@@ -14,7 +15,7 @@ export class DownloadWorker {
 
 		switch (payload.type) {
 			case 'track':
-				strategy = new TrackDownloadStrategy(this.dz, this.outputDir);
+				strategy = new TrackDownloadStrategy(this.dz, this.outputDir, new DeezerTrackUrlResolver(this.dz));
 				break;
 
 			default:
