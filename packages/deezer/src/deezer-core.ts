@@ -4,6 +4,7 @@ import type { GWUserData, TrackURLData, UserCore } from './interfaces';
 import { DeezerApi } from './deezer-api';
 import { DeezerMedia } from './deezer-media';
 import { DeezerException, DeezerExceptionCodes } from './exceptions';
+import { WrongGeolocation } from './exceptions/deezer-exception';
 
 export class DeezerCore {
 	/** The Deezer gateway instance */
@@ -123,25 +124,41 @@ export class DeezerCore {
 		return { currentUser: this.currentUser, selectedUserIndex: this.selectedUserIndex };
 	}
 
+	/**
+	 * Fetches the track URL from Deezer using the provided track token and format.
+	 *
+	 * @param trackToken The track token for the desired track
+	 * @param format The desired format for the track URL
+	 * @returns A Promise that resolves to the TrackURLData or undefined if the user does not have a license token.
+	 * @exceptions Throws a `WrongGeolocation` or `DeezerException` if result have errors
+	 */
 	public async getTrackUrl(trackToken: string, format: string): Promise<TrackURLData | undefined> {
 		if (!this.currentUser?.license_token) return undefined;
 
-		const tracksUrls = await this.media.getTrackUrls([trackToken], this.currentUser.license_token, format).then(urls => urls[0]);
+		const tracksUrls = await this.media
+			.getTrackUrls([trackToken], this.currentUser.license_token, format)
+			.then(urls => urls[0])
+			.catch(() => undefined);
 
 		if (!tracksUrls) return undefined;
 
 		// Throw error if not is WRONG_GEOLOCATION
-		if (tracksUrls.errors && tracksUrls.errors.length && tracksUrls.errors?.[0]?.code !== DeezerExceptionCodes.WRONG_GEOLOCATION) {
+		if (tracksUrls.errors && tracksUrls.errors.length && tracksUrls.errors?.[0]?.code !== DeezerExceptionCodes.WRONG_GEOLOCATION)
+			throw new WrongGeolocation(this.currentUser?.country);
+		else if (tracksUrls.errors && tracksUrls.errors.length && tracksUrls.errors?.[0]?.code)
 			throw new DeezerException(`Failed to get track URL by token: ${trackToken}.`);
-		}
 
 		return tracksUrls;
 	}
 
-	/** Finds track URLs based on the provided tokens, your license token, and format */
+	/**
+	 * Finds track URLs based on the provided tokens, your license token, and format
+	 *
+	 * - But you must manage the geolocation or generic deezer error for each track.
+	 */
 	public getTracksByUrls(trackTokens: string[], format: string): Promise<TrackURLData[]> {
 		if (!this.currentUser?.license_token) return Promise.resolve([]);
 
-		return this.media.getTrackUrls(trackTokens, this.currentUser.license_token, format);
+		return this.media.getTrackUrls(trackTokens, this.currentUser.license_token, format).catch(() => []);
 	}
 }

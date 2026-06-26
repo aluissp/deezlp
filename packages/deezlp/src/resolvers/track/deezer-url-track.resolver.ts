@@ -86,4 +86,12 @@ export class DeezerTrackUrlResolver {
 			.sort((a, b) => b.bitrate - a.bitrate) // Sort by bitrate descending, from highest to lowest quality
 			.filter(format => format.bitrate <= preferredBitrate); // Filter formats that are less than or equal to the preferred bitrate
 	}
+
+	private async getUrlFromDeezer(track: EnrichedDeezerTrack, format: number): Promise<string | undefined> {
+		const formatName = TRACK_FORMAT_NAMES[format as keyof typeof TRACK_FORMAT_NAMES];
+
+		const urlData = await this.dz.getTrackUrl(track.track_token, formatName).catch(() => undefined);
+
+		if (!urlData) return undefined;
+	}
 }
