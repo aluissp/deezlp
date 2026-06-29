@@ -1,3 +1,4 @@
+import { fetchTrack } from '@/fetch';
 import { NotLoggedInException } from '@/exceptions';
 import type { EnrichedDeezerTrack } from '@/interfaces';
 import { FORMATS_360, FORMATS_NO_360, TRACK_FORMAT_NAMES, TRACK_FORMATS, WrongLicense, type DeezerCore } from 'deezer';
@@ -9,9 +10,9 @@ export class DeezerTrackUrlResolver {
 		private dz: DeezerCore,
 	) {}
 
-	public async resolve(track: EnrichedDeezerTrack, options?: { shouldFallback: boolean; feelingLucky: boolean }): Promise<void> {
+	public async resolve(track: EnrichedDeezerTrack, options?: { shouldFallback: boolean; feelingLucky: boolean }): Promise<number | undefined> {
 		// 1. Get preferred bitrate
-		const preferredBitrate = track.bitrate ?? TRACK_FORMATS.MP3_128;
+		let preferredBitrate = track.bitrate ?? TRACK_FORMATS.MP3_128;
 
 		// 2. Validate and renew token if necessary
 		await this.checkAndRenewTrackToken(track);
@@ -22,26 +23,14 @@ export class DeezerTrackUrlResolver {
 		// 4. Get formats to try based on preferred bitrate option
 		const formatsToTry = this.getFormatsByBitrate(preferredBitrate);
 
+		// 5. Try to get the URL for each format until one is found
+		let foundBitrate: number | undefined = undefined;
 		for (const format of formatsToTry) {
-			let currentTrack = track;
-			// let url = await this.dz.getTrackUrl(currentTrack, format);
-			// Si falla el método oficial y tiene "feelingLucky", usar el método viejo (Crypto)
-			// if (!url && options.feelingLucky) {
-			// 	const legacyUrl = this.cryptoService.generateLegacyUrl(currentTrack, format);
-			// 	if (await this.httpService.isValidUrl(legacyUrl)) url = legacyUrl;
-			// }
-			// // Paso 3: Lógica de Fallback de la canción (Buscar alternativa si está geobloqueada)
-			// while (!url && currentTrack.hasAlternative) {
-			// 	currentTrack = await this.dz.getAlternativeTrack(currentTrack.fallbackID);
-			// 	url = await this.dz.getTrackUrl(currentTrack, format);
-			// }
-			// if (url) {
-			// 	return { url, format: format.number };
-			// }
-			// // Si no debe bajarse la calidad (shouldFallback = false), lanzar excepciones de negocio aquí
-			// if (!options.shouldFallback) this.throwBusinessException(format);
-			// throw new PreferredBitrateNotFound();
+			foundBitrate = await this.getUrlFromDeezer(track, format.bitrate);
+			if (foundBitrate) break;
 		}
+
+		return foundBitrate;
 	}
 
 	private async checkAndRenewTrackToken(track: EnrichedDeezerTrack): Promise<void> {
@@ -87,11 +76,44 @@ export class DeezerTrackUrlResolver {
 			.filter(format => format.bitrate <= preferredBitrate); // Filter formats that are less than or equal to the preferred bitrate
 	}
 
-	private async getUrlFromDeezer(track: EnrichedDeezerTrack, format: number): Promise<string | undefined> {
+	/**
+	 * Gets the URL for a specific track and format from Deezer.
+	 * If the URL is not available, will try to get the URL from an alternative track if available.
+	 * @param track The enriched Deezer track object containing track information and token.
+	 * @param format The desired format for the track URL
+	 * @returns A promise that resolves to the track URL
+	 */
+	private async getUrlFromDeezer(track: EnrichedDeezerTrack, format: number): Promise<number | undefined> {
 		const formatName = TRACK_FORMAT_NAMES[format as keyof typeof TRACK_FORMAT_NAMES];
 
 		const urlData = await this.dz.getTrackUrl(track.track_token, formatName).catch(() => undefined);
 
 		if (!urlData) return undefined;
+
+		let url = urlData.media?.[0]?.sources?.[0]?.url;
+		let alternativeId = track.fallback_id !== 0 ? String(track.fallback_id) : undefined;
+
+		if (url) {
+			track.urls = { [formatName]: url };
+			return format; // Return the correct format number
+		}
+
+		// Try to get the URL from an alternative track if available
+		while (!url && !!alternativeId) {
+			const alternativeTrack = await fetchTrack(
+				this.dz,
+				{ id: alternativeId, kind: 'id', type: 'track' },
+				{ includeAlbumInfo: false, includeArtistInfo: false },
+			);
+
+			url = await this.dz.getTrackUrl(alternativeTrack?.gwTrack?.TRACK_TOKEN ?? '', formatName).then(data => data?.media?.[0]?.sources?.[0]?.url);
+			alternativeId = alternativeTrack?.gwTrackPage?.DATA?.FALLBACK?.SNG_ID;
+		}
+
+		if (!url) return;
+
+		// Return the correct format number and set the URL in the track object
+		track.urls = { [formatName]: url };
+		return format;
 	}
 }
