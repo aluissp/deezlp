@@ -35,6 +35,9 @@ export interface EnrichedDeezerAlbum extends DeezerAlbum {
 	physical_release_date?: string;
 	original_release_date?: string;
 	genre_id?: number;
+
+	/** Used to store the path of the embedded cover image inside the track directory */
+	embeddedCoverPath?: string;
 }
 
 export interface EnrichedDeezerTrack extends Omit<DeezerTrack, 'artist' | 'album' | 'contributors'> {

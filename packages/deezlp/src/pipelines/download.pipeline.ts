@@ -5,6 +5,7 @@ import { DownloadWorker } from '@/workers';
 import { resolveDeezerUrl } from '@/resolvers';
 import type { Settings } from '@/interfaces';
 import { createDownloadJob, type DownloadJob, DownloadJobStatus, type DownloadPayload } from '@/entities';
+import { FileService } from '@/services';
 
 export class DownloadPipeline extends EventEmitter {
 	private bitrate: number;
@@ -39,6 +40,8 @@ export class DownloadPipeline extends EventEmitter {
 	 * Start download urls
 	 */
 	async start(): Promise<void> {
+		const fileService = new FileService(this.settings);
+
 		for (const job of this.jobs) {
 			if (this.globalController.signal.aborted) break;
 
@@ -71,7 +74,7 @@ export class DownloadPipeline extends EventEmitter {
 				job.payload = items;
 
 				// 4. Start download with worker
-				const downloaderWorker = new DownloadWorker(this.dz, this.settings.downloadLocation);
+				const downloaderWorker = new DownloadWorker(this.dz, this.settings, fileService);
 				await downloaderWorker.start(job.payload, progressValue => {
 					job.progress = progressValue;
 
