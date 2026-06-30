@@ -4,8 +4,8 @@ import { getStrategy } from '@/strategies';
 import { DownloadWorker } from '@/workers';
 import { resolveDeezerUrl } from '@/resolvers';
 import type { Settings } from '@/interfaces';
+import { AudioStreamerService, CryptoService, FileService } from '@/services';
 import { createDownloadJob, type DownloadJob, DownloadJobStatus, type DownloadPayload } from '@/entities';
-import { FileService } from '@/services';
 
 export class DownloadPipeline extends EventEmitter {
 	private bitrate: number;
@@ -13,12 +13,24 @@ export class DownloadPipeline extends EventEmitter {
 	private activeJobs = new Map<string, AbortController>();
 	public jobs: DownloadJob<DownloadPayload>[] = [];
 
+	// services
+	private fileService: FileService;
+	private cryptoService: CryptoService;
+	private audioStreamerService: AudioStreamerService;
+	private downloaderWorker: DownloadWorker;
+
 	constructor(
 		private dz: DeezerCore,
 		private settings: Settings,
 	) {
 		super();
 		this.bitrate = this.settings.maxBitrate ?? TRACK_FORMATS.MP3_128;
+
+		// services
+		this.fileService = new FileService(this.settings);
+		this.cryptoService = new CryptoService();
+		this.audioStreamerService = new AudioStreamerService(this.cryptoService);
+		this.downloaderWorker = new DownloadWorker(this.dz, this.settings, this.fileService, this.audioStreamerService);
 	}
 
 	/**
@@ -40,8 +52,6 @@ export class DownloadPipeline extends EventEmitter {
 	 * Start download urls
 	 */
 	async start(): Promise<void> {
-		const fileService = new FileService(this.settings);
-
 		for (const job of this.jobs) {
 			if (this.globalController.signal.aborted) break;
 
@@ -74,8 +84,7 @@ export class DownloadPipeline extends EventEmitter {
 				job.payload = items;
 
 				// 4. Start download with worker
-				const downloaderWorker = new DownloadWorker(this.dz, this.settings, fileService);
-				await downloaderWorker.start(job.payload, progressValue => {
+				await this.downloaderWorker.start(job.payload, progressValue => {
 					job.progress = progressValue;
 
 					this.updateJob(job, DownloadJobStatus.downloading);

@@ -1,6 +1,6 @@
 import type { DeezerCore } from 'deezer';
 import type { Settings } from '@/interfaces';
-import type { FileService } from '@/services';
+import type { AudioStreamerService, FileService } from '@/services';
 import type { DownloadPayload } from '@/entities';
 import { DeezerTrackUrlResolver } from '@/resolvers';
 import { StrategyNotFoundException } from '@/exceptions';
@@ -11,6 +11,7 @@ export class DownloadWorker {
 		private dz: DeezerCore,
 		private settings: Settings,
 		private fileService: FileService,
+		private audioStreamerService: AudioStreamerService,
 	) {}
 
 	public start(payload: DownloadPayload, onProgress: ProgressCallback): Promise<void> {
@@ -18,7 +19,7 @@ export class DownloadWorker {
 
 		switch (payload.type) {
 			case 'track':
-				strategy = new TrackDownloadStrategy(this.dz, this.fileService, new DeezerTrackUrlResolver(this.dz));
+				strategy = new TrackDownloadStrategy(this.fileService, new DeezerTrackUrlResolver(this.dz), this.audioStreamerService);
 				break;
 
 			default:

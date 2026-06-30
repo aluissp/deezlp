@@ -94,10 +94,12 @@ export class DeezerTrackUrlResolver {
 		if (!urlData) return undefined;
 
 		let url = urlData.media?.[0]?.sources?.[0]?.url;
+		let size = urlData.media?.[0]?.filesize ?? 0;
 		let alternativeId = track.fallback_id !== 0 ? String(track.fallback_id) : undefined;
 
 		if (url) {
-			track.urls = { [formatName]: url };
+			// track.urls = { [formatName]: url };
+			track.media = { url, bitrate: format, formatName, size };
 			return format; // Return the correct format number
 		}
 
@@ -109,14 +111,17 @@ export class DeezerTrackUrlResolver {
 				{ includeAlbumInfo: false, includeArtistInfo: false },
 			);
 
-			url = await this.dz.getTrackUrl(alternativeTrack?.gwTrack?.TRACK_TOKEN ?? '', formatName).then(data => data?.media?.[0]?.sources?.[0]?.url);
+			[url, size] = await this.dz
+				.getTrackUrl(alternativeTrack?.gwTrack?.TRACK_TOKEN ?? '', formatName)
+				.then(data => [data?.media?.[0]?.sources?.[0]?.url, data?.media?.[0]?.filesize ?? 0]); // [url, size]
 			alternativeId = alternativeTrack?.gwTrackPage?.DATA?.FALLBACK?.SNG_ID;
 		}
 
 		if (!url) return;
 
 		// Return the correct format number and set the URL in the track object
-		track.urls = { [formatName]: url };
+		// track.urls = { [formatName]: url };
+		track.media = { url, bitrate: format, formatName, size };
 		return format;
 	}
 }
