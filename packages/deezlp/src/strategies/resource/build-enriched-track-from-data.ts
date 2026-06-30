@@ -15,7 +15,7 @@ export const buildEnrichedTrackFromData = (
 	if (!gwTrack?.SNG_ID) throw new GenerationException('https://deezer.com/track', 'Unable to build track from raw data');
 
 	const mappedTrack = mapGwTrackToDeezer(gwTrack);
-	const track: EnrichedDeezerTrack = { ...mappedTrack, user_id: 0, unseen: false, token: mappedTrack.track_token };
+	const track: EnrichedDeezerTrack = { ...mappedTrack, user_id: 0, unseen: false, track_token: mappedTrack.track_token };
 
 	// 2.Validate if id is a number
 	if (!/^-?\d+$/.test(String(track.id))) throw new InvalidID(`https://deezer.com/track/${track.id}`);
