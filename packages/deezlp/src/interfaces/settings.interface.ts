@@ -55,7 +55,7 @@ export interface Settings {
 	albumNameTemplate?: string;
 	createCDFolder?: boolean;
 	createStructurePlaylist?: boolean;
-	createSingleFolder?: boolean;
+	// createSingleFolder?: boolean; // disabled
 	padTracks?: boolean;
 	paddingSize?: number;
 	illegalCharacterReplacer?: string;
@@ -70,7 +70,9 @@ export interface Settings {
 	createM3U8File?: boolean;
 	playlistFilenameTemplate?: string;
 	syncedLyrics?: boolean;
+	/** Size of the embedded artwork */
 	embeddedArtworkSize?: number;
+	/** Whether to use PNG format for embedded artwork */
 	embeddedArtworkPNG?: boolean;
 	localArtworkSize?: number;
 	localArtworkFormat?: string;
@@ -78,6 +80,7 @@ export interface Settings {
 	coverImageTemplate?: string;
 	saveArtworkArtist?: boolean;
 	artistImageTemplate?: string;
+	/** JPEG image quality, `embeddedArtworkPNG` must be false */
 	jpegImageQuality?: number;
 	dateFormat?: string;
 	albumVariousArtists?: boolean;

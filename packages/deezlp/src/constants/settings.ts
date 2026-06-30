@@ -46,7 +46,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	albumNameTemplate: '%artist% - %album%',
 	createCDFolder: true,
 	createStructurePlaylist: false,
-	createSingleFolder: false,
+	// createSingleFolder: false,
 	padTracks: true,
 	padSingleDigit: true,
 	paddingSize: 0,

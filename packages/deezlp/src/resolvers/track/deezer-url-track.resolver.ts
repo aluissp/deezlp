@@ -4,13 +4,15 @@ import type { EnrichedDeezerTrack } from '@/interfaces';
 import { FORMATS_360, FORMATS_NO_360, TRACK_FORMAT_NAMES, TRACK_FORMATS, WrongLicense, type DeezerCore } from 'deezer';
 
 export class DeezerTrackUrlResolver {
-	constructor(
-		// private httpService: HttpService,
-		// private cryptoService: CryptoService,
-		private dz: DeezerCore,
-	) {}
+	constructor(private dz: DeezerCore) {}
 
-	public async resolve(track: EnrichedDeezerTrack, options?: { shouldFallback: boolean; feelingLucky: boolean }): Promise<number | undefined> {
+	/**
+	 * Resolves the urls for a given Deezer track based on the preferred bitrate.
+	 * @param track The enriched Deezer track object containing track information and token.
+	 * @param options Optional parameters for resolving the track URL (this should remove)
+	 * @returns A promise that resolves to the (bitrate/url) and set it in `track.bitrate`, `track.urls[formatName] = url` and `track.album.bitrate` if available.
+	 */
+	public async resolve(track: EnrichedDeezerTrack, options?: { shouldFallback: boolean; feelingLucky: boolean }): Promise<void> {
 		// 1. Get preferred bitrate
 		let preferredBitrate = track.bitrate ?? TRACK_FORMATS.MP3_128;
 
@@ -30,7 +32,8 @@ export class DeezerTrackUrlResolver {
 			if (foundBitrate) break;
 		}
 
-		return foundBitrate;
+		track.bitrate = (foundBitrate as any) ?? preferredBitrate;
+		// if(track?.album?.bitrate)track.album.bitrate = (foundBitrate as any) ?? preferredBitrate;
 	}
 
 	private async checkAndRenewTrackToken(track: EnrichedDeezerTrack): Promise<void> {
