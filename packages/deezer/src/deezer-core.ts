@@ -5,6 +5,7 @@ import { DeezerApi } from './deezer-api';
 import { DeezerMedia } from './deezer-media';
 import { DeezerException, DeezerExceptionCodes } from './exceptions';
 import { WrongGeolocation } from './exceptions/deezer-exception';
+import { USER_AGENT_HEADER } from './constants';
 
 export class DeezerCore {
 	/** The Deezer gateway instance */
@@ -28,7 +29,7 @@ export class DeezerCore {
 
 	constructor() {
 		this.httpHeaders = {
-			'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36',
+			'User-Agent': USER_AGENT_HEADER,
 		};
 		this.children = [];
 		this.loggedIn = false;

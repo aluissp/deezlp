@@ -68,3 +68,17 @@ export class ISRCnotOnDeezer extends GenerationException {
 		this.errid = 'ISRCnotOnDeezer';
 	}
 }
+
+export class DownloadEmpty extends DeezlpException {
+	constructor() {
+		super();
+		this.name = 'DownloadEmpty';
+	}
+}
+
+export class DownloadCanceled extends DeezlpException {
+	constructor() {
+		super();
+		this.name = 'DownloadCanceled';
+	}
+}

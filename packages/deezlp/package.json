@@ -8,6 +8,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "deezer": "workspace:*"
+    "deezer": "workspace:*",
+    "got": "^15.0.7"
   }
 }

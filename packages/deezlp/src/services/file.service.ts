@@ -1,15 +1,37 @@
 import { join } from 'path';
 import { tmpdir } from 'os';
 import { extensions } from '@/constants';
-import { existsSync, mkdirSync } from 'fs';
+import { USER_AGENT_HEADER } from 'deezer';
+import { pipeline } from 'stream/promises';
 import type { EnrichedDeezerTrack, Settings } from '@/interfaces';
+import got, { HTTPError, ReadError, TimeoutError, type Got } from 'got';
+import { createWriteStream, existsSync, mkdirSync, unlinkSync, writeFileSync } from 'fs';
 
 export class FileService {
+	private api: Got;
 	private readonly TEMPDIR: string;
 
 	constructor(private settings: Settings) {
 		this.TEMPDIR = join(tmpdir(), 'deezlp-imgs');
 		mkdirSync(this.TEMPDIR, { recursive: true });
+
+		this.api = got.extend({
+			headers: { 'User-Agent': USER_AGENT_HEADER },
+			https: { rejectUnauthorized: false },
+			timeout: { request: 5000 },
+		});
+	}
+
+	saveSyncedLyrics(filepath: string, filename: string, lyrics?: string): void {
+		// 1. Check if lyrics exist and if the setting to save synced lyrics is enabled
+		if (!lyrics) return;
+		if (!this.settings.syncedLyrics) return;
+
+		const writePath = join(filepath, filename + '.lrc');
+
+		if (existsSync(writePath)) return;
+
+		writeFileSync(writePath, lyrics, { encoding: 'utf-8' });
 	}
 
 	checkIsAlreadyDownload({ writePath }: { writePath: string }): boolean {
@@ -24,24 +46,76 @@ export class FileService {
 		return writePath;
 	}
 
+	async downloadImage(url: string, writePath: string): Promise<string | undefined> {
+		// 1. If exists, return the path
+		if (existsSync(writePath)) return writePath;
+
+		// 2. Create a write stream to the specified path
+		const downloadStream = this.api.stream(url);
+		const fileWriterStream = createWriteStream(writePath);
+
+		try {
+			// 3. Download the image and write it to the specified path
+			await pipeline(downloadStream, fileWriterStream);
+			return writePath;
+		} catch (e: any) {
+			if (existsSync(writePath)) {
+				try {
+					unlinkSync(writePath);
+				} catch {}
+			}
+
+			// 4. Fallback
+			if (e instanceof HTTPError) {
+				if (!url.includes('images.dzcdn.net')) return;
+
+				const urlBase = url.slice(0, url.lastIndexOf('/') + 1);
+				const pictureURL = url.slice(urlBase.length);
+				const pictureSize = parseInt(pictureURL.slice(0, pictureURL.indexOf('x')), 10);
+
+				if (pictureSize <= 1200) return;
+
+				const fallbackUrl = urlBase + pictureURL.replace(`${pictureSize}x${pictureSize}`, '1200x1200');
+				return this.downloadImage(fallbackUrl, writePath);
+			}
+
+			// 5. Manage network errors and retry the download
+			const isNetworkError =
+				e instanceof ReadError ||
+				e instanceof TimeoutError ||
+				['ESOCKETTIMEDOUT', 'ERR_STREAM_PREMATURE_CLOSE', 'ETIMEDOUT', 'ECONNRESET'].includes(e.code);
+
+			if (isNetworkError) return this.downloadImage(url, writePath);
+
+			console.trace(e);
+			throw e;
+		}
+	}
+
 	/**
 	 *
-	 * @param md5 is a md5_origin from album.md5_origin
+	 * @param md5 is a md5_image from album.md5_image
+	 * @param type is a string that can be 'cover'
 	 */
-	buildCoverURLAndPath({ md5, type }: { md5: string; type: 'cover' }) {
+	buildCoverURLAndPath({ md5, type, coverName }: { md5: string; type: 'cover'; coverName: string }) {
 		// let format = `jpg-${this.settings.jpegImageQuality}`;
 		let format = 'jpg';
 		if (this.settings.embeddedArtworkPNG) format = 'png';
 
 		const size = this.settings.embeddedArtworkSize;
 
-		const url = `https://e-cdns-images.dzcdn.net/images/${type}/${md5}/${size}x${size}`;
+		let embeddedCoverURL = `https://e-cdns-images.dzcdn.net/images/${type}/${md5}/${size}x${size}`;
 
-		if (format === 'png') return url + '-none-100-0-0.png';
+		if (format === 'png') embeddedCoverURL += '-none-100-0-0.png';
+		else {
+			// JPG
+			const quality = this.settings.jpegImageQuality ?? 80;
+			embeddedCoverURL += `-000000-${quality}-0-0.jpg`;
+		}
 
-		// JPG
-		const quality = this.settings.jpegImageQuality ?? 80;
-		return url + `-000000-${quality}-0-0.jpg`;
+		const embeddedCoverPath = join(this.TEMPDIR, `alb_${coverName}_${this.settings.embeddedArtworkSize}.${format}`);
+
+		return { embeddedCoverURL, embeddedCoverPath };
 	}
 
 	buildTrackPath(track: EnrichedDeezerTrack) {
@@ -148,8 +222,11 @@ export class FileService {
 
 	private generateAlbumName(track: EnrichedDeezerTrack, albumName: string): string {
 		const c = this.settings.illegalCharacterReplacer;
-		albumName = albumName.replaceAll('%album%', this.fixName(track?.album?.label ?? '', c));
+		albumName = albumName.replaceAll('%album%', this.fixName(track?.album?.title ?? '', c));
 		albumName = albumName.replaceAll('%album_id%', String(track?.album?.id));
+
+		albumName = albumName.replaceAll('%artist%', this.fixName(track.artist.name, c));
+		albumName = albumName.replaceAll('%artist_id%', String(track.artist.id));
 
 		albumName = albumName.replaceAll('\\', '/');
 

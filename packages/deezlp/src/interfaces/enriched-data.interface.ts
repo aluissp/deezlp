@@ -37,7 +37,7 @@ export interface EnrichedDeezerAlbum extends DeezerAlbum {
 	genre_id?: number;
 
 	/** Used to store the path of the embedded cover image inside the track directory */
-	embeddedCoverPath?: string;
+	// embeddedCoverPath?: string;
 }
 
 export interface EnrichedDeezerTrack extends Omit<DeezerTrack, 'artist' | 'album' | 'contributors'> {
@@ -67,6 +67,16 @@ export interface EnrichedDeezerTrack extends Omit<DeezerTrack, 'artist' | 'album
 	contributors: EnrichedDeezerContributor[];
 	/** Only have artist names */
 	song_contributors?: string[];
-	// Additional
-	urls?: Partial<Record<keyof typeof TRACK_FORMATS, string>>;
+	/** Founded media data */
+	media?: {
+		/** The URL of the media file */
+		url: string;
+		/** The bitrate of the media file */
+		bitrate: number;
+		/** The size of the media file */
+		size: number;
+		/** The format name of the media file */
+		formatName: keyof typeof TRACK_FORMATS;
+	};
+	// urls?: Partial<Record<keyof typeof TRACK_FORMATS, string>>;
 }
