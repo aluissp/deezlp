@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "deezer": "workspace:*",
+    "egoroof-blowfish": "^4.0.2",
     "got": "^15.0.7"
   }
 }
