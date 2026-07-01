@@ -43,7 +43,7 @@ export class FileService {
 		mkdirSync(filePath, { recursive: true });
 		const writePath = join(filePath, fileName) + extension;
 
-		return writePath;
+		return { writePath, extension };
 	}
 
 	async downloadImage(url: string, writePath: string): Promise<string | undefined> {

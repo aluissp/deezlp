@@ -30,6 +30,7 @@ export class AudioStreamerService {
 		// if (!downloadURL) throw new Error('No download URL available for the track.');
 
 		const isCryptedStream = downloadURL.includes('/mobile/') || downloadURL.includes('/media/');
+
 		const blowfishKey = isCryptedStream ? this.cryptoService.generateBlowfishKey(track.id) : undefined;
 
 		let chunkLength = 0;
@@ -67,7 +68,6 @@ export class AudioStreamerService {
 		// 3. Ejecución del Pipeline Asíncrono
 		try {
 			await pipeline(requestStream, source => this.decrypter(source, isCryptedStream, blowfishKey), this.depadder, createWriteStream(writePath));
-			let a = 0;
 		} catch (error: any) {
 			// Limpieza de archivo incompleto
 			if (existsSync(writePath)) unlinkSync(writePath);
@@ -122,7 +122,7 @@ export class AudioStreamerService {
 		}
 
 		let modifiedStream = Buffer.alloc(0);
-		for await (const chunk of source) {
+		for await (const chunk of  source) {
 			modifiedStream = Buffer.concat([modifiedStream, chunk]);
 
 			while (modifiedStream.length >= 2048 * 3) {

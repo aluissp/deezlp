@@ -16,7 +16,7 @@ export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTra
 		await this.trackResolver.resolve(track);
 		// 2. Build the final path for the track
 		const { fileName, filePath, artistPath, coverPath } = this.fileService.buildTrackPath(track);
-		const writePath = this.fileService.buildWritePath({ filePath, fileName, bitrate: track.bitrate! });
+		const { writePath, extension } = this.fileService.buildWritePath({ filePath, fileName, bitrate: track.bitrate! });
 		const isAlreadyDownloaded = this.fileService.checkIsAlreadyDownload({ writePath });
 
 		// 3. Cover paths and urls
@@ -34,8 +34,8 @@ export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTra
 
 		// 6. Download the track
 		await this.audioStreamerService.streamTrack(writePath, track);
-		// Paso 4: Post-procesamiento (Desencriptar si es necesario, inyectar carátula/ID3 tags)
-		//     await this.fileManager.applyMetadata(finalPath, track);
-		//     console.log(`Descarga finalizada con éxito en: ${finalPath}`);
+
+		// 7. Apply metadata to the downloaded track
+		    // await this.fileManager.applyMetadata(finalPath, track);
 	}
 }
