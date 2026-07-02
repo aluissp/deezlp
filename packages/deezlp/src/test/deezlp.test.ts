@@ -1,5 +1,6 @@
 import { Deezlp } from '@/deezlp';
 import { DEFAULT_SETTINGS } from '@/constants';
+import { TRACK_FORMATS } from 'deezer';
 
 describe('Testing the generateTrackItem function', () => {
 	let deezlp: Deezlp;
@@ -14,7 +15,7 @@ describe('Testing the generateTrackItem function', () => {
 	beforeAll(async () => {
 		deezlp = new Deezlp({
 			...DEFAULT_SETTINGS,
-			maxBitrate: 3,
+			maxBitrate: TRACK_FORMATS.MP3_320,
 			downloadLocation: '/home/luis/Música/deemix Music',
 			syncedLyrics: true,
 		});

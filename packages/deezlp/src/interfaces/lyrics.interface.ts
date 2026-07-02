@@ -3,6 +3,7 @@ export interface Lyrics {
 	id: number;
 	sync?: string;
 	unsync: string;
-	copyright: string;
 	writers: string;
+	copyright: string;
+	syncID3?: (string | number)[][];
 }

@@ -32,10 +32,22 @@ export const parseLyrics = (gwLyrics: GWLyrics): Lyrics => {
 		})
 		.join('');
 
+	const syncID3 = syncLyricsJson
+		.map(line => {
+			const currentLine = line.line;
+			const milliseconds = parseInt(line.milliseconds ?? '0');
+
+			if (currentLine === '') return;
+
+			return [currentLine, milliseconds];
+		})
+		.filter(line => !!line);
+
 	return {
 		id,
 		sync,
 		unsync,
+		syncID3,
 		writers,
 		copyright,
 	};
