@@ -82,3 +82,16 @@ export class DownloadCanceled extends DeezlpException {
 		this.name = 'DownloadCanceled';
 	}
 }
+export class TrackAlreadyDownloaded extends DeezlpException {
+	constructor(message?: string) {
+		super(message);
+		this.name = 'TrackAlreadyDownloaded';
+	}
+}
+
+export class TrackMediaNotFound extends DeezlpException {
+	constructor() {
+		super();
+		this.name = 'TrackMediaNotFound';
+	}
+}
