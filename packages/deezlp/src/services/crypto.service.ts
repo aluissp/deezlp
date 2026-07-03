@@ -8,14 +8,18 @@ export class CryptoService {
 		return md5sum.digest('hex');
 	}
 
-	generateBlowfishKey(trackId: number) {
+	/** Generates a Blowfish key based on the track ID */
+	generateBlowfishKey(trackId: number): string {
 		const SECRET = 'g4el58wc0zvf9na1';
 		const idMd5 = this.md5(trackId.toString(), 'ascii');
+
 		let bfKey = '';
+
 		for (let i = 0; i < 16; i++) {
 			bfKey += String.fromCharCode(idMd5.charCodeAt(i) ^ idMd5.charCodeAt(i + 16) ^ SECRET.charCodeAt(i));
 		}
-		return String(bfKey);
+
+		return bfKey;
 	}
 
 	decryptChunk(chunk: Buffer, blowFishKey: string) {

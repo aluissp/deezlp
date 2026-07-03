@@ -110,7 +110,7 @@ export class DownloadPipeline extends EventEmitter {
 		}
 	}
 
-	private emitEvent(data: { job: DownloadJob; status: DownloadStatus; attempts?: number; progress?: number; message?: string; error?: unknown }) {
+	private emitEvent(data: { job: DownloadJob; status?: DownloadStatus; attempts?: number; progress?: number; message?: string; error?: unknown }) {
 		const { job, status, progress, attempts, message, error } = data;
 		this.updateJob({ job, status, progress, attempts, message, error });
 
@@ -127,11 +127,12 @@ export class DownloadPipeline extends EventEmitter {
 		if (controller) controller.abort();
 	}
 
-	private updateJob(data: { job: DownloadJob; status: DownloadStatus; attempts?: number; progress?: number; message?: string; error?: unknown }) {
+	private updateJob(data: { job: DownloadJob; status?: DownloadStatus; attempts?: number; progress?: number; message?: string; error?: unknown }) {
 		const { job, status, attempts, progress, message, error } = data;
 
-		job.status = status;
 		job.updatedAt = Date.now();
+
+		if (status) job.status = status;
 
 		if (attempts) job.attempts = attempts;
 
