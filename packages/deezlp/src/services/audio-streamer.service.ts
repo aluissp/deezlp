@@ -22,7 +22,9 @@ export class AudioStreamerService {
 	}
 
 	/**
-	 * Descarga, descifra y guarda una pista de audio en tiempo real.
+	 * Streams a track from Deezer, handling decryption and padding if necessary.
+	 * @param data The data required to stream the track
+	 * @returns
 	 */
 	async streamTrack(data: {
 		writePath: string;
@@ -45,10 +47,10 @@ export class AudioStreamerService {
 
 		const blowfishKey = isCryptedStream ? this.cryptoService.generateBlowfishKey(track.id) : undefined;
 
-		let chunkLength = 0;
+		/** Complete file size */
 		let complete = 0;
+		let chunkLength = 0;
 		let progressNext = 0;
-		const itemData = { id: track.id, title: track.title, artist: track.artist.name };
 
 		// 1. Create request
 		const requestStream = this.api.stream(downloadURL, { signal });
@@ -57,72 +59,61 @@ export class AudioStreamerService {
 		requestStream
 			.on('response', response => {
 				complete = parseInt(response.headers['content-length'] || '0', 10);
-				if (complete === 0) {
-					requestStream.destroy(new DownloadEmpty()); // Destroy the stream with error
-				}
+
+				// Destroy the stream with error
+				if (complete === 0) requestStream.destroy(new DownloadEmpty());
 			})
 			.on('data', (chunk: Buffer) => {
-				// if (downloadObject?.isCanceled) {
-				// 	requestStream.destroy(new DownloadCanceled());
-				// 	return;
-				// }
-
 				chunkLength += chunk.length;
-				// if (downloadObject && complete > 0) {
-				// 	downloadObject.progressNext += (chunk.length / complete / downloadObject.size) * 100;
-				// 	downloadObject.updateProgress(listener);
-				// }
+
 				if (complete > 0) {
-					progressNext += (chunk.length / complete / media.size) * 100;
+					progressNext += (chunk.length / complete) * 100;
+					const progress = Math.min(Math.round(progressNext), 100);
+
+					onUpdate?.({
+						progress,
+						message: `Downloading track: ${track.title} by ${track.artist.name} (${progress}%)`,
+					});
 				}
 			});
 
-		// 4. Handle cancellation by user
-
-		// 5. Ejecución del Pipeline Asíncrono
+		// 3. Run the pipeline with decryption and depadding
 		try {
 			await pipeline(requestStream, source => this.decrypter(source, isCryptedStream, blowfishKey), this.depadder, createWriteStream(writePath));
 		} catch (error: any) {
 			// Limpieza de archivo incompleto
 			if (existsSync(writePath)) unlinkSync(writePath);
 
-			if (error instanceof DownloadCanceled || error instanceof DownloadEmpty) throw error;
+			if (signal?.aborted) throw new DownloadCanceled();
 
-			// Errores controlados arrojados intencionalmente
-			// if (error instanceof DownloadEmpty || error instanceof DownloadCanceled) {
-			// 	throw error;
-			// }
+			const isEmpty = error instanceof DownloadEmpty || error?.cause instanceof DownloadEmpty || error?.code === 'DOWNLOAD_EMPTY';
 
-			// Manejo de Timeouts y Errores de Red (Reintento recursivo)
+			if (isEmpty) throw error;
+
+			// Manage network errors and retry logic
 			const isNetworkError =
 				error instanceof ReadError ||
 				error instanceof TimeoutError ||
-				['ESOCKETTIMEDOUT', 'ERR_STREAM_PREMATURE_CLOSE', 'ETIMEDOUT', 'ECONNRESET'].includes(error.code);
+				['ESOCKETTIMEDOUT', 'ERR_STREAM_PREMATURE_CLOSE', 'ETIMEDOUT', 'ECONNRESET'].includes(error?.code);
 
-			if (isNetworkError) {
-				// if (downloadObject && chunkLength !== 0 && complete > 0) {
-				// 	// Revertir el progreso fallido
-				// 	downloadObject.progressNext -= (chunkLength / complete / downloadObject.size) * 100;
-				// 	downloadObject.updateProgress(listener);
-				// }
-				if (chunkLength !== 0 && complete > 0) {
-					// Revertir el progreso fallido
-					progressNext -= (chunkLength / complete / media.size) * 100;
-				}
+			// console.trace(error);
+			if (isNetworkError) throw error;
 
-				if (data.attempt < this.settings.maxAttempts) {
-					onUpdate?.({
-						attempts: data.attempt + 1,
-						progress: progressNext,
-						status: 'retrying',
-						message: `Retrying download (Attempt ${data.attempt + 1})`,
-					});
-					return this.streamTrack({ writePath, track, signal, attempt: data.attempt + 1, onUpdate });
-				}
+			if (chunkLength !== 0 && complete > 0) {
+				// Revert the progress to the last known state before the error
+				progressNext -= (chunkLength / complete) * 100;
 			}
 
-			console.trace(error);
-			throw error;
+			if (data.attempt < this.settings.maxAttempts) {
+				onUpdate?.({
+					attempts: data.attempt + 1,
+					progress: progressNext,
+					status: 'retrying',
+					message: `Retrying download (Attempt ${data.attempt + 1})`,
+				});
+
+				return this.streamTrack({ writePath, track, signal, attempt: data.attempt + 1, onUpdate });
+			}
 		}
 	}
 

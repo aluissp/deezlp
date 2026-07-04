@@ -6,10 +6,10 @@ export type UpdateCallback = ({
 	status,
 	message,
 }: {
-	progress: number;
-	attempts: number;
-	status: DownloadStatus;
-	message: string;
+	progress?: number;
+	attempts?: number;
+	status?: DownloadStatus;
+	message?: string;
 }) => void;
 
 export interface DownloadStrategy<T extends DownloadPayload> {
