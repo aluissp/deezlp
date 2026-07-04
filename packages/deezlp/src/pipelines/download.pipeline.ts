@@ -5,7 +5,7 @@ import { DownloadWorker } from '@/workers';
 import { resolveDeezerUrl } from '@/resolvers';
 import type { Settings } from '@/interfaces';
 import { AudioStreamerService, CryptoService, FileService } from '@/services';
-import { createDownloadJob, type DownloadJob, DownloadJobStatus, type DownloadPayload } from '@/entities';
+import { createDownloadJob, type DownloadJob, type DownloadPayload, DownloadStatus, JobStatus } from '@/entities';
 
 export class DownloadPipeline extends EventEmitter {
 	private bitrate: number;
@@ -29,8 +29,8 @@ export class DownloadPipeline extends EventEmitter {
 		// services
 		this.fileService = new FileService(this.settings);
 		this.cryptoService = new CryptoService();
-		this.audioStreamerService = new AudioStreamerService(this.cryptoService);
-		this.downloaderWorker = new DownloadWorker(this.dz, this.settings, this.fileService, this.audioStreamerService);
+		this.audioStreamerService = new AudioStreamerService(this.settings, this.cryptoService);
+		this.downloaderWorker = new DownloadWorker(this.dz, this.fileService, this.audioStreamerService);
 	}
 
 	/**
@@ -52,51 +52,69 @@ export class DownloadPipeline extends EventEmitter {
 	 * Start download urls
 	 */
 	async start(): Promise<void> {
-		for (const job of this.jobs) {
-			if (this.globalController.signal.aborted) break;
+		try {
+			for (const job of this.jobs) {
+				const jobController = this.activeJobs.get(job.id)!;
+				const combinedSignal = AbortSignal.any([this.globalController.signal, jobController.signal]);
 
-			const jobController = this.activeJobs.get(job.id)!;
+				if (combinedSignal.aborted) {
+					this.emitEvent({ job, status: DownloadStatus.canceled });
+					continue;
+				}
 
-			const combinedSignal = AbortSignal.any([this.globalController.signal, jobController.signal]);
+				this.emitEvent({ job, status: DownloadStatus.started });
 
-			if (combinedSignal.aborted) {
-				this.updateJob(job, DownloadJobStatus.canceled);
-				this.emit(DownloadJobStatus.canceled, job);
-				this.activeJobs.delete(job.id);
-				continue;
+				try {
+					// 1. Resolve the URL
+					this.emitEvent({ job, status: DownloadStatus.resolving });
+					const resolvedUrl = resolveDeezerUrl(job.url);
+
+					// 2. Get strategy
+					const strategy = getStrategy(resolvedUrl.type);
+
+					// 3. Execute strategy
+					this.emitEvent({ job, status: DownloadStatus.fetching });
+					const items = await strategy.process(resolvedUrl, this.dz, { bitrate: this.bitrate });
+
+					job.payload = items;
+
+					// 4. Start download with worker
+					await this.downloaderWorker.start(
+						job.payload,
+						({ progress, attempts, status, message }) => {
+							this.emitEvent({ job, status, progress, attempts, message });
+						},
+						combinedSignal,
+					);
+
+					this.emitEvent({ job, status: DownloadStatus.finished });
+					this.activeJobs.delete(job.id);
+				} catch (error: any) {
+					// job.error = error;
+					// this.emitEvent({ job, status: DownloadStatus.error });
+					// continue;
+					// //
+					// 	if (combinedSignal.aborted || error?.name === 'DownloadCanceled') {
+					// 	this.emitEvent({ job, status: DownloadStatus.canceled });
+					// } else {
+					// 	// Si fue un fallo real de red o del sistema
+					// 	job.error = error;
+					// 	this.emitEvent({ job, status: DownloadStatus.error, error });
+					// }
+				}
 			}
-
-			this.emit(DownloadJobStatus.started, job);
-
-			try {
-				// 1. Resolve the URL
-				this.updateJob(job, DownloadJobStatus.resolving);
-				const resolvedUrl = resolveDeezerUrl(job.url);
-
-				// 2. Get strategy
-				const strategy = getStrategy(resolvedUrl.type);
-
-				// 3. Execute strategy
-				this.updateJob(job, DownloadJobStatus.fetching);
-				const items = await strategy.process(resolvedUrl, this.dz, { bitrate: this.bitrate });
-
-				this.updateJob(job, DownloadJobStatus.downloading);
-				job.payload = items;
-
-				// 4. Start download with worker
-				await this.downloaderWorker.start(job.payload, progressValue => {
-					job.progress = progressValue;
-
-					this.updateJob(job, DownloadJobStatus.downloading);
-					this.emit(DownloadJobStatus.downloading, job);
-				});
-			} catch (error) {
-				job.error = error;
-				this.updateJob(job, DownloadJobStatus.error);
-				this.emit(DownloadJobStatus.error, job);
-				continue;
-			}
+		} finally {
+			this.jobs = [];
+			this.activeJobs.clear();
+			this.globalController = new AbortController();
 		}
+	}
+
+	private emitEvent(data: { job: DownloadJob; status: DownloadStatus; attempts?: number; progress?: number; message?: string; error?: unknown }) {
+		const { job, status, progress, attempts, message, error } = data;
+		this.updateJob({ job, status, progress, attempts, message, error });
+
+		this.emit(JobStatus, job);
 	}
 
 	cancelAll() {
@@ -109,8 +127,31 @@ export class DownloadPipeline extends EventEmitter {
 		if (controller) controller.abort();
 	}
 
-	private updateJob(job: DownloadJob, status: DownloadJobStatus) {
+	private updateJob(data: { job: DownloadJob; status: DownloadStatus; attempts?: number; progress?: number; message?: string; error?: unknown }) {
+		const { job, status, attempts, progress, message, error } = data;
+
 		job.status = status;
 		job.updatedAt = Date.now();
+
+		if (attempts) job.attempts = attempts;
+
+		if (message) job.message = message;
+
+		if (progress) job.progress = progress;
+
+		if (error) job.error = error;
+
+		if (status === DownloadStatus.started && !job.startedAt) {
+			job.startedAt = job.updatedAt;
+		}
+
+		if (status === DownloadStatus.finished && job.startedAt) {
+			job.finishedAt = job.updatedAt;
+			job.durationMs = job.finishedAt - job.startedAt;
+		}
+
+		if (status === DownloadStatus.canceled && !job.canceledAt) {
+			job.canceledAt = job.updatedAt;
+		}
 	}
 }

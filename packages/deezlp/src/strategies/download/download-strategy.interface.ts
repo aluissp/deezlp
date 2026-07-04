@@ -1,7 +1,17 @@
-import type { DownloadPayload } from '@/entities';
+import type { DownloadPayload, DownloadStatus } from '@/entities';
 
-export type ProgressCallback = (progress: number) => void;
+export type UpdateCallback = ({
+	progress,
+	attempts,
+	status,
+	message,
+}: {
+	progress: number;
+	attempts: number;
+	status: DownloadStatus;
+	message: string;
+}) => void;
 
 export interface DownloadStrategy<T extends DownloadPayload> {
-	execute(payload: T, onProgress: ProgressCallback): Promise<void>;
+	execute(payload: T, onUpdate: UpdateCallback, signal?: AbortSignal): Promise<void>;
 }

@@ -1,15 +1,19 @@
 import { USER_AGENT_HEADER } from 'deezer';
-import { createWriteStream, existsSync, unlinkSync } from 'fs';
 import { pipeline } from 'stream/promises';
-import got, { ReadError, TimeoutError, type Got } from 'got';
-import type { EnrichedDeezerTrack } from '@/interfaces';
+import type { UpdateCallback } from '@/strategies';
 import type { CryptoService } from './crypto.service';
-import { DownloadEmpty } from '@/exceptions';
+import got, { ReadError, TimeoutError, type Got } from 'got';
+import { DownloadCanceled, DownloadEmpty, TrackMediaNotFound } from '@/exceptions';
+import { createWriteStream, existsSync, unlinkSync } from 'fs';
+import type { EnrichedDeezerTrack, Settings } from '@/interfaces';
 
 export class AudioStreamerService {
 	private api: Got;
 
-	constructor(private cryptoService: CryptoService) {
+	constructor(
+		private settings: Settings,
+		private cryptoService: CryptoService,
+	) {
 		this.api = got.extend({
 			headers: { 'User-Agent': USER_AGENT_HEADER },
 			https: { rejectUnauthorized: false },
@@ -20,14 +24,22 @@ export class AudioStreamerService {
 	/**
 	 * Descarga, descifra y guarda una pista de audio en tiempo real.
 	 */
-	async streamTrack(writePath: string, track: EnrichedDeezerTrack): Promise<void> {
-		// if (downloadObject?.isCanceled) throw new DownloadCanceled();
+	async streamTrack(data: {
+		writePath: string;
+		track: EnrichedDeezerTrack;
+		attempt: number;
+		signal?: AbortSignal;
+		onUpdate?: UpdateCallback;
+	}): Promise<void> {
+		const { writePath, track, signal, onUpdate } = data;
+
+		if (signal?.aborted) throw new DownloadCanceled();
 
 		const media = track.media;
-		if (!media) return;
 
-		const downloadURL = media?.url;
-		// if (!downloadURL) throw new Error('No download URL available for the track.');
+		if (!media) throw new TrackMediaNotFound();
+
+		const downloadURL = media.url;
 
 		const isCryptedStream = downloadURL.includes('/mobile/') || downloadURL.includes('/media/');
 
@@ -39,7 +51,7 @@ export class AudioStreamerService {
 		const itemData = { id: track.id, title: track.title, artist: track.artist.name };
 
 		// 1. Create request
-		const requestStream = this.api.stream(downloadURL);
+		const requestStream = this.api.stream(downloadURL, { signal });
 
 		// 2. Manage progress and cancellation
 		requestStream
@@ -65,12 +77,16 @@ export class AudioStreamerService {
 				}
 			});
 
-		// 3. Ejecución del Pipeline Asíncrono
+		// 4. Handle cancellation by user
+
+		// 5. Ejecución del Pipeline Asíncrono
 		try {
 			await pipeline(requestStream, source => this.decrypter(source, isCryptedStream, blowfishKey), this.depadder, createWriteStream(writePath));
 		} catch (error: any) {
 			// Limpieza de archivo incompleto
 			if (existsSync(writePath)) unlinkSync(writePath);
+
+			if (error instanceof DownloadCanceled || error instanceof DownloadEmpty) throw error;
 
 			// Errores controlados arrojados intencionalmente
 			// if (error instanceof DownloadEmpty || error instanceof DownloadCanceled) {
@@ -94,17 +110,15 @@ export class AudioStreamerService {
 					progressNext -= (chunkLength / complete / media.size) * 100;
 				}
 
-				// if (listener) {
-				// 	listener.send('downloadInfo', {
-				// 		uuid: downloadObject.uuid,
-				// 		title: downloadObject.title,
-				// 		data: itemData,
-				// 		state: 'downloadTimeout',
-				// 	});
-				// }
-
-				// Reintento recursivo usando 'this'
-				return this.streamTrack(writePath, track);
+				if (data.attempt < this.settings.maxAttempts) {
+					onUpdate?.({
+						attempts: data.attempt + 1,
+						progress: progressNext,
+						status: 'retrying',
+						message: `Retrying download (Attempt ${data.attempt + 1})`,
+					});
+					return this.streamTrack({ writePath, track, signal, attempt: data.attempt + 1, onUpdate });
+				}
 			}
 
 			console.trace(error);
@@ -122,7 +136,7 @@ export class AudioStreamerService {
 		}
 
 		let modifiedStream = Buffer.alloc(0);
-		for await (const chunk of  source) {
+		for await (const chunk of source) {
 			modifiedStream = Buffer.concat([modifiedStream, chunk]);
 
 			while (modifiedStream.length >= 2048 * 3) {

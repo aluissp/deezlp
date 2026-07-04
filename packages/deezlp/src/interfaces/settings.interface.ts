@@ -55,6 +55,7 @@ export interface Settings {
 	albumNameTemplate?: string;
 	createCDFolder?: boolean;
 	createStructurePlaylist?: boolean;
+	maxAttempts: number;
 	// createSingleFolder?: boolean; // disabled
 	padTracks?: boolean;
 	paddingSize?: number;

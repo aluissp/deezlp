@@ -1,8 +1,8 @@
-import type { DeezerCore } from 'deezer';
-import type { AudioStreamerService, FileService } from '@/services';
 import type { EnrichedDeezerTrack } from '@/interfaces';
 import type { DeezerTrackUrlResolver } from '@/resolvers';
-import type { DownloadStrategy, ProgressCallback } from './download-strategy.interface';
+import type { AudioStreamerService, FileService } from '@/services';
+import { DownloadCanceled, TrackAlreadyDownloaded } from '@/exceptions';
+import type { DownloadStrategy, UpdateCallback } from './download-strategy.interface';
 
 export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTrack> {
 	constructor(
@@ -11,13 +11,29 @@ export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTra
 		private audioStreamerService: AudioStreamerService,
 	) {}
 
-	public async execute(track: EnrichedDeezerTrack, onProgress: ProgressCallback): Promise<void> {
+	public async execute(track: EnrichedDeezerTrack, onUpdate: UpdateCallback, signal?: AbortSignal): Promise<void> {
+		if (signal?.aborted) throw new DownloadCanceled();
+
 		// 1. Compute bitrate and urls
 		await this.trackResolver.resolve(track);
 		// 2. Build the final path for the track
 		const { fileName, filePath, artistPath, coverPath } = this.fileService.buildTrackPath(track);
 		const { writePath, extension } = this.fileService.buildWritePath({ filePath, fileName, bitrate: track.bitrate! });
 		const isAlreadyDownloaded = this.fileService.checkIsAlreadyDownload({ writePath });
+
+		// Check if the track is already downloaded
+		if (isAlreadyDownloaded) {
+			throw new TrackAlreadyDownloaded(`Track already downloaded at ${writePath}.`);
+			// onUpdate({
+			// 	status: 'finished',
+			// 	progress: 100,
+			// 	attempts: 0,
+			// 	message: `Track already downloaded at ${writePath}`,
+			// });
+			// return;
+		}
+
+		if (signal?.aborted) throw new DownloadCanceled();
 
 		// 3. Cover paths and urls
 		const { embeddedCoverURL, embeddedCoverPath } = this.fileService.buildCoverURLAndPath({
@@ -33,9 +49,9 @@ export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTra
 		this.fileService.saveSyncedLyrics(filePath, fileName, track.lyrics?.sync);
 
 		// 6. Download the track
-		await this.audioStreamerService.streamTrack(writePath, track);
+		await this.audioStreamerService.streamTrack({ writePath, track, signal, attempt: 0, onUpdate });
 
 		// 7. Apply metadata to the downloaded track
-		    // await this.fileManager.applyMetadata(finalPath, track);
+		// await this.fileManager.applyMetadata(finalPath, track);
 	}
 }

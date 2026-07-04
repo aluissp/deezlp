@@ -46,6 +46,7 @@ export const DEFAULT_SETTINGS: Settings = {
 	albumNameTemplate: '%album%',
 	createCDFolder: true,
 	createStructurePlaylist: false,
+	maxAttempts: 3, // Maximum number of attempts to download a file
 	// createSingleFolder: false,
 	padTracks: true,
 	padSingleDigit: true,
