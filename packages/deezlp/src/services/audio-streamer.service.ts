@@ -81,7 +81,7 @@ export class AudioStreamerService {
 		try {
 			await pipeline(requestStream, source => this.decrypter(source, isCryptedStream, blowfishKey), this.depadder, createWriteStream(writePath));
 		} catch (error: any) {
-			// Limpieza de archivo incompleto
+			// Cleanup the partially downloaded file if it exists
 			if (existsSync(writePath)) unlinkSync(writePath);
 
 			if (signal?.aborted) throw new DownloadCanceled();
@@ -219,19 +219,33 @@ export class AudioStreamerService {
 	}
 
 	/**
-	 * Generador Privado: Limpia bytes nulos iniciales si no es una cabecera MP4/M4A válida.
+	 * Removes padding from the incoming stream of data.
+	 * @param source The decrypted stream of data to be depadded
 	 */
-	private async *depadder(source: AsyncIterable<Buffer>) {
+	private async *depadder(source: AsyncIterable<Buffer>): AsyncGenerator<Buffer<ArrayBufferLike>, void, unknown> {
+		/** Indicates if the current chunk is at the start of the stream */
 		let isStart = true;
+
 		for await (let chunk of source) {
+			/**
+			 * Checks if:
+			 * - The chunk is at the start of the stream `isStart`
+			 * - The first byte of the chunk is 0
+			 * - The bytes from index 4 to 8 of the chunk do not equal 'ftyp' (mp4, m4a, flac files.)
+			 */
 			if (isStart && chunk[0] === 0 && chunk.subarray(4, 8).toString() !== 'ftyp') {
 				let i = 0;
-				while (i < chunk.length && chunk[i] === 0) {
-					i++;
-				}
+
+				/** While the current byte is 0, increment the index */
+				while (i < chunk.length && chunk[i] === 0) i++;
+
+				/** Remove the padding from the chunk */
 				chunk = chunk.subarray(i);
 			}
+
+			/** Turn off the start flag */
 			isStart = false;
+
 			yield chunk;
 		}
 	}
