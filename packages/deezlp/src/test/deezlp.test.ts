@@ -16,7 +16,7 @@ describe('Testing the generateTrackItem function', () => {
 		deezlp = new Deezlp({
 			...DEFAULT_SETTINGS,
 			maxBitrate: TRACK_FORMATS.MP3_320,
-			downloadLocation: '/home/luis/Música/deemix Music',
+			// downloadLocation: '/home/luis/Música/deemix Music',
 			syncedLyrics: true,
 		});
 		await deezlp.loginViaArl(process.env.VITE_DEEZER_ARL_TOKEN || '');
