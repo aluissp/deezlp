@@ -25,7 +25,6 @@
       "version": "1.0.0",
       "dependencies": {
         "deezer": "workspace:*",
-        "egoroof-blowfish": "^4.0.2",
         "got": "^15.0.7",
       },
     },
@@ -134,8 +133,6 @@
     "deezlp": ["deezlp@workspace:packages/deezlp"],
 
     "detect-libc": ["detect-libc@2.1.2", "", {}, "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ=="],
-
-    "egoroof-blowfish": ["egoroof-blowfish@4.0.2", "", {}, "sha512-cpx71NSHTItYMJljgOh9DQdufFPfI3dIjIav/WSkvwqELZQrO9rxcVLPjubApjnj3ROqBYMPUP22rPjNkqrwqA=="],
 
     "es-module-lexer": ["es-module-lexer@2.1.0", "", {}, "sha512-n27zTYMjYu1aj4MjCWzSP7G9r75utsaoc8m61weK+W8JMBGGQybd43GstCXZ3WNmSFtGT9wi59qQTW6mhTR5LQ=="],
 
