@@ -26,7 +26,7 @@ describe('Testing the generateTrackItem function', () => {
 		const result = deezlp.download(links);
 		await result.done;
 		// expect().toBeDefined();
-	});
+	}, 30000);
 
 	// test('Should generate a single track item with number ID', async () => {
 	// 	expect(track).toBeDefined();
