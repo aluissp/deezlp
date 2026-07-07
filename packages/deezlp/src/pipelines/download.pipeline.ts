@@ -1,9 +1,10 @@
 import { EventEmitter } from 'events';
-import { TRACK_FORMATS, type DeezerCore } from 'deezer';
 import { getStrategy } from '@/strategies';
 import { DownloadWorker } from '@/workers';
-import { resolveDeezerUrl } from '@/resolvers';
 import type { Settings } from '@/interfaces';
+import { resolveDeezerUrl } from '@/resolvers';
+import { TrackAlreadyDownloaded } from '@/exceptions';
+import { TRACK_FORMATS, type DeezerCore } from 'deezer';
 import { AudioStreamerService, CryptoService, FileService } from '@/services';
 import { createDownloadJob, type DownloadJob, type DownloadPayload, DownloadStatus, JobStatus } from '@/entities';
 
@@ -90,17 +91,10 @@ export class DownloadPipeline extends EventEmitter {
 					this.emitEvent({ job, status: DownloadStatus.finished });
 					this.activeJobs.delete(job.id);
 				} catch (error: any) {
-					// job.error = error;
-					// this.emitEvent({ job, status: DownloadStatus.error });
-					// continue;
-					// //
-					// 	if (combinedSignal.aborted || error?.name === 'DownloadCanceled') {
-					// 	this.emitEvent({ job, status: DownloadStatus.canceled });
-					// } else {
-					// 	// Si fue un fallo real de red o del sistema
-					// 	job.error = error;
-					// 	this.emitEvent({ job, status: DownloadStatus.error, error });
-					// }
+					job.error = error;
+
+					// 1. if the error is TrackAlreadyDownloaded
+					if (error instanceof TrackAlreadyDownloaded) this.emitEvent({ job, status: DownloadStatus.finished, message: error.message });
 				}
 			}
 		} finally {

@@ -1,6 +1,9 @@
+import { join } from 'path';
+import { existsSync } from 'fs';
 import { Deezlp } from '@/deezlp';
+import { DownloadStatus } from '@/entities';
 import { DEFAULT_SETTINGS } from '@/constants';
-import { TRACK_FORMATS } from 'deezer';
+import { getMusicFolder, TRACK_FORMATS } from 'deezer';
 
 describe('Testing the generateTrackItem function', () => {
 	let deezlp: Deezlp;
@@ -11,6 +14,10 @@ describe('Testing the generateTrackItem function', () => {
 		'https://www.deezer.com/mx/track/99976952?host=6864903961&utm_campaign=clipboard-generic&utm_source=user_sharing&utm_content=track-99976952&deferredFl=1&universal_link=1',
 		'https://www.deezer.com/mx/track/562774642?host=6864903961&utm_campaign=clipboard-generic&utm_source=user_sharing&utm_content=track-562774642&deferredFl=1&universal_link=1',
 	];
+
+	const musicFolder = getMusicFolder();
+	const trackPath1 = join(musicFolder, 'Twenty One Pilots', 'Blurryface', 'Twenty One Pilots - Stressed Out.mp3');
+	const trackPath2 = join(musicFolder, 'Twenty One Pilots', 'Trench', 'Twenty One Pilots - Jumpsuit.mp3');
 
 	beforeAll(async () => {
 		deezlp = new Deezlp({
@@ -24,21 +31,13 @@ describe('Testing the generateTrackItem function', () => {
 
 	test('Should download deezer tracks', async () => {
 		const result = deezlp.download(links);
+
 		await result.done;
-		// expect().toBeDefined();
-	}, 30000);
 
-	// test('Should generate a single track item with number ID', async () => {
-	// 	expect(track).toBeDefined();
-
-	// 	const enrichedTrack = await generateTrackItem(deezer, trackId, 3);
-	// 	expect(enrichedTrack).toBeDefined();
-	// });
-
-	// test('Should generate a single track item with ISRC ID', async () => {
-	// 	expect(track).toBeDefined();
-
-	// 	const enrichedTrack = await generateTrackItem(deezer, isrcTrackId, 3);
-	// 	expect(enrichedTrack).toBeDefined();
-	// });
+		expect(result.jobs.length).toBe(2);
+		expect(result.jobs?.[0]?.status).toBe(DownloadStatus.finished);
+		expect(result.jobs?.[1]?.status).toBe(DownloadStatus.finished);
+		expect(existsSync(trackPath1)).toBe(true);
+		expect(existsSync(trackPath2)).toBe(true);
+	}, 90000);
 });
