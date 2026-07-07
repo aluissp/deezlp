@@ -120,7 +120,6 @@ const enrichWithAlbumData = (track: EnrichedDeezerTrack, gwAlbum: TrackDataFetch
 		cover_big: `https://cdns-images.dzcdn.net/images/cover/${gwAlbum.ALB_PICTURE}/500x500-000000-80-0-0.jpg`,
 		cover_xl: `https://cdns-images.dzcdn.net/images/cover/${gwAlbum.ALB_PICTURE}/1000x1000-000000-80-0-0.jpg`,
 		md5_image: gwAlbum.ALB_PICTURE,
-		genres: {}, // not provided
 		label: gwAlbum.LABEL_NAME,
 		duration: undefined, // not provided
 		fans: gwAlbum.NB_FAN,
@@ -149,6 +148,7 @@ const enrichWithAlbumData = (track: EnrichedDeezerTrack, gwAlbum: TrackDataFetch
 		physical_release_date: gwAlbum.PHYSICAL_RELEASE_DATE,
 		original_release_date: gwAlbum.ORIGINAL_RELEASE_DATE,
 		genre_id: +gwAlbum.GENRE_ID,
+		genres: [], // not provided
 		nb_tracks: +gwAlbum.NUMBER_TRACK,
 		nb_disk: +gwAlbum.NUMBER_DISK,
 		copyright: gwAlbum.COPYRIGHT,
