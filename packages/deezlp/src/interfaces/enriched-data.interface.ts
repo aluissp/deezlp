@@ -27,7 +27,7 @@ export interface EnrichedDeezerAlbum extends DeezerAlbum {
 	explicit_content_lyrics?: number;
 	explicit_content_cover?: number;
 	rating?: string;
-	// genres?: { name: string }[];
+	genre_id?: number;
 	genres?: string[];
 	artist?: EnrichedDeezerArtist;
 	root_artist?: EnrichedDeezerArtist;
@@ -36,7 +36,6 @@ export interface EnrichedDeezerAlbum extends DeezerAlbum {
 	digital_release_date?: string;
 	physical_release_date?: string;
 	original_release_date?: string;
-	genre_id?: number;
 
 	/** Used to store the path of the embedded cover image inside the track directory */
 	// embeddedCoverPath?: string;

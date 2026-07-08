@@ -6,7 +6,10 @@ import { DEFAULT_SETTINGS } from '@/constants';
 import { getMusicFolder, TRACK_FORMATS } from 'deezer';
 
 describe('Testing the generateTrackItem function', () => {
-	let deezlp: Deezlp;
+	let deezlp1: Deezlp;
+	let deezlp2: Deezlp;
+	let token: string = process.env.VITE_DEEZER_ARL_TOKEN || '';
+
 	// const trackId = 105920318 // Gorriones
 	const trackId = 1380101222; // Life goes on
 	const isrcTrackId = 'USAT22007153'; // Life goes on
@@ -22,17 +25,22 @@ describe('Testing the generateTrackItem function', () => {
 	const lyricPath2 = join(musicFolder, 'Twenty One Pilots', 'Trench', 'Twenty One Pilots - Jumpsuit.lrc');
 
 	beforeAll(async () => {
-		deezlp = new Deezlp({
+		deezlp1 = new Deezlp({
 			...DEFAULT_SETTINGS,
 			maxBitrate: TRACK_FORMATS.MP3_320,
-			// downloadLocation: '/home/luis/Música/deemix Music',
 			syncedLyrics: true,
 		});
-		await deezlp.loginViaArl(process.env.VITE_DEEZER_ARL_TOKEN || '');
+		deezlp2 = new Deezlp({
+			...DEFAULT_SETTINGS,
+			maxBitrate: TRACK_FORMATS.FLAC,
+			syncedLyrics: true,
+		});
+
+		await Promise.all([deezlp1.loginViaArl(token), deezlp2.loginViaArl(token)]);
 	});
 
-	test('Should download deezer tracks', async () => {
-		const result = deezlp.download(links);
+	test('Should download deezer 320kbps tracks', async () => {
+		const result = deezlp1.download(links);
 
 		await result.done;
 
