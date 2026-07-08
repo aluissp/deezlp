@@ -8,6 +8,7 @@ import { getMusicFolder, TRACK_FORMATS } from 'deezer';
 describe('Testing the generateTrackItem function', () => {
 	let deezlp1: Deezlp;
 	let deezlp2: Deezlp;
+	let deezlp3: Deezlp;
 	let token: string = process.env.VITE_DEEZER_ARL_TOKEN || '';
 
 	// const trackId = 105920318 // Gorriones
@@ -27,20 +28,54 @@ describe('Testing the generateTrackItem function', () => {
 	beforeAll(async () => {
 		deezlp1 = new Deezlp({
 			...DEFAULT_SETTINGS,
-			maxBitrate: TRACK_FORMATS.MP3_320,
+			maxBitrate: TRACK_FORMATS.MP3_128,
 			syncedLyrics: true,
 		});
 		deezlp2 = new Deezlp({
+			...DEFAULT_SETTINGS,
+			maxBitrate: TRACK_FORMATS.MP3_320,
+			syncedLyrics: true,
+		});
+		deezlp3 = new Deezlp({
 			...DEFAULT_SETTINGS,
 			maxBitrate: TRACK_FORMATS.FLAC,
 			syncedLyrics: true,
 		});
 
-		await Promise.all([deezlp1.loginViaArl(token), deezlp2.loginViaArl(token)]);
+		await Promise.all([deezlp1.loginViaArl(token), deezlp2.loginViaArl(token), deezlp3.loginViaArl(token)]);
 	});
 
+	/** Disabled for test with 320kbps, enabled if you doesn't have premium account */
+	// test('Should download deezer 128kbps tracks', async () => {
+	// 	const result = deezlp1.download(links);
+
+	// 	await result.done;
+
+	// 	expect(result.jobs.length).toBe(2);
+	// 	expect(result.jobs?.[0]?.status).toBe(DownloadStatus.finished);
+	// 	expect(result.jobs?.[1]?.status).toBe(DownloadStatus.finished);
+	// 	expect(existsSync(trackPath1)).toBe(true);
+	// 	expect(existsSync(trackPath2)).toBe(true);
+	// 	expect(existsSync(lyricPath1)).toBe(true);
+	// 	expect(existsSync(lyricPath2)).toBe(true);
+	// }, 90000);
+
 	test('Should download deezer 320kbps tracks', async () => {
-		const result = deezlp1.download(links);
+		const result = deezlp2.download(links);
+
+		await result.done;
+
+		expect(result.jobs.length).toBe(2);
+		expect(result.jobs?.[0]?.status).toBe(DownloadStatus.finished);
+		expect(result.jobs?.[1]?.status).toBe(DownloadStatus.finished);
+		expect(existsSync(trackPath1)).toBe(true);
+		expect(existsSync(trackPath2)).toBe(true);
+		expect(existsSync(lyricPath1)).toBe(true);
+		expect(existsSync(lyricPath2)).toBe(true);
+	}, 90000);
+
+	test('Should download deezer FLAC tracks', async () => {
+		const result = deezlp3.download(links);
 
 		await result.done;
 
