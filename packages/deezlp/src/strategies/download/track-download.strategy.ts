@@ -1,12 +1,14 @@
+import type { TrackExtensions } from '@/constants';
 import type { EnrichedDeezerTrack } from '@/interfaces';
 import type { DeezerTrackUrlResolver } from '@/resolvers';
-import type { AudioStreamerService, FileService } from '@/services';
+import type { AudioStreamerService, FileService, TaggerService } from '@/services';
 import { DownloadCanceled, TrackAlreadyDownloaded } from '@/exceptions';
 import type { DownloadStrategy, UpdateCallback } from './download-strategy.interface';
 
 export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTrack> {
 	constructor(
 		private fileService: FileService,
+		private taggerService: TaggerService,
 		private trackResolver: DeezerTrackUrlResolver,
 		private audioStreamerService: AudioStreamerService,
 	) {}
@@ -33,6 +35,8 @@ export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTra
 			coverName: track.album?.title ?? '',
 		});
 
+		track.embeddedCoverPath = embeddedCoverPath;
+
 		// 4. Download the cover if it doesn't exist
 		await this.fileService.downloadImage(embeddedCoverURL, embeddedCoverPath);
 
@@ -43,6 +47,6 @@ export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTra
 		await this.audioStreamerService.streamTrack({ writePath, track, signal, attempt: 0, onUpdate });
 
 		// 7. Apply metadata to the downloaded track
-		// await this.fileManager.applyMetadata(finalPath, track);
+		this.taggerService.tagTrack(track, writePath, extension as TrackExtensions);
 	}
 }

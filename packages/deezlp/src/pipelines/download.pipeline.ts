@@ -5,7 +5,7 @@ import type { Settings } from '@/interfaces';
 import { resolveDeezerUrl } from '@/resolvers';
 import { TrackAlreadyDownloaded } from '@/exceptions';
 import { TRACK_FORMATS, type DeezerCore } from 'deezer';
-import { AudioStreamerService, CryptoService, FileService } from '@/services';
+import { AudioStreamerService, CryptoService, FileService, TaggerService } from '@/services';
 import { createDownloadJob, type DownloadJob, type DownloadPayload, DownloadStatus, JobStatus } from '@/entities';
 
 export class DownloadPipeline extends EventEmitter {
@@ -17,8 +17,9 @@ export class DownloadPipeline extends EventEmitter {
 	// services
 	private fileService: FileService;
 	private cryptoService: CryptoService;
-	private audioStreamerService: AudioStreamerService;
+	private taggerService: TaggerService;
 	private downloaderWorker: DownloadWorker;
+	private audioStreamerService: AudioStreamerService;
 
 	constructor(
 		private dz: DeezerCore,
@@ -31,7 +32,8 @@ export class DownloadPipeline extends EventEmitter {
 		this.fileService = new FileService(this.settings);
 		this.cryptoService = new CryptoService();
 		this.audioStreamerService = new AudioStreamerService(this.settings, this.cryptoService);
-		this.downloaderWorker = new DownloadWorker(this.dz, this.fileService, this.audioStreamerService);
+		this.taggerService = new TaggerService(this.settings.tags);
+		this.downloaderWorker = new DownloadWorker(this.dz, this.fileService, this.taggerService, this.audioStreamerService);
 	}
 
 	/**
@@ -89,12 +91,13 @@ export class DownloadPipeline extends EventEmitter {
 					);
 
 					this.emitEvent({ job, status: DownloadStatus.finished });
-					this.activeJobs.delete(job.id);
 				} catch (error: any) {
 					job.error = error;
 
 					// 1. if the error is TrackAlreadyDownloaded
 					if (error instanceof TrackAlreadyDownloaded) this.emitEvent({ job, status: DownloadStatus.finished, message: error.message });
+				} finally {
+					this.activeJobs.delete(job.id);
 				}
 			}
 		} finally {

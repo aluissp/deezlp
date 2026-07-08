@@ -8,10 +8,10 @@ export class TaggerService {
 	constructor(private save: Tags) {}
 
 	tagTrack(track: EnrichedDeezerTrack, filePath: string, extension: TrackExtensions): void {
-		if (extension === '.mp3') this.tagID3(track, filePath, extension);
+		if (extension === '.mp3') this.tagID3(track, filePath);
 	}
 
-	private tagID3(track: EnrichedDeezerTrack, filePath: string, extension: Extract<TrackExtensions, '.mp3'>): void {
+	private tagID3(track: EnrichedDeezerTrack, filePath: string): void {
 		if (!existsSync(filePath)) throw new TrackNotFound(filePath);
 
 		const songBuffer = readFileSync(filePath);
@@ -166,10 +166,8 @@ export class TaggerService {
 		}
 
 		// 22. cover
-		if (this.save.cover) {
-			const coverPath = '';
-
-			const coverBuffer = readFileSync(coverPath);
+		if (this.save.cover && track?.embeddedCoverPath && existsSync(track.embeddedCoverPath)) {
+			const coverBuffer = readFileSync(track.embeddedCoverPath);
 
 			if (coverBuffer.length)
 				writer.setFrame('APIC', {
