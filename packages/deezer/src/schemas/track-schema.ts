@@ -16,6 +16,7 @@ export const deezerTrackSchema = z.object({
 	link: z.string().optional(),
 	share: z.string().optional(),
 	duration: z.number(),
+	/** The position (track number) of the track within its album */
 	track_position: z.number(),
 	disk_number: z.number(),
 	rank: z.number(),
