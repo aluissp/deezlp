@@ -32,6 +32,8 @@ export const getConfigFolder = (): string => {
 };
 
 export function getMusicFolder() {
+	if (musicData) return musicData;
+
 	if (process.env.DEEMIX_MUSIC_DIR) return process.env.DEEMIX_MUSIC_DIR.replace(/\/*$/, '') + sep;
 
 	if (process.env.XDG_MUSIC_DIR && musicData === '') {

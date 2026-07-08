@@ -22,16 +22,7 @@ export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTra
 		const isAlreadyDownloaded = this.fileService.checkIsAlreadyDownload({ writePath });
 
 		// Check if the track is already downloaded
-		if (isAlreadyDownloaded) {
-			throw new TrackAlreadyDownloaded(`Track already downloaded at ${writePath}.`);
-			// onUpdate({
-			// 	status: 'finished',
-			// 	progress: 100,
-			// 	attempts: 0,
-			// 	message: `Track already downloaded at ${writePath}`,
-			// });
-			// return;
-		}
+		if (isAlreadyDownloaded) throw new TrackAlreadyDownloaded(`Track already downloaded at ${writePath}.`);
 
 		if (signal?.aborted) throw new DownloadCanceled();
 
