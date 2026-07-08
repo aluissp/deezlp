@@ -24,6 +24,7 @@
       "name": "deezlp",
       "version": "1.0.0",
       "dependencies": {
+        "browser-id3-writer": "^6.3.1",
         "deezer": "workspace:*",
         "got": "^15.0.7",
       },
@@ -111,6 +112,8 @@
     "@vitest/utils": ["@vitest/utils@4.1.9", "", { "dependencies": { "@vitest/pretty-format": "4.1.9", "convert-source-map": "^2.0.0", "tinyrainbow": "^3.1.0" } }, "sha512-A51o8ymO5PpqlWNnBP9ZHPXDIpuMtTLlGSjN7la4US+LJzoUMyhwjA5QXlm39JexgwHKW4Xjs8Z2d3dLCXOeuA=="],
 
     "assertion-error": ["assertion-error@2.0.1", "", {}, "sha512-Izi8RQcffqCeNVgFigKli1ssklIbpHnCYc6AknXGYoB6grJqyeby7jv12JUQgmTAnIDnbck1uxksT4dzN3PWBA=="],
+
+    "browser-id3-writer": ["browser-id3-writer@6.3.1", "", {}, "sha512-sRA4Uq9Q3NsmXiVpLvIDxzomtgCdbw6SY85A6fw7dUQGRVoOBg1/buFv6spPhYiSo6FlVtN5OJQTvvhbmfx9rQ=="],
 
     "bun-types": ["bun-types@1.3.14", "", { "dependencies": { "@types/node": "*" } }, "sha512-4N0ig0fEomHt5R0KCFWjovxow98rIoRwKolrYdCcknNwMekCXRnWEUvgu5soYV8QXtVsrUD8B95MBOZGPvr6KQ=="],
 

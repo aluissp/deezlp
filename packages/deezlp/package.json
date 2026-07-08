@@ -8,6 +8,7 @@
     "test:watch": "bun --bun vitest"
   },
   "dependencies": {
+    "browser-id3-writer": "^6.3.1",
     "deezer": "workspace:*",
     "got": "^15.0.7"
   }
