@@ -80,9 +80,7 @@ describe('Testing DeezerCore class', () => {
 
 		expect(lyrics).toBeDefined();
 		expect(lyrics.LYRICS_ID).toBe('54389432');
-		expect(lyrics.LYRICS_COPYRIGHTS).toBe(
-			'CONCORD MUSIC PUBLISHING LLC, Kobalt Music Publishing Ltd., Universal Music Publishing Group, Warner Chappell Music, Inc.',
-		);
+		expect(lyrics.LYRICS_COPYRIGHTS).toBe('Kobalt Music Publishing Ltd., Universal Music Publishing Group, Warner Chappell Music, Inc.');
 		expect(lyrics.LYRICS_TEXT).toBeDefined();
 		expect(lyrics.LYRICS_WRITERS).toBe('Oliver Tree Nickell, Tanner Petula');
 	});
@@ -129,5 +127,31 @@ describe('Testing DeezerCore class', () => {
 		expect(urls128?.[0]?.media?.[0]?.sources?.[0]?.url).toBeDefined();
 		expect(urls320?.[0]?.media?.[0]?.sources?.[0]?.url).toBeDefined();
 		expect(urlsFLAC?.[0]?.media?.[0]?.sources?.[0]?.url).toBeDefined();
+	});
+
+	test('Should find full album data | DeezerApi', async () => {
+		// Please run the first test loginViaArl!
+		if (!deezer.loggedIn) return;
+
+		const album1 = await deezer.api.getFullAlbum(231948702); // Oliver Tree album
+
+		expect(album1).toBeDefined();
+		expect(album1.available).toBe(true);
+		expect(album1.explicit_lyrics).toBe(true);
+		expect(album1.genres.data?.[0]?.id).toBe(85);
+		expect(album1.genres.data?.[0]?.name).toBe('Alternativo');
+		expect(album1.nb_tracks).toBe(21);
+		expect(album1.tracks.data.length).toBe(album1.nb_tracks);
+	});
+
+	test('Should find album track list | DeezerApi', async () => {
+		// Please run the first test loginViaArl!
+		if (!deezer.loggedIn) return;
+
+		const album1 = await deezer.api.getAlbumTrackList(231948702); // Oliver Tree album
+
+		expect(album1).toBeDefined();
+		expect(album1.data.length).toBe(21);
+		expect(album1.data.length).toBe(album1.total);
 	});
 });
