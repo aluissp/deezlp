@@ -1,6 +1,6 @@
 import { DeezerCore } from 'deezer';
 import type { ResolvedURL } from '@/resolvers';
-import type { DeezerArtist, DeezerTrack, GwAlbum, GWLyrics, GWTrack, GWTrackPage } from 'deezer';
+import type { DeezerArtist, DeezerFullAlbum, DeezerTrack, GwAlbum, GWLyrics, GWTrack, GWTrackPage } from 'deezer';
 import { GenerationException, ISRCnotOnDeezer } from '@/exceptions';
 import type { TrackDataFetched } from '@/interfaces';
 
@@ -55,8 +55,16 @@ const fetchDeezerArtist = async (dz: DeezerCore, artistId: string | number): Pro
 	});
 };
 
+const fetchDeezerFullAlbum = async (dz: DeezerCore, albumId: string | number): Promise<DeezerFullAlbum | undefined> => {
+	return dz.api.getFullAlbum(albumId).catch((error: any) => {
+		throw new GenerationException(`https://deezer.com/album/${albumId}`, error.message);
+	});
+};
+
 interface Options {
+	/** If true, fetch deezer full album data and gw album data */
 	includeAlbumInfo?: boolean;
+	/** If true, fetch deezer artist data */
 	includeArtistInfo?: boolean;
 }
 
@@ -88,8 +96,13 @@ export const fetchTrack = async (dz: DeezerCore, input: ResolvedURL, options: Op
 	// Album
 	const albumId = gwTrack?.ALB_ID || deezerTrack?.album?.id;
 
+	/** Gw album data */
 	let gwAlbum: GwAlbum | undefined = undefined;
 	if (includeAlbumInfo && albumId) gwAlbum = await fetchGwAlbum(dz, albumId);
+
+	/** Deezer full album data */
+	let deezerFullAlbum: DeezerFullAlbum | undefined;
+	if (includeAlbumInfo && albumId) deezerFullAlbum = await fetchDeezerFullAlbum(dz, albumId);
 
 	// Artist
 	const artistId = gwTrack?.ART_ID || deezerTrack?.artist?.id;
@@ -99,10 +112,11 @@ export const fetchTrack = async (dz: DeezerCore, input: ResolvedURL, options: Op
 
 	return {
 		deezerTrack,
+		deezerArtist,
+		deezerFullAlbum,
 		gwTrack,
 		gwTrackPage,
 		gwLyrics,
 		gwAlbum,
-		deezerArtist,
 	};
 };
