@@ -4,12 +4,11 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "test": "bun --bun vitest run",
+    "test:watch": "bun --bun vitest"
   },
   "dependencies": {
     "deezer": "workspace:*",
-    "egoroof-blowfish": "^4.0.2",
     "got": "^15.0.7"
   }
 }
