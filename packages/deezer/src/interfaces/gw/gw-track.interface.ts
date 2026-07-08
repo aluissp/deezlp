@@ -19,7 +19,7 @@ export interface GWTrack {
 	PROVIDER_ID: string;
 	RANK: string;
 	SMARTRADIO: number;
-	SNG_CONTRIBUTORS: SngContributors;
+	SNG_CONTRIBUTORS?: SngContributors;
 	SNG_ID: string;
 	SNG_TITLE: string;
 	STATUS: number;
@@ -88,8 +88,18 @@ interface Rights {
 	STREAM_SUB: string;
 }
 
-interface SngContributors {
+export interface SngContributors {
 	main_artist?: string[];
 	author?: string[];
 	composer?: string[];
+	masteringengineer?: string[];
+	executiveproducer?: string[];
+	mixingengineer?: string[];
+	artist?: string[];
+	engineer?: string[];
+	mixer?: string[];
+	producer?: string[];
+	writer?: string[];
+	'co- producer'?: string[];
+	'music publisher'?: string[];
 }

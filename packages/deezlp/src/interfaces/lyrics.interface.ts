@@ -5,5 +5,5 @@ export interface Lyrics {
 	unsync: string;
 	writers: string;
 	copyright: string;
-	syncID3?: (string | number)[][];
+	syncID3?: readonly (readonly [string, number])[];
 }

@@ -3,10 +3,10 @@ export interface Tags {
 	// artist?: boolean; // not needed, always saved if exists
 	/** Refers to save:
 	 * ```ts
-	 * // Song contributors are "artists"
+	 * // Song artists are all persons involved in the track
 	 * writer.setFrame("TXXX", {
 	 * 		description: "ARTISTS",
-	 * 		value: track.song_contributors.join(", "),
+	 * 		value: track.song_collaborators.join(", "),
 	 * });
 	 * ```
 	 */
@@ -19,7 +19,7 @@ export interface Tags {
 	 * ```ts
 	 * // Song contributors are "artists"
 	 * // Example:
-	 * writer.setFrame("TPE1", track.song_contributors) // here!
+	 * writer.setFrame("TPE1", track.contributors) // here!
 	 * ```
 	 */
 	multiArtistSeparator?: 'default' | 'comma' | 'nothing';
@@ -31,15 +31,15 @@ export interface Tags {
 	discTotal?: boolean; // not needed, always saved if exists
 	// albumArtist?: boolean; // not needed, always saved if exists
 	// genre?: boolean; // not needed, always saved if exists
-	year?: boolean;
-	date?: boolean;
-	explicit?: boolean;
-	isrc?: boolean;
-	length?: boolean;
-	barcode?: boolean;
-	bpm?: boolean;
-	replayGain?: boolean;
-	label?: boolean;
+	// year?: boolean; // not needed, always saved if exists
+	// date?: boolean; // not needed, always saved if exists
+	// explicit?: boolean; // not needed, always saved if exists
+	// isrc?: boolean; // not needed, always saved if exists
+	// length?: boolean; // not needed, always saved if exists
+	// barcode?: boolean; // not needed, always saved if exists
+	// bpm?: boolean; // not needed, always saved if exists
+	// replayGain?: boolean; // not needed, always saved if exists
+	// label?: boolean; // not needed, always saved if exists
 	lyrics?: boolean;
 	syncedLyrics?: boolean;
 	copyright?: boolean;

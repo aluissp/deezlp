@@ -1,4 +1,4 @@
-import type { GWTrack } from 'deezer';
+import type { GWTrack, SngContributors } from 'deezer';
 import { isExplicit } from './enrich-missing-track-fields';
 import type { EnrichedDeezerAlbum, EnrichedDeezerArtist, EnrichedDeezerContributor, EnrichedDeezerTrack } from '@/interfaces';
 
@@ -94,20 +94,23 @@ export const mapGwTrackToDeezer = (track: GWTrack): EnrichedDeezerTrack => {
 		artist.md5_image = mainArtist.md5_image;
 	}
 
-	// 7. Get song contributors
-	const song_contributors: string[] = [];
+	// 7. Get song collaborators
+	const song_collaborators: string[] = [];
 
-	const addSongContributors = (name: string) => {
+	const addSongCollaborators = (name: string) => {
 		const nameNormalized = name.trim().toLowerCase();
 
-		if (song_contributors.find(sngCon => sngCon.toLowerCase().includes(nameNormalized) || nameNormalized.includes(sngCon.toLowerCase()))) return;
+		if (song_collaborators.find(sngCon => sngCon.toLowerCase().includes(nameNormalized) || nameNormalized.includes(sngCon.toLowerCase()))) return;
 
-		song_contributors.push(name);
+		song_collaborators.push(name);
 	};
 
-	track.SNG_CONTRIBUTORS?.main_artist?.forEach(addSongContributors);
-	track.SNG_CONTRIBUTORS?.composer?.forEach(addSongContributors);
-	track.SNG_CONTRIBUTORS?.author?.forEach(addSongContributors);
+	Object.values(track?.SNG_CONTRIBUTORS ?? {}).forEach((contributorsArray: string[]) => {
+		contributorsArray?.forEach(addSongCollaborators);
+	});
+
+	//8. Get song contributors
+	const song_contributors: SngContributors | undefined = track.SNG_CONTRIBUTORS;
 
 	return {
 		id: +track.SNG_ID,
@@ -154,6 +157,7 @@ export const mapGwTrackToDeezer = (track: GWTrack): EnrichedDeezerTrack => {
 		alternative_albums: undefined, // not provided
 		position: undefined, // not provided
 		size: undefined, // not provided
+		song_collaborators,
 		song_contributors,
 		type: 'track',
 	} satisfies EnrichedDeezerTrack;
