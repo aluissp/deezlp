@@ -15,7 +15,7 @@ import {
 } from './exceptions';
 import { DEEZER_URLS } from './constants';
 import type { CookieJar } from 'tough-cookie';
-import type { DeezerFullAlbum } from './interfaces';
+import type { DeezerAlbumTrackList, DeezerFullAlbum } from './interfaces';
 import { artistSchema, deezerTrackSchema, type DeezerArtist, type DeezerTrack } from './schemas';
 
 type APIArgs = Record<string | number, string | number>;
@@ -118,5 +118,9 @@ export class DeezerApi {
 
 	getFullAlbum(albumId: string | number): Promise<DeezerFullAlbum> {
 		return this.call(`album/${albumId}`) as Promise<DeezerFullAlbum>;
+	}
+
+	getAlbumTrackList(albumId: string | number): Promise<DeezerAlbumTrackList> {
+		return this.call(`album/${albumId}/tracks`) as Promise<DeezerAlbumTrackList>;
 	}
 }
