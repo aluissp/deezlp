@@ -1,5 +1,13 @@
-import { Blowfish } from 'egoroof-blowfish';
+import { CantDecryptMedia } from '@/exceptions';
 import { createDecipheriv, createHash, getCiphers } from 'crypto';
+
+let Blowfish: any;
+
+try {
+	Blowfish = require('./blowfish.cjs');
+} catch (e) {
+	console.error(e);
+}
 
 export class CryptoService {
 	private IV = Buffer.from([0, 1, 2, 3, 4, 5, 6, 7]);
@@ -26,7 +34,8 @@ export class CryptoService {
 	}
 
 	/** Decrypts a chunk of data using the provided Blowfish key */
-	decryptChunk(chunk: Buffer, blowFishKey: string) {
+	decryptChunk(chunk: Buffer, blowFishKey: string): Buffer<ArrayBuffer> {
+		// 1. Decrypt using native decryptor algorithm if available
 		if (getCiphers().includes('bf-cbc')) {
 			const decipher = createDecipheriv('bf-cbc', blowFishKey, this.IV);
 
@@ -34,9 +43,12 @@ export class CryptoService {
 			return Buffer.concat([decipher.update(chunk), decipher.final()]);
 		}
 
+		if (!Blowfish) throw new CantDecryptMedia();
+
+		// 2. Fallback to Blowfish library
 		const bf = new Blowfish(blowFishKey, Blowfish.MODE.CBC, Blowfish.PADDING.NULL);
 
-		bf.setIv(Buffer.from([0, 1, 2, 3, 4, 5, 6, 7]));
+		bf.setIv(this.IV);
 
 		const decrypted = bf.decode(chunk, Blowfish.TYPE.UINT8_ARRAY);
 

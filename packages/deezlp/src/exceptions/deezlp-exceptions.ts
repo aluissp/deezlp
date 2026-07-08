@@ -95,3 +95,10 @@ export class TrackMediaNotFound extends DeezlpException {
 		this.name = 'TrackMediaNotFound';
 	}
 }
+
+export class CantDecryptMedia extends DeezlpException {
+	constructor() {
+		super("Can't find a way to decrypt chunks.");
+		this.name = 'CantDecryptMedia';
+	}
+}
