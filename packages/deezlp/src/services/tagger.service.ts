@@ -4,6 +4,7 @@ import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { ID3Writer } from 'browser-id3-writer';
 import type { TrackExtensions } from '@/constants';
 import type { EnrichedDeezerTrack, Tags } from '@/interfaces';
+
 export class TaggerService {
 	constructor(private save: Tags) {}
 
