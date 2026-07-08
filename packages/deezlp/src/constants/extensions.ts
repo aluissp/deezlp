@@ -10,3 +10,5 @@ export const extensions = {
 	[TRACK_FORMATS.MP4_RA2]: '.mp4',
 	[TRACK_FORMATS.MP4_RA1]: '.mp4',
 } as const;
+
+export type TrackExtensions = '.mp3' | '.flac';

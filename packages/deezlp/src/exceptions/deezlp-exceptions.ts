@@ -102,3 +102,10 @@ export class CantDecryptMedia extends DeezlpException {
 		this.name = 'CantDecryptMedia';
 	}
 }
+
+export class TrackNotFound extends DeezlpException {
+	constructor(path: string) {
+		super(`Track not found: ${path}`);
+		this.name = 'TrackNotFound';
+	}
+}

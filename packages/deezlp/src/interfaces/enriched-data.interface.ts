@@ -12,6 +12,7 @@ export interface EnrichedDeezerContributor extends Omit<DeezerContributor, 'radi
 }
 
 export interface EnrichedDeezerAlbum extends DeezerAlbum {
+	/** The total track of the album */
 	nb_tracks?: number;
 	nb_disk?: number;
 	md5_origin?: string;
@@ -26,7 +27,8 @@ export interface EnrichedDeezerAlbum extends DeezerAlbum {
 	explicit_content_lyrics?: number;
 	explicit_content_cover?: number;
 	rating?: string;
-	genres?: { data?: { name?: string }[] };
+	// genres?: { name: string }[];
+	genres?: string[];
 	artist?: EnrichedDeezerArtist;
 	root_artist?: EnrichedDeezerArtist;
 	tracks?: EnrichedDeezerTrack[];

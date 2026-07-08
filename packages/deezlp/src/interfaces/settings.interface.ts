@@ -1,15 +1,36 @@
 export interface Tags {
-	title?: boolean;
-	artist?: boolean;
+	// title?: boolean; // not needed, always saved
+	// artist?: boolean; // not needed, always saved if exists
+	/** Refers to save:
+	 * ```ts
+	 * // Song contributors are "artists"
+	 * writer.setFrame("TXXX", {
+	 * 		description: "ARTISTS",
+	 * 		value: track.song_contributors.join(", "),
+	 * });
+	 * ```
+	 */
 	artists?: boolean;
-	album?: boolean;
+	/**
+	 * The separator to use when multiple artists are present in the track. Options:
+	 * - 'default': ['artist1', 'artist2']
+	 * - 'comma': 'artist1, artist2'
+	 * - 'nothing': 'artist1' (refers the main artist only, ignoring the rest)
+	 * ```ts
+	 * // Song contributors are "artists"
+	 * // Example:
+	 * writer.setFrame("TPE1", track.song_contributors) // here!
+	 * ```
+	 */
+	multiArtistSeparator?: 'default' | 'comma' | 'nothing';
+	// album?: boolean; // not needed, always saved if exists
 	cover?: boolean;
-	trackNumber?: boolean;
-	trackTotal?: boolean;
-	discNumber?: boolean;
-	discTotal?: boolean;
-	albumArtist?: boolean;
-	genre?: boolean;
+	// trackNumber?: boolean; // not needed, always saved if exists
+	trackTotal?: boolean; // not needed, always saved if exists
+	// discNumber?: boolean; // not needed, always saved if exists
+	discTotal?: boolean; // not needed, always saved if exists
+	// albumArtist?: boolean; // not needed, always saved if exists
+	// genre?: boolean; // not needed, always saved if exists
 	year?: boolean;
 	date?: boolean;
 	explicit?: boolean;
@@ -28,7 +49,6 @@ export interface Tags {
 	savePlaylistAsCompilation?: boolean;
 	useNullSeparator?: boolean;
 	saveID3v1?: boolean;
-	multiArtistSeparator?: string;
 	singleAlbumArtist?: boolean;
 	coverDescriptionUTF8?: boolean;
 	rating?: boolean;
