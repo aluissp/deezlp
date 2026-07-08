@@ -22,7 +22,7 @@ export interface EnrichedDeezerAlbum extends DeezerAlbum {
 	label?: string;
 	copyright?: string;
 	share?: string;
-	duration?: string;
+	duration?: number;
 	fans?: number;
 	explicit_content_lyrics?: number;
 	explicit_content_cover?: number;

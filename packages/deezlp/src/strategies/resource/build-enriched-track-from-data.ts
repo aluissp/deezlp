@@ -8,7 +8,7 @@ import { enrichMissingTrackFields, mapGwTrackToDeezer } from '@/utils';
  * Builds a Single track item from a DeezerTrack or GWTrack object and a specified bitrate.
  */
 export const buildEnrichedTrackFromData = (
-	{ deezerTrack, gwTrack, gwLyrics, gwTrackPage, gwAlbum }: TrackDataFetched,
+	{ deezerTrack, deezerFullAlbum, gwTrack, gwLyrics, gwTrackPage, gwAlbum }: TrackDataFetched,
 	bitrate: (typeof TRACK_FORMATS)[keyof typeof TRACK_FORMATS],
 ): DownloadPayload => {
 	// 1. We prefer to use the GWTrack because it contains more information than the DeezerTrack
@@ -23,5 +23,5 @@ export const buildEnrichedTrackFromData = (
 	track.bitrate = bitrate;
 
 	// 3. Now we enrich the track with more information from the GWTrackPage and GWLyrics if available
-	return enrichMissingTrackFields(track, { deezerTrack, gwTrackPage, gwLyrics, gwAlbum });
+	return enrichMissingTrackFields(track, { deezerTrack, deezerFullAlbum, gwTrackPage, gwLyrics, gwAlbum });
 };
