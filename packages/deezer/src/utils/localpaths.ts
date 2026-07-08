@@ -1,9 +1,11 @@
 import { homedir } from 'os';
-import { join, sep } from 'path';
 import fs, { type PathLike } from 'fs';
 import { execSync } from 'child_process';
+import { join, normalize, sep } from 'path';
 
+let musicData = '';
 const homePath = homedir();
+const userDirsFile = join(homePath, '.config', 'user-dirs.dirs');
 
 export function canWrite(path: PathLike): boolean {
 	try {
@@ -30,16 +32,14 @@ export const getConfigFolder = (): string => {
 };
 
 export function getMusicFolder() {
-	let musicdata = '';
+	if (process.env.DEEMIX_MUSIC_DIR) return process.env.DEEMIX_MUSIC_DIR.replace(/\/*$/, '') + sep;
 
-	if (process.env.DEEMIX_MUSIC_DIR) return process.env.DEEMIX_MUSIC_DIR.replace(/\/*$/, '') + '/';
-
-	if (process.env.XDG_MUSIC_DIR && musicdata === '') {
-		musicdata = `${process.env.XDG_MUSIC_DIR}${sep}`;
-		musicdata = checkPath(musicdata);
+	if (process.env.XDG_MUSIC_DIR && musicData === '') {
+		musicData = `${process.env.XDG_MUSIC_DIR}${sep}`;
+		musicData = checkPath(musicData);
 	}
 
-	if (process.platform === 'win32' && musicdata === '') {
+	if (process.platform === 'win32' && musicData === '') {
 		try {
 			const musicKeys = ['My Music', '{4BD8D571-6D19-48D3-BE97-422220080E43}'];
 			const regData = execSync('reg.exe query "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders"')
@@ -51,22 +51,31 @@ export function getMusicFolder() {
 				if (i === 1) continue;
 				const lines = line?.split('    ');
 				if (musicKeys.includes(lines?.[1] || '')) {
-					musicdata = lines?.[3] + sep;
+					musicData = lines?.[3] + sep;
 					break;
 				}
 			}
-			musicdata = checkPath(musicdata);
+			musicData = checkPath(musicData);
 		} catch {
 			/* empty */
 		}
 	}
-	if (musicdata === '') {
-		musicdata = `${homePath}${sep}Music${sep}`;
-		musicdata = checkPath(musicdata);
+
+	if (fs.existsSync(userDirsFile) && musicData === '') {
+		const file = fs.readFileSync(userDirsFile, 'utf8');
+
+		const musicDir = file.match(/^XDG_MUSIC_DIR="([^"]+)"/m)?.[1];
+
+		if (musicDir) musicData = checkPath(normalize(musicDir.replace('$HOME', homePath))) + sep;
 	}
 
-	if (musicdata === '') musicdata = `${process.cwd()}${sep}music${sep}`;
-	else musicdata += `deezlp Music${sep}`;
+	if (musicData === '') {
+		musicData = `${homePath}${sep}Music${sep}`;
+		musicData = checkPath(musicData);
+	}
 
-	return musicdata;
+	if (musicData === '') musicData = `${process.cwd()}${sep}music${sep}`;
+	else musicData += `Deezlp Music${sep}`;
+
+	return musicData;
 }
