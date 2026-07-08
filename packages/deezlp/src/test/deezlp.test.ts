@@ -18,6 +18,8 @@ describe('Testing the generateTrackItem function', () => {
 	const musicFolder = getMusicFolder();
 	const trackPath1 = join(musicFolder, 'Twenty One Pilots', 'Blurryface', 'Twenty One Pilots - Stressed Out.mp3');
 	const trackPath2 = join(musicFolder, 'Twenty One Pilots', 'Trench', 'Twenty One Pilots - Jumpsuit.mp3');
+	const lyricPath1 = join(musicFolder, 'Twenty One Pilots', 'Blurryface', 'Twenty One Pilots - Stressed Out.lrc');
+	const lyricPath2 = join(musicFolder, 'Twenty One Pilots', 'Trench', 'Twenty One Pilots - Jumpsuit.lrc');
 
 	beforeAll(async () => {
 		deezlp = new Deezlp({
@@ -39,5 +41,7 @@ describe('Testing the generateTrackItem function', () => {
 		expect(result.jobs?.[1]?.status).toBe(DownloadStatus.finished);
 		expect(existsSync(trackPath1)).toBe(true);
 		expect(existsSync(trackPath2)).toBe(true);
+		expect(existsSync(lyricPath1)).toBe(true);
+		expect(existsSync(lyricPath2)).toBe(true);
 	}, 90000);
 });
