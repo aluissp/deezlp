@@ -6,8 +6,10 @@ import type { GWLyrics } from 'deezer';
  * @param gwLyrics The GWLyrics object to parse.
  * @returns
  */
-export const parseLyrics = (gwLyrics: GWLyrics): Lyrics => {
-	const id = +gwLyrics.LYRICS_ID;
+export const parseLyrics = (gwLyrics: GWLyrics): Lyrics | undefined => {
+	if (Object.keys(gwLyrics).length === 0) return;
+
+	const id = gwLyrics.LYRICS_ID ? +gwLyrics.LYRICS_ID : 0;
 	const unsync = gwLyrics.LYRICS_TEXT ?? '';
 	const copyright = gwLyrics.LYRICS_COPYRIGHTS ?? '';
 	const writers = gwLyrics.LYRICS_WRITERS ?? '';
@@ -39,7 +41,7 @@ export const parseLyrics = (gwLyrics: GWLyrics): Lyrics => {
 
 			if (currentLine === '') return;
 
-			return [currentLine, milliseconds];
+			return [currentLine, milliseconds] as const;
 		})
 		.filter(line => !!line);
 

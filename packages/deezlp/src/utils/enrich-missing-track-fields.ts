@@ -6,6 +6,10 @@ export function isExplicit(explicitLyrics: number) {
 	return [LyricsStatus.EXPLICIT, LyricsStatus.PARTIALLY_EXPLICIT].includes((explicitLyrics as any) || LyricsStatus.UNKNOWN);
 }
 
+function computeReplayGain(trackGain: number) {
+	return `${Math.round((trackGain + 18.4) * -100) / 100} dB`;
+}
+
 export const enrichMissingTrackFields = (track: EnrichedDeezerTrack, data: Omit<TrackDataFetched, 'gwTrack'>): EnrichedDeezerTrack => {
 	const { deezerTrack, deezerArtist, gwTrackPage, gwLyrics, gwAlbum, deezerFullAlbum } = data;
 
@@ -40,6 +44,9 @@ export const enrichMissingTrackFields = (track: EnrichedDeezerTrack, data: Omit<
 	// 8. Enrich track with artist data
 	track = enrichWithDeezerArtistData(track, deezerArtist);
 
+	// 9. Compute replay gain if available
+	if (track.gain) track.replayGain = computeReplayGain(track.gain);
+
 	return track;
 };
 
@@ -54,7 +61,7 @@ const enrichWithGwTrackPageData = (track: EnrichedDeezerTrack, gwTrackPage: Trac
 	track.copyright = data.COPYRIGHT;
 
 	// Lyrics
-	track.lyrics_id = +gwTrackPage.LYRICS.LYRICS_ID;
+	track.lyrics_id = gwTrackPage?.LYRICS?.LYRICS_ID ? +gwTrackPage.LYRICS.LYRICS_ID : undefined;
 	track.explicit_lyrics = isExplicit(+data.EXPLICIT_LYRICS);
 	track.gwLyrics = gwTrackPage.LYRICS;
 
@@ -82,7 +89,7 @@ const enrichWithGwTrackPageData = (track: EnrichedDeezerTrack, gwTrackPage: Trac
 
 const enrichWithGwLyricsData = (track: EnrichedDeezerTrack, gwLyrics: TrackDataFetched['gwLyrics']): EnrichedDeezerTrack => {
 	if (!gwLyrics) return track;
-	if (!track.lyrics_id) track.lyrics_id = +gwLyrics.LYRICS_ID;
+	if (!track.lyrics_id) track.lyrics_id = gwLyrics.LYRICS_ID ? +gwLyrics.LYRICS_ID : undefined;
 	if (!track.lyrics) track.gwLyrics = gwLyrics;
 
 	return track;
@@ -181,7 +188,7 @@ const enrichWithGwAlbumData = (track: EnrichedDeezerTrack, gwAlbum: TrackDataFet
 	if (!track?.album?.record_type) track.album.record_type = albumData.record_type;
 	if (!track?.album?.contributors) track.album.contributors = albumData.contributors;
 	if (!track?.album?.tracklist) track.album.tracklist = albumData.tracklist;
-	if (!track?.album?.explicit_lyrics) track.album.explicit_lyrics = albumData.explicit_lyrics;
+	if (track?.album?.explicit_lyrics === undefined) track.album.explicit_lyrics = albumData.explicit_lyrics;
 	if (!track?.album?.explicit_content_lyrics) track.album.explicit_content_lyrics = albumData.explicit_content_lyrics;
 	if (!track?.album?.explicit_content_cover) track.album.explicit_content_cover = albumData.explicit_content_cover;
 	if (!track?.album?.artist) track.album.artist = albumData.artist;
@@ -305,7 +312,7 @@ const enrichWithDeezerAlbumData = (track: EnrichedDeezerTrack, deezerFullAlbum: 
 	if (!track?.album?.record_type) track.album.record_type = albumData.record_type;
 	if (!track?.album?.contributors) track.album.contributors = albumData.contributors;
 	if (!track?.album?.tracklist) track.album.tracklist = albumData.tracklist;
-	if (!track?.album?.explicit_lyrics) track.album.explicit_lyrics = albumData.explicit_lyrics;
+	if (track?.album?.explicit_lyrics === undefined) track.album.explicit_lyrics = albumData.explicit_lyrics;
 	if (!track?.album?.explicit_content_lyrics) track.album.explicit_content_lyrics = albumData.explicit_content_lyrics;
 	if (!track?.album?.explicit_content_cover) track.album.explicit_content_cover = albumData.explicit_content_cover;
 	if (!track?.album?.artist) track.album.artist = albumData.artist;

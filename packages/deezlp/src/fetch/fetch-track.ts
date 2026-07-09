@@ -1,8 +1,8 @@
 import { DeezerCore } from 'deezer';
 import type { ResolvedURL } from '@/resolvers';
+import type { TrackDataFetched } from '@/interfaces';
 import type { DeezerArtist, DeezerFullAlbum, DeezerTrack, GwAlbum, GWLyrics, GWTrack, GWTrackPage } from 'deezer';
 import { GenerationException, ISRCnotOnDeezer } from '@/exceptions';
-import type { TrackDataFetched } from '@/interfaces';
 
 const fetchDeezerTrack = async (dz: DeezerCore, input: ResolvedURL): Promise<DeezerTrack | undefined> => {
 	let trackData: DeezerTrack | undefined = undefined;
@@ -37,7 +37,7 @@ const fetchGwTrackPage = async (dz: DeezerCore, songId: number): Promise<GWTrack
 	});
 };
 
-const fetchLyrics = async (dz: DeezerCore, songId: number): Promise<GWLyrics | undefined> => {
+const fetchLyrics = async (dz: DeezerCore, songId: number): Promise<GWLyrics> => {
 	return dz.gw.getTrackLyrics(songId).catch((error: any) => {
 		throw new GenerationException(`https://deezer.com/track/${songId}`, error.message);
 	});

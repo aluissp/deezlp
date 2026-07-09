@@ -1,6 +1,6 @@
 import { TRACK_FORMATS } from 'deezer';
 import type { Lyrics } from './lyrics.interface';
-import type { DeezerAlbum, DeezerArtist, DeezerContributor, DeezerTrack, GWLyrics } from 'deezer';
+import type { DeezerAlbum, DeezerArtist, DeezerContributor, DeezerTrack, GWLyrics, SngContributors } from 'deezer';
 
 export interface EnrichedDeezerArtist extends DeezerArtist {
 	role?: string;
@@ -18,6 +18,7 @@ export interface EnrichedDeezerAlbum extends DeezerAlbum {
 	md5_origin?: string;
 	explicit_lyrics?: boolean;
 	record_type?: string;
+	/** barcode */
 	upc?: string;
 	label?: string;
 	copyright?: string;
@@ -64,10 +65,16 @@ export interface EnrichedDeezerTrack extends Omit<DeezerTrack, 'artist' | 'album
 	alternative?: EnrichedDeezerTrack;
 	alternative_albums?: EnrichedDeezerAlbum[];
 	album?: EnrichedDeezerAlbum;
+	/** This is the main artist of the track */
 	artist: EnrichedDeezerArtist;
+	/** This contributors are all artists from gw  */
 	contributors: EnrichedDeezerContributor[];
-	/** Only have artist names */
-	song_contributors?: string[];
+	/** Have all collaborators names */
+	song_collaborators?: string[];
+	/** Have all contributors extracted from gw track */
+	song_contributors?: SngContributors;
+	/** This value is computed from gain value using `computeReplayGain` function inside `enrichMissingTrackFields` function. */
+	replayGain?: string;
 	/** Founded media data */
 	media?: {
 		/** The URL of the media file */

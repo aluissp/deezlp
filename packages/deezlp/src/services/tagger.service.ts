@@ -1,3 +1,4 @@
+import { format, parseISO } from 'date-fns';
 import { TrackNotFound } from '@/exceptions';
 import { existsSync, readFileSync } from 'fs';
 import { ID3Writer } from 'browser-id3-writer';
@@ -19,22 +20,24 @@ export class TaggerService {
 		// 1. title
 		if (track.title) writer.setFrame('TIT2', track.title);
 
-		// 2. artist
+		// 2. artist or artists
 		if (track.artist?.name) {
+			const contributors = track?.contributors?.map(contributor => contributor.name);
+
 			if (this.save.multiArtistSeparator === 'default') {
-				writer.setFrame('TPE1', track.song_contributors ?? [track.artist.name]);
+				writer.setFrame('TPE1', contributors ?? [track.artist.name]);
 			} else if (this.save.multiArtistSeparator === 'comma') {
-				const artists = track.song_contributors?.join(', ') ?? track.artist.name;
+				const artists = contributors?.join(', ') ?? track.artist.name;
 				writer.setFrame('TPE1', [artists]);
 			} else if (this.save.multiArtistSeparator === 'nothing') {
 				writer.setFrame('TPE1', [track.artist.name]);
 			}
 
-			// 3. tag artists
+			// 3. tag artists (means all collaborators)
 			if (this.save.artists) {
 				writer.setFrame('TXXX', {
 					description: 'ARTISTS',
-					value: track.song_contributors?.join(', ') ?? track.artist.name,
+					value: track.song_collaborators?.join(', ') ?? track.artist.name,
 				});
 			}
 		}
@@ -64,6 +67,70 @@ export class TaggerService {
 		}
 
 		// 8. genre
-		// if (track.album?.genres?.length) writer.setFrame('TCON', track.album.genres.join(', '));
+		if (track.album?.genres?.length) writer.setFrame('TCON', track.album.genres);
+
+		// 9. year - date
+		if (track.release_date || track.digital_release_date || track.physical_release_date || track.album?.release_date) {
+			const releaseDateString = track.release_date ?? track.digital_release_date ?? track.physical_release_date ?? track.album?.release_date;
+
+			if (releaseDateString) {
+				const releaseDate = parseISO(releaseDateString);
+
+				writer.setFrame('TYER', +format(releaseDate, 'yyyy'));
+
+				/**
+				 * ID3 standard
+				 * The 'Date' frame is a numeric string in the ddMM format.
+				 */
+				writer.setFrame('TDAT', format(releaseDate, 'ddMM'));
+			}
+		}
+
+		// 10. duration
+		if (track.duration) writer.setFrame('TLEN', track.duration * 1000);
+
+		// 11. bpm
+		if (track.bpm) writer.setFrame('TBPM', track.bpm);
+
+		// 12. label
+		if (track?.album?.label) writer.setFrame('TPUB', track.album.label);
+
+		// 13. isrc
+		if (track.isrc) writer.setFrame('TSRC', track.isrc);
+
+		// 14. barcode
+		if (track?.album?.upc) writer.setFrame('TXXX', { description: 'BARCODE', value: track.album.upc });
+
+		// 15. explicit
+		if (track.explicit_lyrics !== undefined) writer.setFrame('TXXX', { description: 'ITUNESADVISORY', value: track.explicit_lyrics ? '1' : '0' });
+
+		// 16. replayGain
+		if (track?.replayGain) writer.setFrame('TXXX', { description: 'REPLAYGAIN_TRACK_GAIN', value: track.replayGain });
+
+		// 17. lyrics
+		if (this.save.lyrics && track?.lyrics) writer.setFrame('USLT', { description: 'LYRICS', language: 'XXX', lyrics: track.lyrics.unsync });
+
+		// 18. synced lyrics
+		if (this.save.syncedLyrics && track?.lyrics?.syncID3 && track?.lyrics?.syncID3?.length > 0) {
+			writer.setFrame('SYLT', {
+				type: 1,
+				text: track.lyrics.syncID3,
+				timestampFormat: 2,
+			});
+		}
+
+		// 19. involved people
+
+		const involvedPeople = [];
+		Object.keys(track.contributors).forEach(role => {
+			if (['author', 'engineer', 'mixer', 'producer', 'writer'].includes(role)) {
+				track.contributors[role].forEach(person => {
+					involvedPeople.push([role, person]);
+				});
+			} else if (role === 'composer' && save.composer) {
+				writer.setFrame('TCOM', track.contributors.composer);
+			}
+		});
+		if (involvedPeople.length && save.involvedPeople) writer.setFrame('IPLS', involvedPeople);
 	}
 }
