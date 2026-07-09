@@ -1,13 +1,13 @@
 import { LyricsStatus } from '@/constants';
 import { parseLyrics } from './parse-lyrics';
-import type { EnrichedDeezerAlbum, EnrichedDeezerArtist, EnrichedDeezerTrack, TrackDataFetched } from '@/interfaces';
+import type { EnrichedDeezerAlbum, EnrichedDeezerArtist, EnrichedDeezerContributor, EnrichedDeezerTrack, TrackDataFetched } from '@/interfaces';
 
 export function isExplicit(explicitLyrics: number) {
 	return [LyricsStatus.EXPLICIT, LyricsStatus.PARTIALLY_EXPLICIT].includes((explicitLyrics as any) || LyricsStatus.UNKNOWN);
 }
 
 export const enrichMissingTrackFields = (track: EnrichedDeezerTrack, data: Omit<TrackDataFetched, 'gwTrack'>): EnrichedDeezerTrack => {
-	const { deezerTrack, deezerArtist, gwTrackPage, gwLyrics, gwAlbum } = data;
+	const { deezerTrack, deezerArtist, gwTrackPage, gwLyrics, gwAlbum, deezerFullAlbum } = data;
 
 	// 1. Enrich track with gwTrackPage data
 	track = enrichWithGwTrackPageData(track, gwTrackPage);
@@ -31,10 +31,13 @@ export const enrichMissingTrackFields = (track: EnrichedDeezerTrack, data: Omit<
 	// 5. Parse lyrics if available
 	if (track.gwLyrics) track.lyrics = parseLyrics(track.gwLyrics);
 
-	// 6. Enrich track with album data
-	track = enrichWithAlbumData(track, gwAlbum);
+	// 6. Enrich track with deezer full album data
+	track = enrichWithDeezerAlbumData(track, deezerFullAlbum);
 
-	// 7. Enrich track with artist data
+	// 7. Enrich track with gw album data
+	track = enrichWithGwAlbumData(track, gwAlbum);
+
+	// 8. Enrich track with artist data
 	track = enrichWithDeezerArtistData(track, deezerArtist);
 
 	return track;
@@ -105,7 +108,7 @@ const enrichWithDeezerTrackData = (track: EnrichedDeezerTrack, deezerTrack: Trac
 	return track;
 };
 
-const enrichWithAlbumData = (track: EnrichedDeezerTrack, gwAlbum: TrackDataFetched['gwAlbum']): EnrichedDeezerTrack => {
+const enrichWithGwAlbumData = (track: EnrichedDeezerTrack, gwAlbum: TrackDataFetched['gwAlbum']): EnrichedDeezerTrack => {
 	if (!gwAlbum) return track;
 
 	// Enrich track with album data
@@ -154,6 +157,130 @@ const enrichWithAlbumData = (track: EnrichedDeezerTrack, gwAlbum: TrackDataFetch
 		copyright: gwAlbum.COPYRIGHT,
 		type: gwAlbum.__TYPE__ as 'album',
 	};
+
+	if (!track.album) {
+		track.album = albumData;
+		return track;
+	}
+
+	if (!track?.album?.id) track.album.id = albumData.id;
+	if (!track?.album?.title) track.album.title = albumData.title;
+	if (!track?.album?.link) track.album.link = albumData.link;
+	if (!track?.album?.share) track.album.share = albumData.share;
+	if (!track?.album?.cover) track.album.cover = albumData.cover;
+	if (!track?.album?.cover_small) track.album.cover_small = albumData.cover_small;
+	if (!track?.album?.cover_medium) track.album.cover_medium = albumData.cover_medium;
+	if (!track?.album?.cover_big) track.album.cover_big = albumData.cover_big;
+	if (!track?.album?.cover_xl) track.album.cover_xl = albumData.cover_xl;
+	if (!track?.album?.md5_image) track.album.md5_image = albumData.md5_image;
+	if (!track?.album?.genres) track.album.genres = albumData.genres;
+	if (!track?.album?.label) track.album.label = albumData.label;
+	if (!track?.album?.duration) track.album.duration = albumData.duration;
+	if (!track?.album?.fans) track.album.fans = albumData.fans;
+	if (!track?.album?.release_date) track.album.release_date = albumData.release_date;
+	if (!track?.album?.record_type) track.album.record_type = albumData.record_type;
+	if (!track?.album?.contributors) track.album.contributors = albumData.contributors;
+	if (!track?.album?.tracklist) track.album.tracklist = albumData.tracklist;
+	if (!track?.album?.explicit_lyrics) track.album.explicit_lyrics = albumData.explicit_lyrics;
+	if (!track?.album?.explicit_content_lyrics) track.album.explicit_content_lyrics = albumData.explicit_content_lyrics;
+	if (!track?.album?.explicit_content_cover) track.album.explicit_content_cover = albumData.explicit_content_cover;
+	if (!track?.album?.artist) track.album.artist = albumData.artist;
+	if (!track?.album?.rating) track.album.rating = albumData.rating;
+	if (!track?.album?.digital_release_date) track.album.digital_release_date = albumData.digital_release_date;
+	if (!track?.album?.physical_release_date) track.album.physical_release_date = albumData.physical_release_date;
+	if (!track?.album?.original_release_date) track.album.original_release_date = albumData.original_release_date;
+	if (!track?.album?.genre_id) track.album.genre_id = albumData.genre_id;
+	if (!track?.album?.nb_tracks) track.album.nb_tracks = albumData.nb_tracks;
+	if (!track?.album?.nb_disk) track.album.nb_disk = albumData.nb_disk;
+	if (!track?.album?.copyright) track.album.copyright = albumData.copyright;
+	if (!track?.album?.type) track.album.type = albumData.type;
+
+	return track;
+};
+
+const enrichWithDeezerAlbumData = (track: EnrichedDeezerTrack, deezerFullAlbum: TrackDataFetched['deezerFullAlbum']): EnrichedDeezerTrack => {
+	if (!deezerFullAlbum) return track;
+
+	const contributors: EnrichedDeezerContributor[] =
+		deezerFullAlbum.contributors?.map(contributor => ({
+			id: contributor.id,
+			name: contributor.name,
+			link: contributor.link,
+			share: contributor.share,
+			picture: contributor.picture,
+			picture_small: contributor.picture_small,
+			picture_medium: contributor.picture_medium,
+			picture_big: contributor.picture_big,
+			picture_xl: contributor.picture_xl,
+			radio: contributor.radio,
+			tracklist: contributor.tracklist,
+			type: contributor.type as 'artist',
+			role: contributor.role,
+		})) ?? [];
+
+	const artist: EnrichedDeezerArtist = { ...deezerFullAlbum.artist, radio: false, type: 'artist' };
+
+	const genres: string[] = deezerFullAlbum.genres?.data?.map(genre => genre.name) ?? [];
+
+	const tracks: EnrichedDeezerTrack[] =
+		deezerFullAlbum?.tracks?.data?.map(track => ({
+			...track,
+			artist,
+			contributors,
+			unseen: false,
+			user_id: 0,
+			available_countries: [],
+			bpm: null,
+			disk_number: 0,
+			track_position: 0,
+			gain: 0,
+			isrc: '',
+			release_date: deezerFullAlbum.release_date,
+			track_token: '',
+			link: `https://www.deezer.com/track/${track.id}`,
+			album: undefined, // to avoid circular reference
+			type: 'track',
+		})) ?? [];
+
+	// Enrich track with album data
+	const albumData: EnrichedDeezerAlbum = {
+		id: deezerFullAlbum.id,
+		title: deezerFullAlbum.title,
+		link: deezerFullAlbum.link,
+		share: deezerFullAlbum.share,
+		cover: deezerFullAlbum.cover,
+		cover_small: deezerFullAlbum.cover_small,
+		cover_medium: deezerFullAlbum.cover_medium,
+		cover_big: deezerFullAlbum.cover_big,
+		cover_xl: deezerFullAlbum.cover_xl,
+		md5_image: deezerFullAlbum.md5_image,
+		label: deezerFullAlbum.label,
+		duration: deezerFullAlbum.duration,
+		fans: deezerFullAlbum.fans,
+		release_date: deezerFullAlbum.release_date,
+		record_type: deezerFullAlbum.record_type,
+		// alternative: undefined, // not provided
+		genres,
+		artist,
+		tracks,
+		contributors,
+		tracklist: deezerFullAlbum.tracklist,
+		explicit_lyrics: deezerFullAlbum.explicit_lyrics,
+		explicit_content_lyrics: deezerFullAlbum.explicit_content_lyrics,
+		explicit_content_cover: deezerFullAlbum.explicit_content_cover,
+		// Extras
+		rating: undefined, // not provided
+		digital_release_date: deezerFullAlbum.release_date,
+		physical_release_date: deezerFullAlbum.release_date,
+		original_release_date: deezerFullAlbum.release_date,
+		genre_id: deezerFullAlbum.genre_id,
+		nb_tracks: deezerFullAlbum.nb_tracks,
+		nb_disk: undefined, // not provided
+		copyright: undefined, // not provided
+		type: 'album',
+	};
+
+	if (!track?.genres) track.genres = genres;
 
 	if (!track.album) {
 		track.album = albumData;
