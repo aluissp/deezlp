@@ -35,7 +35,7 @@ export class FileService {
 	}
 
 	checkIsAlreadyDownload({ writePath }: { writePath: string }): boolean {
-		return existsSync(writePath);
+		return existsSync(writePath) && !this.settings.overwriteFile;
 	}
 
 	buildWritePath({ filePath, fileName, bitrate }: { filePath: string; fileName: string; bitrate: number }) {

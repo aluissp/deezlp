@@ -8,9 +8,14 @@ import type { TrackExtensions } from '@/constants';
 import type { EnrichedDeezerTrack, Tags } from '@/interfaces';
 
 export class TaggerService {
-	constructor(private save: Tags) {}
+	constructor(
+		private save: Tags,
+		private tagFile: boolean,
+	) {}
 
 	tagTrack(track: EnrichedDeezerTrack, filePath: string, extension: TrackExtensions): void {
+		if (!this.tagFile) return; // Omit tagging if tagFile is false
+
 		if (!existsSync(filePath)) throw new TrackNotFound(filePath);
 
 		if (extension === '.mp3') this.tagID3(track, filePath);

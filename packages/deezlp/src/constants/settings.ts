@@ -2,24 +2,6 @@ import type { Settings } from '@/interfaces';
 import { getMusicFolder, TRACK_FORMATS } from 'deezer';
 
 /**
- * Should the lib overwrite files?
- */
-export const OverwriteOption = {
-	/** Yes, overwrite the file */
-	OVERWRITE: 'y',
-	/** No, don't overwrite the file */
-	DONT_OVERWRITE: 'n',
-	/* No, and don't check for extensions */
-	DONT_CHECK_EXT: 'e',
-	/* No, and keep both files */
-	KEEP_BOTH: 'b',
-	/* Overwrite only the tags */
-	ONLY_TAGS: 't',
-	/* Overwrite only lower bitrates */
-	ONLY_LOWER_BITRATES: 'l',
-};
-
-/**
  * What should I do with featured artists?
  */
 export const FeaturesOption = {
@@ -60,7 +42,8 @@ export const DEFAULT_SETTINGS: Settings = {
 	fallbackISRC: false,
 	logErrors: true,
 	logSearched: false,
-	overwriteFile: OverwriteOption.DONT_OVERWRITE,
+	overwriteFile: true,
+	tagFile: true,
 	createM3U8File: false,
 	playlistFilenameTemplate: 'playlist',
 	syncedLyrics: false,
