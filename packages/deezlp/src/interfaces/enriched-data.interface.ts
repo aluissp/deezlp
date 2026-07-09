@@ -87,4 +87,6 @@ export interface EnrichedDeezerTrack extends Omit<DeezerTrack, 'artist' | 'album
 		formatName: keyof typeof TRACK_FORMATS;
 	};
 	// urls?: Partial<Record<keyof typeof TRACK_FORMATS, string>>;
+	/** This is the physical path to the embedded cover image generated in `track-download.strategy.ts` by `this.fileService.buildCoverURLAndPath` */
+	embeddedCoverPath?: string;
 }
