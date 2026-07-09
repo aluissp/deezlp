@@ -46,9 +46,10 @@ export interface Tags {
 	composer?: boolean;
 	involvedPeople?: boolean;
 	source?: boolean;
-	savePlaylistAsCompilation?: boolean;
+	// savePlaylistAsCompilation?: boolean; // not user for now
 	useNullSeparator?: boolean;
-	saveID3v1?: boolean;
+	/** Compatibility with ID3v1 (the oldest format) */
+	// saveID3v1?: boolean; // not user for now
 	singleAlbumArtist?: boolean;
 	coverDescriptionUTF8?: boolean;
 	rating?: boolean;

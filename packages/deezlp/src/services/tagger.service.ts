@@ -1,6 +1,6 @@
 import { format, parseISO } from 'date-fns';
 import { TrackNotFound } from '@/exceptions';
-import { existsSync, readFileSync } from 'fs';
+import { existsSync, readFileSync, writeFileSync } from 'fs';
 import { ID3Writer } from 'browser-id3-writer';
 import type { TrackExtensions } from '@/constants';
 import type { EnrichedDeezerTrack, Tags } from '@/interfaces';
@@ -119,18 +119,75 @@ export class TaggerService {
 			});
 		}
 
-		// 19. involved people
+		// 19. involved people and composer
+		const involvedPeople: [string, string][] = [];
+		const involvedPeopleRoles = [
+			'author',
+			'masteringengineer',
+			'executiveproducer',
+			'mixingengineer',
+			'artist',
+			'engineer',
+			'mixer',
+			'producer',
+			'writer',
+			'co- producer',
+			'music publisher',
+		];
 
-		const involvedPeople = [];
-		Object.keys(track.contributors).forEach(role => {
-			if (['author', 'engineer', 'mixer', 'producer', 'writer'].includes(role)) {
-				track.contributors[role].forEach(person => {
+		Object.values(track?.song_contributors ?? {}).forEach(([role, names]: [string, string[]]) => {
+			if (involvedPeopleRoles.includes(role)) {
+				if (role === 'co- producer') role = 'co-producer';
+
+				names.forEach(person => {
 					involvedPeople.push([role, person]);
 				});
-			} else if (role === 'composer' && save.composer) {
-				writer.setFrame('TCOM', track.contributors.composer);
 			}
+
+			if (this.save.composer && role === 'composer' && names?.length) writer.setFrame('TCOM', names);
 		});
-		if (involvedPeople.length && save.involvedPeople) writer.setFrame('IPLS', involvedPeople);
+
+		if (this.save.involvedPeople && involvedPeople.length) writer.setFrame('IPLS', involvedPeople);
+
+		// 20. copyright
+		if (this.save.copyright && track?.copyright) writer.setFrame('TCOP', track.copyright);
+
+		// 21. source
+		if (this.save.source) {
+			writer.setFrame('TXXX', {
+				description: 'SOURCE',
+				value: 'Deezer',
+			});
+
+			writer.setFrame('TXXX', {
+				description: 'SOURCEID',
+				value: track.id.toString(),
+			});
+		}
+
+		// 22. cover
+		if (this.save.cover) {
+			const coverPath = '';
+
+			const coverBuffer = readFileSync(coverPath);
+
+			if (coverBuffer.length)
+				writer.setFrame('APIC', {
+					type: 3,
+					data: coverBuffer.buffer,
+					description: 'cover',
+					useUnicodeEncoding: this.save.coverDescriptionUTF8,
+				});
+		}
+
+		// 23. save the tags to the file
+		let taggedSongBuffer = Buffer.from(writer.addTag());
+
+		if (taggedSongBuffer.subarray(-128, -125).toString() === 'TAG') {
+			taggedSongBuffer = taggedSongBuffer.subarray(0, -128);
+		}
+
+		// 24. write the tagged song buffer to the file
+		writeFileSync(filePath, taggedSongBuffer);
 	}
 }
