@@ -1,6 +1,6 @@
-import { DeezerCore, type GWTrack } from 'deezer';
 import { mapGwTrackToDeezer } from '@/utils';
-// import { generateTrackItem } from '@/factory';
+import { DeezerCore, type GWTrack } from 'deezer';
+import { beforeAll, describe, expect, test } from 'bun:test';
 
 describe('Testing the generateTrackItem function', () => {
 	let track: GWTrack;

@@ -2,6 +2,7 @@ import { fetchTrack } from '@/fetch';
 import type { ResolvedURL } from '@/resolvers';
 import { DeezerCore, TRACK_FORMATS } from 'deezer';
 import { buildEnrichedTrackFromData } from '@/strategies';
+import { beforeAll, describe, expect, test } from 'bun:test';
 
 describe('Testing the TrackStrategy class components', () => {
 	let dz: DeezerCore;

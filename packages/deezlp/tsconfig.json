@@ -10,7 +10,7 @@
     "allowJs": true,
     "types": [
       "bun",
-      "vitest/globals",
+      "@types/bun",
     ],
     "declaration": true,
     "composite": true,
@@ -42,6 +42,6 @@
   },
   "include": [
     "./src/**/*.ts",
-    "./src/**/*.json"
+    "./src/**/*.json",
   ]
 }
