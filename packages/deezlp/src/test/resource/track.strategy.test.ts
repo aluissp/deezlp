@@ -1,6 +1,7 @@
-import { DeezerCore } from 'deezer';
 import { fetchTrack } from '@/fetch';
 import type { ResolvedURL } from '@/resolvers';
+import { DeezerCore, TRACK_FORMATS } from 'deezer';
+import { buildEnrichedTrackFromData } from '@/strategies';
 
 describe('Testing the TrackStrategy class components', () => {
 	let dz: DeezerCore;
@@ -21,6 +22,9 @@ describe('Testing the TrackStrategy class components', () => {
 	});
 
 	test('Should fetch all track data `fetchTrack`', async () => {
+		// You must `can_stream_hq` or `can_stream_lossless`
+		if (!dz.currentUser.can_stream_hq || !dz.currentUser.can_stream_lossless) return;
+
 		const allTracks = await Promise.all([
 			fetchTrack(dz, trackResolved1, { includeAlbumInfo: true, includeArtistInfo: true }),
 			fetchTrack(dz, trackResolved2, { includeAlbumInfo: true, includeArtistInfo: true }),
@@ -37,6 +41,44 @@ describe('Testing the TrackStrategy class components', () => {
 			Object.values(track).forEach(value => {
 				expect(value).toBeDefined();
 			});
+		});
+	}, 10000);
+
+	test('Should build all track data `buildEnrichedTrackFromData`', async () => {
+		// You must `can_stream_hq` or `can_stream_lossless`
+		if (!dz.currentUser.can_stream_hq || !dz.currentUser.can_stream_lossless) return;
+
+		const allTracks = await Promise.all([
+			fetchTrack(dz, trackResolved1, { includeAlbumInfo: true, includeArtistInfo: true }),
+			fetchTrack(dz, trackResolved2, { includeAlbumInfo: true, includeArtistInfo: true }),
+			fetchTrack(dz, trackResolved3, { includeAlbumInfo: true, includeArtistInfo: true }),
+			fetchTrack(dz, trackResolved4, { includeAlbumInfo: true, includeArtistInfo: true }),
+			fetchTrack(dz, trackResolved5, { includeAlbumInfo: true, includeArtistInfo: true }),
+			fetchTrack(dz, trackResolved6, { includeAlbumInfo: true, includeArtistInfo: true }),
+			fetchTrack(dz, trackResolved7, { includeAlbumInfo: true, includeArtistInfo: true }),
+		]);
+
+		allTracks.forEach(rawTrack => {
+			expect(rawTrack).toBeDefined();
+			const track320 = buildEnrichedTrackFromData(rawTrack, TRACK_FORMATS.MP3_320);
+			expect(track320).toBeDefined();
+			expect(track320?.gwLyrics).toBeDefined();
+			expect(track320?.album).toBeDefined();
+			expect(track320?.artist).toBeDefined();
+			expect(track320?.contributors).toBeDefined();
+			expect(track320?.song_collaborators).toBeDefined();
+			expect(track320?.song_contributors).toBeDefined();
+			expect(track320?.bitrate).toBeDefined();
+
+			const trackFLAC = buildEnrichedTrackFromData(rawTrack, TRACK_FORMATS.FLAC);
+			expect(trackFLAC).toBeDefined();
+			expect(trackFLAC?.gwLyrics).toBeDefined();
+			expect(trackFLAC?.album).toBeDefined();
+			expect(trackFLAC?.artist).toBeDefined();
+			expect(trackFLAC?.contributors).toBeDefined();
+			expect(trackFLAC?.song_collaborators).toBeDefined();
+			expect(trackFLAC?.song_contributors).toBeDefined();
+			expect(trackFLAC?.bitrate).toBeDefined();
 		});
 	}, 10000);
 });
