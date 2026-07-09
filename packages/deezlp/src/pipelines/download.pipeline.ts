@@ -3,7 +3,7 @@ import { getStrategy } from '@/strategies';
 import { DownloadWorker } from '@/workers';
 import type { Settings } from '@/interfaces';
 import { resolveDeezerUrl } from '@/resolvers';
-import { TrackAlreadyDownloaded } from '@/exceptions';
+import { DownloadCanceled, TrackAlreadyDownloaded } from '@/exceptions';
 import { TRACK_FORMATS, type DeezerCore } from 'deezer';
 import { AudioStreamerService, CryptoService, FileService, TaggerService } from '@/services';
 import { createDownloadJob, type DownloadJob, type DownloadPayload, DownloadStatus, JobStatus } from '@/entities';
@@ -96,6 +96,8 @@ export class DownloadPipeline extends EventEmitter {
 
 					// 1. if the error is TrackAlreadyDownloaded
 					if (error instanceof TrackAlreadyDownloaded) this.emitEvent({ job, status: DownloadStatus.finished, message: error.message });
+					// 2. if the error is DownloadCanceled
+					if (error instanceof DownloadCanceled) this.emitEvent({ job, status: DownloadStatus.canceled, message: error.message });
 				} finally {
 					this.activeJobs.delete(job.id);
 				}
@@ -107,7 +109,15 @@ export class DownloadPipeline extends EventEmitter {
 		}
 	}
 
-	private emitEvent(data: { job: DownloadJob; status?: DownloadStatus; attempts?: number; progress?: number; message?: string; error?: unknown; downloadPath?: string }) {
+	private emitEvent(data: {
+		job: DownloadJob;
+		status?: DownloadStatus;
+		attempts?: number;
+		progress?: number;
+		message?: string;
+		error?: unknown;
+		downloadPath?: string;
+	}) {
 		const { job, status, progress, attempts, message, error, downloadPath } = data;
 		this.updateJob({ job, status, progress, attempts, message, error, downloadPath });
 
@@ -124,7 +134,15 @@ export class DownloadPipeline extends EventEmitter {
 		if (controller) controller.abort();
 	}
 
-	private updateJob(data: { job: DownloadJob; status?: DownloadStatus; attempts?: number; progress?: number; message?: string; error?: unknown; downloadPath?: string }) {
+	private updateJob(data: {
+		job: DownloadJob;
+		status?: DownloadStatus;
+		attempts?: number;
+		progress?: number;
+		message?: string;
+		error?: unknown;
+		downloadPath?: string;
+	}) {
 		const { job, status, attempts, progress, message, error, downloadPath } = data;
 
 		job.updatedAt = Date.now();

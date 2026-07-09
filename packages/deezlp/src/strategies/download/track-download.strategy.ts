@@ -37,16 +37,38 @@ export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTra
 
 		track.embeddedCoverPath = embeddedCoverPath;
 
-		// 4. Download the cover if it doesn't exist
-		await this.fileService.downloadImage(embeddedCoverURL, embeddedCoverPath);
+		// 4. Artist and album cover paths
+		const { artistWritePath, coverWritePath } = this.fileService.buildArtistAlbumWritePath({
+			track,
+			artistPath,
+			coverPath,
+		});
 
-		// 5. Save the synced lyrics if they exist
+		// 5. Download the cover if it doesn't exist
+		const promises: Promise<string | undefined>[] = [];
+
+		promises.push(this.fileService.downloadImage(embeddedCoverURL, embeddedCoverPath));
+
+		// 6. Download the artist and album covers if they don't exist
+		if (artistWritePath && track?.artist?.picture_xl) {
+			promises.push(this.fileService.downloadImage(track.artist.picture_xl, artistWritePath));
+		}
+		if (coverWritePath && track?.album?.cover_xl) {
+			promises.push(this.fileService.downloadImage(track.album.cover_xl, coverWritePath));
+		}
+
+		// 7. Wait for all downloads to complete
+		await Promise.all(promises);
+
+		if (signal?.aborted) throw new DownloadCanceled();
+
+		// 8. Save the synced lyrics if they exist
 		this.fileService.saveSyncedLyrics(filePath, fileName, track.lyrics?.sync);
 
-		// 6. Download the track
+		// 9. Download the track
 		await this.audioStreamerService.streamTrack({ writePath, track, signal, attempt: 0, onUpdate });
 
-		// 7. Apply metadata to the downloaded track
+		// 10. Apply metadata to the downloaded track
 		onUpdate?.({ status: 'tagging' });
 		this.taggerService.tagTrack(track, writePath, extension as TrackExtensions);
 	}
