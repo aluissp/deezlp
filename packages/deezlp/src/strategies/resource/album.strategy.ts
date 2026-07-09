@@ -15,6 +15,6 @@ export class AlbumStrategy implements ResourceStrategy {
 
 		const enrichedTracks = trackList.map(trackData => buildEnrichedTrackFromData(trackData, setting.bitrate));
 
-		return { enrichedTracks, downloadProgress: [] };
+		return { enrichedTracks, downloadProgress: [], type: 'album' };
 	}
 }

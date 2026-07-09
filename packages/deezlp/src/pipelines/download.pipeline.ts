@@ -77,9 +77,7 @@ export class DownloadPipeline extends EventEmitter {
 
 					// 3. Execute strategy
 					this.emitEvent({ job, status: DownloadStatus.fetching });
-					const items = await strategy.process(resolvedUrl, this.dz, { bitrate: this.bitrate });
-
-					job.payload = items;
+					job.payload = await strategy.process(resolvedUrl, this.dz, { bitrate: this.bitrate });
 
 					// 4. Start download with worker
 					await this.downloaderWorker.start(
