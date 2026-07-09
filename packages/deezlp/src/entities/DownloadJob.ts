@@ -55,6 +55,15 @@ export interface DownloadJob<T = unknown> {
 	error?: unknown;
 }
 
+/**
+ * If download job is only for one track the values:
+ * - `progress`: 0-100 represents the progress of the download of the track.
+ * - `attempts`: represents the number of attempts to download the track.
+ *
+ * If download job is for an album the values:
+ * - `progress`: 1 - n where (n is the total number of tracks downloaded).
+ * - `attempts`: represents the number of attempts to download the entire album.
+ */
 export const createDownloadJob = <T>(url: string): DownloadJob<T> => ({
 	id: crypto.randomUUID(),
 	url,
@@ -67,19 +76,3 @@ export const createDownloadJob = <T>(url: string): DownloadJob<T> => ({
 	durationMs: 0,
 	attempts: 0,
 });
-
-// type: 'track';
-// bitrate: number;
-// title: string;
-// artist: EnrichedDeezerArtist;
-// cover: string;
-// explicit: boolean;
-// size: number;
-// downloaded: number;
-// failed: number;
-// progress: number;
-// errors?: any;
-// files?: any;
-// extrasPath: string;
-// progressNext: number;
-// isCanceled: boolean;

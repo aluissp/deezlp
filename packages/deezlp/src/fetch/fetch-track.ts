@@ -89,9 +89,9 @@ export const fetchTrack = async (dz: DeezerCore, input: ResolvedURL, options: Op
 	if (input.kind === 'id') songId = parseInt(input.id);
 	if (input.kind === 'isrc' && deezerTrack?.id) songId = +deezerTrack.id;
 
-	const gwTrack = await fetchGwTrack(dz, songId);
-	const gwTrackPage = await fetchGwTrackPage(dz, songId);
-	const gwLyrics = await fetchLyrics(dz, songId);
+	const [gwTrack, gwTrackPage, gwLyrics] = await Promise.all([fetchGwTrack(dz, songId), fetchGwTrackPage(dz, songId), fetchLyrics(dz, songId)]).catch(
+		() => [undefined, undefined, undefined],
+	);
 
 	// Album
 	const albumId = gwTrack?.ALB_ID || deezerTrack?.album?.id;
