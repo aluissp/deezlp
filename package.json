@@ -7,7 +7,7 @@
     "node": ">=24"
   },
   "scripts": {
-    "test": "bun test"
+    "test": "bun run --filter '*' test"
   },
   "type": "module",
   "workspaces": [
