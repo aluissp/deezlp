@@ -77,9 +77,12 @@ export class AudioStreamerService {
 				}
 			});
 
-		// 3. Run the pipeline with decryption and depadding
 		try {
+			// 3. Run the pipeline with decryption and depadding
 			await pipeline(requestStream, source => this.decrypter(source, isCryptedStream, blowfishKey), this.depadder, createWriteStream(writePath));
+
+			// 4. Info where the track was downloaded
+			onUpdate?.({ downloadPath: writePath });
 		} catch (error: any) {
 			// Cleanup the partially downloaded file if it exists
 			if (existsSync(writePath)) unlinkSync(writePath);

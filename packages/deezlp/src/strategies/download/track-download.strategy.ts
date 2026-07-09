@@ -47,6 +47,7 @@ export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTra
 		await this.audioStreamerService.streamTrack({ writePath, track, signal, attempt: 0, onUpdate });
 
 		// 7. Apply metadata to the downloaded track
+		onUpdate?.({ status: 'tagging' });
 		this.taggerService.tagTrack(track, writePath, extension as TrackExtensions);
 	}
 }

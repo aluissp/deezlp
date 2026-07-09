@@ -84,8 +84,8 @@ export class DownloadPipeline extends EventEmitter {
 					// 4. Start download with worker
 					await this.downloaderWorker.start(
 						job.payload,
-						({ progress, attempts, status, message }) => {
-							this.emitEvent({ job, status, progress, attempts, message });
+						({ progress, attempts, status, message, downloadPath }) => {
+							this.emitEvent({ job, status, progress, attempts, message, downloadPath });
 						},
 						combinedSignal,
 					);
@@ -107,9 +107,9 @@ export class DownloadPipeline extends EventEmitter {
 		}
 	}
 
-	private emitEvent(data: { job: DownloadJob; status?: DownloadStatus; attempts?: number; progress?: number; message?: string; error?: unknown }) {
-		const { job, status, progress, attempts, message, error } = data;
-		this.updateJob({ job, status, progress, attempts, message, error });
+	private emitEvent(data: { job: DownloadJob; status?: DownloadStatus; attempts?: number; progress?: number; message?: string; error?: unknown; downloadPath?: string }) {
+		const { job, status, progress, attempts, message, error, downloadPath } = data;
+		this.updateJob({ job, status, progress, attempts, message, error, downloadPath });
 
 		this.emit(JobStatus, job);
 	}
@@ -124,8 +124,8 @@ export class DownloadPipeline extends EventEmitter {
 		if (controller) controller.abort();
 	}
 
-	private updateJob(data: { job: DownloadJob; status?: DownloadStatus; attempts?: number; progress?: number; message?: string; error?: unknown }) {
-		const { job, status, attempts, progress, message, error } = data;
+	private updateJob(data: { job: DownloadJob; status?: DownloadStatus; attempts?: number; progress?: number; message?: string; error?: unknown; downloadPath?: string }) {
+		const { job, status, attempts, progress, message, error, downloadPath } = data;
 
 		job.updatedAt = Date.now();
 
@@ -138,6 +138,8 @@ export class DownloadPipeline extends EventEmitter {
 		if (progress) job.progress = progress;
 
 		if (error) job.error = error;
+
+		if (downloadPath) job.downloadPath = downloadPath;
 
 		if (status === DownloadStatus.started && !job.startedAt) {
 			job.startedAt = job.updatedAt;
