@@ -46,6 +46,27 @@ export class FileService {
 		return { writePath, extension };
 	}
 
+	buildArtistAlbumWritePath({ track, artistPath, coverPath }: { track: EnrichedDeezerTrack; artistPath?: string; coverPath?: string }): {
+		artistWritePath?: string;
+		coverWritePath?: string;
+	} {
+		const response: { artistWritePath?: string; coverWritePath?: string } = {};
+
+		if (this.settings.saveArtworkArtist && artistPath && track?.artist?.picture_xl) {
+			const extension = track.artist.picture_xl.split('.').pop();
+
+			if (extension) response.artistWritePath = join(artistPath, `${this.fixName(track.artist.name)}.${extension}`);
+		}
+
+		if (this.settings.saveArtwork && coverPath && track?.album?.cover_xl) {
+			const extension = track.album.cover_xl.split('.').pop();
+
+			if (extension) response.coverWritePath = join(coverPath, `${this.fixName(track.album.title)}.${extension}`);
+		}
+
+		return response;
+	}
+
 	async downloadImage(url: string, writePath: string): Promise<string | undefined> {
 		// 1. If exists, return the path
 		if (existsSync(writePath)) return writePath;

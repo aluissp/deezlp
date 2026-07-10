@@ -96,9 +96,11 @@ export interface Settings {
 	embeddedArtworkSize?: number;
 	/** Whether to use PNG format for embedded artwork */
 	embeddedArtworkPNG?: boolean;
-	localArtworkSize?: number;
-	localArtworkFormat?: string;
+	// localArtworkSize?: number;
+	// localArtworkFormat?: string;
+	/** Refers the album cover */
 	saveArtwork?: boolean;
+	/** Refers the artist cover */
 	coverImageTemplate?: string;
 	saveArtworkArtist?: boolean;
 	artistImageTemplate?: string;
