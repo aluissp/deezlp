@@ -189,8 +189,9 @@ export class FileService {
 		// if (track.album) {
 		filename = filename.replaceAll('%album%', this.fixName(track?.album?.title ?? '', c));
 		// filename = filename.replaceAll('%albumartist%', this.fixName(track.album?.artist?.name, c));
-		if (track?.position) filename = filename.replaceAll('%tracknumber%', track.position < 10 ? '0' + track.position : track.position.toString());
-		if (track.album?.nb_tracks) filename = filename.replaceAll('%tracktotal%', track.album.nb_tracks.toString());
+		if (track?.track_position !== undefined)
+			filename = filename.replaceAll('%tracknumber%', track.track_position < 10 ? '0' + track.track_position : track.track_position.toString());
+		if (track.album?.nb_tracks !== undefined) filename = filename.replaceAll('%tracktotal%', track.album.nb_tracks.toString());
 
 		// if (track.album.genre.length) {
 		// 	filename = filename.replaceAll('%genre%', this.fixName(track.album.genre[0], c));
