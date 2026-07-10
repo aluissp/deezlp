@@ -56,7 +56,6 @@ export const DEFAULT_SETTINGS: Settings = {
 	saveArtworkArtist: true,
 	artistImageTemplate: 'folder',
 	jpegImageQuality: 90,
-	dateFormat: 'Y-M-D',
 	albumVariousArtists: true,
 	removeAlbumVersion: false,
 	removeDuplicateArtists: true,

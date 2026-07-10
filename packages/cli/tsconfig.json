@@ -11,6 +11,7 @@
     "allowJs": true,
     "types": [
       "bun",
+      "@types/bun"
     ],
     // Bundler mode
     "moduleResolution": "bundler",
