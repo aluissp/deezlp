@@ -32,7 +32,7 @@ export class DownloadPipeline extends EventEmitter {
 		this.fileService = new FileService(this.settings);
 		this.cryptoService = new CryptoService();
 		this.audioStreamerService = new AudioStreamerService(this.settings, this.cryptoService);
-		this.taggerService = new TaggerService(this.settings.tags);
+		this.taggerService = new TaggerService(this.settings.tags, this.settings.tagFile);
 		this.downloaderWorker = new DownloadWorker(this.dz, this.fileService, this.taggerService, this.audioStreamerService);
 	}
 

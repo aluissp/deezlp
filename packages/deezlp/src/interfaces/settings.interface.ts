@@ -88,7 +88,10 @@ export interface Settings {
 	logErrors?: boolean;
 	logSearched?: boolean;
 	saveDownloadQueue?: boolean;
-	overwriteFile?: string;
+	/** Used to overwrite existing files (.mp3, .flac, etc.) */
+	overwriteFile: boolean;
+	/** Used to tag existing files (.mp3, .flac, etc.) */
+	tagFile: boolean;
 	createM3U8File?: boolean;
 	playlistFilenameTemplate?: string;
 	syncedLyrics?: boolean;
