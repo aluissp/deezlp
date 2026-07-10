@@ -50,7 +50,6 @@ export interface EnrichedDeezerTrack extends Omit<DeezerTrack, 'artist' | 'album
 	lyrics_id?: number;
 	gwLyrics?: GWLyrics;
 	lyrics?: Lyrics;
-	position?: number;
 	copyright?: string;
 	physical_release_date?: string;
 	genres?: string[];

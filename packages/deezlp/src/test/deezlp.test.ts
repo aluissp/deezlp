@@ -112,6 +112,7 @@ describe('Testing the generateTrackItem function', () => {
 			tagFile: true,
 			syncedLyrics: true,
 			overwriteFile: false,
+			tracknameTemplate: '%tracknumber% - %title%',
 		});
 
 		const result = deezlp.download(albumLink);
