@@ -20,6 +20,10 @@ describe('Testing the generateTrackItem function', () => {
 		'https://www.deezer.com/mx/track/562774642?host=6864903961&utm_campaign=clipboard-generic&utm_source=user_sharing&utm_content=track-562774642&deferredFl=1&universal_link=1',
 	];
 
+	/** Deftones - Adrenaline album link */
+	const albumLink =
+		'https://www.deezer.com/mx/album/91101?host=6864903961&utm_campaign=clipboard-generic&utm_source=user_sharing&utm_content=album-91101&deferredFl=1';
+
 	const musicFolder = getMusicFolder();
 	const trackPath1 = join(musicFolder, 'Twenty One Pilots', 'Blurryface', 'Twenty One Pilots - Stressed Out.mp3');
 	const trackPath2 = join(musicFolder, 'Twenty One Pilots', 'Trench', 'Twenty One Pilots - Jumpsuit.mp3');
@@ -35,11 +39,15 @@ describe('Testing the generateTrackItem function', () => {
 		deezlp2 = new Deezlp({
 			...DEFAULT_SETTINGS,
 			maxBitrate: TRACK_FORMATS.MP3_320,
+			overwriteFile: false,
+			tagFile: true,
 			syncedLyrics: true,
 		});
 		deezlp3 = new Deezlp({
 			...DEFAULT_SETTINGS,
 			maxBitrate: TRACK_FORMATS.FLAC,
+			overwriteFile: false,
+			tagFile: true,
 			syncedLyrics: true,
 		});
 
@@ -87,5 +95,14 @@ describe('Testing the generateTrackItem function', () => {
 		expect(existsSync(trackPath2)).toBe(true);
 		expect(existsSync(lyricPath1)).toBe(true);
 		expect(existsSync(lyricPath2)).toBe(true);
+	}, 90000);
+
+	test('Should download all files from an album', async () => {
+		const result = deezlp2.download(albumLink);
+
+		await result.done;
+
+		expect(result.jobs.length).toBe(1);
+		expect(result.jobs?.[0]?.status).toBe(DownloadStatus.finished);
 	}, 90000);
 });

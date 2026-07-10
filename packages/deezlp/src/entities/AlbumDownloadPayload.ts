@@ -20,4 +20,5 @@ export interface AlbumDownloadPayload {
 	currentProgress?: DownloadProgress;
 	downloadProgress: DownloadProgress[];
 	enrichedTracks: EnrichedDeezerTrack[];
+	type: 'album';
 }
