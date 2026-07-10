@@ -83,6 +83,8 @@ export class AlbumDownloadStrategy implements DownloadStrategy<AlbumDownloadPayl
 		});
 
 		// 11. Wait for all track downloads to complete
-		await Promise.all(trackPromises);
+		await Promise.all(trackPromises).catch(error => {
+			if (error instanceof DownloadCanceled) throw error; // only throw if the download was canceled
+		});
 	}
 }
