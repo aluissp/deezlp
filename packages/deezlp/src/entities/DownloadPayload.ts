@@ -1,3 +1,4 @@
-import type { EnrichedDeezerAlbum, EnrichedDeezerTrack } from '@/interfaces';
+import type { EnrichedDeezerTrack } from '@/interfaces';
+import type { AlbumDownloadPayload } from './AlbumDownloadPayload';
 
-export type DownloadPayload = EnrichedDeezerTrack | EnrichedDeezerAlbum;
+export type DownloadPayload = EnrichedDeezerTrack | AlbumDownloadPayload;
