@@ -17,7 +17,7 @@ export class AudioStreamerService {
 		this.api = got.extend({
 			headers: { 'User-Agent': USER_AGENT_HEADER },
 			https: { rejectUnauthorized: false },
-			timeout: { read: 5000 },
+			timeout: { response: 10000 },
 		});
 	}
 
