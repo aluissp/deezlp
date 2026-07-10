@@ -1,4 +1,5 @@
 import { resolveDeezerUrl } from '@/resolvers';
+import { describe, expect, test } from 'bun:test';
 
 describe('Testing the url resolver', () => {
 	const trackLink =

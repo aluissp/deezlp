@@ -1,4 +1,5 @@
 import { getMusicFolder } from '@/utils';
+import { describe, expect, test } from 'bun:test';
 
 describe('Testing the localpaths util functions', () => {
 	test('Should build correct music folder', () => {

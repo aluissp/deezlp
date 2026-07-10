@@ -4,6 +4,7 @@ import { Deezlp } from '@/deezlp';
 import { DownloadStatus } from '@/entities';
 import { DEFAULT_SETTINGS } from '@/constants';
 import { getMusicFolder, TRACK_FORMATS } from 'deezer';
+import { beforeAll, describe, expect, test } from 'bun:test';
 
 describe('Testing the generateTrackItem function', () => {
 	let deezlp1: Deezlp;

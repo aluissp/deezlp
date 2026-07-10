@@ -1,5 +1,6 @@
 import { DeezerCore } from '@/deezer-core';
 import exampleTrack from './deezer-track.example.json';
+import { beforeAll, describe, expect, test } from 'bun:test';
 import { TRACK_FORMAT_NAMES, TRACK_FORMATS } from '@/constants';
 
 describe('Testing DeezerCore class', () => {
