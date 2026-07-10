@@ -7,9 +7,7 @@ import { getMusicFolder, TRACK_FORMATS } from 'deezer';
 import { beforeAll, describe, expect, test } from 'bun:test';
 
 describe('Testing the generateTrackItem function', () => {
-	let deezlp1: Deezlp;
-	let deezlp2: Deezlp;
-	let deezlp3: Deezlp;
+	let deezlp: Deezlp;
 	let token: string = process.env.VITE_DEEZER_ARL_TOKEN || '';
 
 	// const trackId = 105920318 // Gorriones
@@ -31,32 +29,26 @@ describe('Testing the generateTrackItem function', () => {
 	const lyricPath2 = join(musicFolder, 'Twenty One Pilots', 'Trench', 'Twenty One Pilots - Jumpsuit.lrc');
 
 	beforeAll(async () => {
-		deezlp1 = new Deezlp({
+		deezlp = new Deezlp({
 			...DEFAULT_SETTINGS,
 			maxBitrate: TRACK_FORMATS.MP3_128,
 			syncedLyrics: true,
 		});
-		deezlp2 = new Deezlp({
-			...DEFAULT_SETTINGS,
-			maxBitrate: TRACK_FORMATS.MP3_320,
-			overwriteFile: false,
-			tagFile: true,
-			syncedLyrics: true,
-		});
-		deezlp3 = new Deezlp({
-			...DEFAULT_SETTINGS,
-			maxBitrate: TRACK_FORMATS.FLAC,
-			overwriteFile: false,
-			tagFile: true,
-			syncedLyrics: true,
-		});
 
-		await Promise.all([deezlp1.loginViaArl(token), deezlp2.loginViaArl(token), deezlp3.loginViaArl(token)]);
+		await deezlp.loginViaArl(token);
 	});
 
 	/** Disabled for test with 320kbps, enabled if you doesn't have premium account */
 	// test('Should download deezer 128kbps tracks', async () => {
-	// 	const result = deezlp1.download(links);
+	// 	// config settings for 128kbps
+	// 	deezlp.setSettings({
+	// 		maxBitrate: TRACK_FORMATS.MP3_128,
+	// 		tagFile: true,
+	// 		syncedLyrics: true,
+	// 		overwriteFile: false,
+	// 	});
+
+	// 	const result = deezlp.download(links);
 
 	// 	await result.done;
 
@@ -70,7 +62,15 @@ describe('Testing the generateTrackItem function', () => {
 	// }, 90000);
 
 	test('Should download deezer 320kbps tracks', async () => {
-		const result = deezlp2.download(links);
+		// config settings for 320kbps
+		deezlp.setSettings({
+			maxBitrate: TRACK_FORMATS.MP3_320,
+			tagFile: true,
+			syncedLyrics: true,
+			overwriteFile: false,
+		});
+
+		const result = deezlp.download(links);
 
 		await result.done;
 
@@ -84,7 +84,15 @@ describe('Testing the generateTrackItem function', () => {
 	}, 90000);
 
 	test('Should download deezer FLAC tracks', async () => {
-		const result = deezlp3.download(links);
+		// config settings for 128kbps
+		deezlp.setSettings({
+			maxBitrate: TRACK_FORMATS.FLAC,
+			tagFile: true,
+			syncedLyrics: true,
+			overwriteFile: false,
+		});
+
+		const result = deezlp.download(links);
 
 		await result.done;
 
@@ -98,7 +106,15 @@ describe('Testing the generateTrackItem function', () => {
 	}, 90000);
 
 	test('Should download all files from an album', async () => {
-		const result = deezlp2.download(albumLink);
+		// config settings for 320kbps
+		deezlp.setSettings({
+			maxBitrate: TRACK_FORMATS.MP3_320,
+			tagFile: true,
+			syncedLyrics: true,
+			overwriteFile: false,
+		});
+
+		const result = deezlp.download(albumLink);
 
 		await result.done;
 
