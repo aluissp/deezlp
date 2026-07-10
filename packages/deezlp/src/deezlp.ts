@@ -32,6 +32,15 @@ export class Deezlp {
 	}
 
 	/**
+	 * Sets the settings for the Deezlp instance
+	 * @param settings The settings to set
+	 * @returns {void}
+	 */
+	setSettings(settings: Partial<Settings>) {
+		this.settings = { ...this.settings, ...settings };
+	}
+
+	/**
 	 * Start download urls
 	 */
 	download(urls: string | string[]) {
