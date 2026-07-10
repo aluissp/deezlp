@@ -7,6 +7,7 @@ export type DownloadStatus =
 	| 'fetching'
 	| 'building'
 	| 'downloading'
+	| 'tagging'
 	| 'retrying'
 	| 'finished'
 	| 'error'
@@ -25,7 +26,9 @@ export const DownloadStatus: Record<DownloadStatus, DownloadStatus> = {
 	building: 'building',
 	/** Download is downloading the content (.mp3, .flac files) */
 	downloading: 'downloading',
-	/** Download is finished */
+	/** Tagging is downloading the content (.mp3, .flac files) */
+	tagging: 'tagging',
+	/** Download and tagging is finished */
 	finished: 'finished',
 	/** Download has an error */
 	error: 'error',
@@ -41,6 +44,7 @@ export interface DownloadJob<T = unknown> {
 	status: DownloadStatus;
 	progress?: number;
 	message?: string;
+	downloadPath?: string;
 	startedAt: number;
 	updatedAt: number;
 	finishedAt: number;
