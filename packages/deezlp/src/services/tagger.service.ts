@@ -194,7 +194,7 @@ export class TaggerService {
 	}
 
 	private tagFLAC(track: EnrichedDeezerTrack, filePath: string): void {
-		const flac = new Metaflac();
+		const flac = new Metaflac(filePath);
 		flac.removeAllTags();
 
 		// 1. title
@@ -204,7 +204,7 @@ export class TaggerService {
 		if (track.artist?.name) {
 			const contributors = track?.contributors?.map(contributor => `ARTIST=${contributor.name}`) ?? [`ARTIST=${track.artist.name}`];
 
-			if (this.save.multiArtistSeparator === 'default') contributors.forEach(flac.setTag);
+			if (this.save.multiArtistSeparator === 'default') contributors.forEach(contributor => flac.setTag(contributor));
 			else if (this.save.multiArtistSeparator === 'comma') flac.setTag(contributors.join(', '));
 			else if (this.save.multiArtistSeparator === 'nothing') flac.setTag(`ARTIST=${track.artist.name}`);
 
