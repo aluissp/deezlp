@@ -109,7 +109,7 @@ export interface Settings {
 	artistImageTemplate?: string;
 	/** JPEG image quality, `embeddedArtworkPNG` must be false */
 	jpegImageQuality?: number;
-	dateFormat?: string;
+	// dateFormat?: string; // not user for now
 	albumVariousArtists?: boolean;
 	removeAlbumVersion?: boolean;
 	removeDuplicateArtists?: boolean;

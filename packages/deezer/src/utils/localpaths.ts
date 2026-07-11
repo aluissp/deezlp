@@ -24,7 +24,7 @@ function checkPath(path: string) {
 }
 
 export const getConfigFolder = (): string => {
-	const configPath = join(homePath, '.config', 'deezer');
+	const configPath = join(homePath, '.config', 'deezlp');
 
 	if (!checkPath(configPath)) fs.mkdirSync(configPath, { recursive: true });
 

@@ -32,6 +32,13 @@ export class Deezlp {
 	}
 
 	/**
+	 * Indicates if the user is logged in
+	 */
+	get loggedIn() {
+		return this.dz.loggedIn;
+	}
+
+	/**
 	 * Sets the settings for the Deezlp instance
 	 * @param settings The settings to set
 	 * @returns {void}
