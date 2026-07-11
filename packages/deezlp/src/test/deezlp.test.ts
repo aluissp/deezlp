@@ -121,5 +121,17 @@ describe('Testing the Deezlp class', () => {
 
 		expect(result.jobs.length).toBe(1);
 		expect(result.jobs?.[0]?.status).toBe(DownloadStatus.finished);
+
+		result.jobs.forEach(job => {
+			expect(job.payload?.type).toBe('album');
+
+			if (job.payload?.type !== 'album') return;
+
+			job.payload?.downloadProgress.forEach(data => {
+				expect(data.progressStatus).toBe('finished');
+				expect(data.trackProgress).toBe(100);
+				if (data.downloadPath) expect(existsSync(data.downloadPath)).toBe(true);
+			});
+		});
 	}, 90000);
 });

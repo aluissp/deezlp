@@ -106,6 +106,7 @@ export class AlbumDownloadStrategy implements DownloadStrategy<AlbumDownloadPayl
 			this.taggerService.tagTrack(track, writePath, extension as TrackExtensions);
 
 			// 11. Add to download progress history
+			album.currentProgress.progressStatus = 'finished';
 			album.downloadProgress.push(album.currentProgress);
 		});
 
