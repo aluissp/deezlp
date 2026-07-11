@@ -1,7 +1,7 @@
+import { DownloadCanceled } from '@/exceptions';
 import type { TrackExtensions } from '@/constants';
 import type { AlbumDownloadPayload } from '@/entities';
 import type { DeezerTrackUrlResolver } from '@/resolvers';
-import { DownloadCanceled, TrackAlreadyDownloaded } from '@/exceptions';
 import type { AudioStreamerService, FileService, TaggerService } from '@/services';
 import type { DownloadStrategy, UpdateCallback } from './download-strategy.interface';
 
@@ -17,15 +17,19 @@ export class AlbumDownloadStrategy implements DownloadStrategy<AlbumDownloadPayl
 		if (signal?.aborted) throw new DownloadCanceled();
 
 		const totalTracks = album.enrichedTracks.length;
-		const currentProgress: AlbumDownloadPayload['currentProgress'] = {
-			trackIndex: 0,
-			progressStatus: 'fetching',
-			trackAttempts: 0,
-			trackProgress: 0,
-			totalTracks,
-		};
 
+		// Start downloading each track in the album
+		onUpdate?.({ status: 'downloading' });
 		const trackPromises = album.enrichedTracks.map(async (track, index) => {
+			// Progress tracking
+			album.currentProgress = {
+				trackIndex: index,
+				progressStatus: 'fetching',
+				trackAttempts: 0,
+				trackProgress: 0,
+				totalTracks,
+			};
+
 			// 1. Compute bitrate and urls
 			await this.trackResolver.resolve(track);
 			// 2. Build the final path for the track
@@ -34,7 +38,12 @@ export class AlbumDownloadStrategy implements DownloadStrategy<AlbumDownloadPayl
 			const isAlreadyDownloaded = this.fileService.checkIsAlreadyDownload({ writePath });
 
 			// Check if the track is already downloaded
-			if (isAlreadyDownloaded) throw new TrackAlreadyDownloaded(`Track already downloaded at ${writePath}.`);
+			// if (isAlreadyDownloaded) throw new TrackAlreadyDownloaded(`Track already downloaded at ${writePath}.`);
+			if (isAlreadyDownloaded) {
+				album.currentProgress.progressStatus = 'finished';
+				album.currentProgress.trackProgress = 100;
+				return;
+			}
 
 			if (signal?.aborted) throw new DownloadCanceled();
 
@@ -76,10 +85,28 @@ export class AlbumDownloadStrategy implements DownloadStrategy<AlbumDownloadPayl
 			this.fileService.saveSyncedLyrics(filePath, fileName, track.lyrics?.sync);
 
 			// 9. Download the track
-			await this.audioStreamerService.streamTrack({ writePath, track, signal, attempt: 0 });
+			album.currentProgress.progressStatus = 'downloading';
+			await this.audioStreamerService.streamTrack({
+				writePath,
+				track,
+				signal,
+				attempt: 0,
+				onUpdate: ({ attempts, downloadPath, message, progress, status }) => {
+					if (!album.currentProgress) return;
+					if (attempts) album.currentProgress.trackAttempts = attempts;
+					if (progress) album.currentProgress.trackProgress = progress;
+					if (status) album.currentProgress.progressStatus = status;
+					album.currentProgress.message = message;
+					album.currentProgress.downloadPath = downloadPath;
+				},
+			});
 
 			// 10. Apply metadata to the downloaded track
+			album.currentProgress.progressStatus = 'tagging';
 			this.taggerService.tagTrack(track, writePath, extension as TrackExtensions);
+
+			// 11. Add to download progress history
+			album.downloadProgress.push(album.currentProgress);
 		});
 
 		// 11. Wait for all track downloads to complete

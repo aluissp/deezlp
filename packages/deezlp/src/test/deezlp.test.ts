@@ -6,7 +6,7 @@ import { DEFAULT_SETTINGS } from '@/constants';
 import { getMusicFolder, TRACK_FORMATS } from 'deezer';
 import { beforeAll, describe, expect, test } from 'bun:test';
 
-describe('Testing the generateTrackItem function', () => {
+describe('Testing the Deezlp class', () => {
 	let deezlp: Deezlp;
 	let token: string = process.env.VITE_DEEZER_ARL_TOKEN || '';
 

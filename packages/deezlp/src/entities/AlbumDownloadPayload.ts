@@ -7,6 +7,8 @@ type DownloadProgress = {
 	trackAttempts: number;
 	progressStatus: DownloadStatus;
 	totalTracks: number;
+	message?: string;
+	downloadPath?: string;
 };
 
 /**
