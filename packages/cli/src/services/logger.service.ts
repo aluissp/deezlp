@@ -1,5 +1,6 @@
 import pc from 'picocolors';
 import { join } from 'path';
+import { getConfigFolder } from 'deezer';
 import { createLogger, format, transports, Logger } from 'winston';
 
 export class LoggerService {
@@ -12,7 +13,9 @@ export class LoggerService {
 		debug: 4,
 	};
 
-	constructor(logDirectory: string) {
+	constructor(logDirectory?: string) {
+		if (!logDirectory) logDirectory = getConfigFolder();
+
 		this.logger = createLogger({
 			level: 'info',
 			levels: this.levels,
@@ -40,6 +43,7 @@ export class LoggerService {
 
 							const msgFormats: Record<string, string> = {
 								info: `${pc.blue('[INFO]:')} ${message}`,
+								success: `${pc.green('[SUCCESS]:')} ${message}`,
 								error: `${pc.red('[ERROR]:')} ${pc.red(message)}`,
 								warn: `${pc.yellow('[WARN]:')} ${message}`,
 							};
@@ -57,7 +61,7 @@ export class LoggerService {
 	}
 
 	success(message: string): void {
-		this.logger.info(`${pc.green('[SUCCESS]:')} ${message}`);
+		this.logger.info(message);
 	}
 
 	warn(message: string): void {

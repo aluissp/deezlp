@@ -18,7 +18,9 @@ export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTra
 
 		// 1. Compute bitrate and urls
 		await this.trackResolver.resolve(track);
+
 		// 2. Build the final path for the track
+		onUpdate?.({ status: 'building' });
 		const { fileName, filePath, artistPath, coverPath } = this.fileService.buildTrackPath(track);
 		const { writePath, extension } = this.fileService.buildWritePath({ filePath, fileName, bitrate: track.bitrate! });
 		const isAlreadyDownloaded = this.fileService.checkIsAlreadyDownload({ writePath });
@@ -66,6 +68,7 @@ export class TrackDownloadStrategy implements DownloadStrategy<EnrichedDeezerTra
 		this.fileService.saveSyncedLyrics(filePath, fileName, track.lyrics?.sync);
 
 		// 9. Download the track
+		onUpdate?.({ status: 'downloading' });
 		await this.audioStreamerService.streamTrack({ writePath, track, signal, attempt: 0, onUpdate });
 
 		// 10. Apply metadata to the downloaded track

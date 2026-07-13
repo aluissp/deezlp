@@ -1,4 +1,5 @@
 export * from './exceptions';
+export * from './entities';
 export * from './utils';
 export * from './workers';
 export * from './strategies';
