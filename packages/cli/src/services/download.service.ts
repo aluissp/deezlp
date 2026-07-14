@@ -41,10 +41,24 @@ export class DownloadService {
 
 		// 6. Listen to the download progress
 		session.on('job:status', job => {
-			if (job.status === 'downloading') {
-				this.logger.info(`Downloading ${job.payload?.title} by ${job.payload?.artist?.name}: (${job?.progress?.toFixed(2)}%)`);
-			} else if (job.status === 'tagging') {
-				this.logger.success(`Tagging track: ${job.payload?.title} by ${job.payload?.artist?.name}`);
+			// track log
+			if (job.payload?.type === 'track') {
+				if (job.status === 'downloading')
+					this.logger.info(`Downloading ${job.payload?.title} by ${job.payload?.artist?.name}: (${job?.progress?.toFixed(2)}%)`);
+				else if (job.status === 'tagging') this.logger.success(`Tagging track: ${job.payload?.title} by ${job.payload?.artist?.name}`);
+
+				// album log
+			} else if (job.payload?.type === 'album') {
+				const album = job.payload?.enrichedTracks?.[0]?.album;
+				const artist = job.payload?.enrichedTracks?.[0]?.artist;
+				const currentTrackIndex = job.payload?.currentProgress?.trackIndex;
+				const total = job.payload?.enrichedTracks?.length;
+				if (job.status === 'downloading' && album && artist && currentTrackIndex && total) {
+					const track = job.payload?.enrichedTracks?.[currentTrackIndex];
+					this.logger.info(
+						`Downloading album ${album?.title} by ${artist?.name} [${currentTrackIndex + 1}/${total}]: ${track?.title} (${job?.progress?.toFixed(2)}%)`,
+					);
+				}
 			}
 		});
 
