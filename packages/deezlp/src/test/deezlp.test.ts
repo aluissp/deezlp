@@ -68,6 +68,7 @@ describe('Testing the Deezlp class', () => {
 			tagFile: true,
 			syncedLyrics: true,
 			overwriteFile: false,
+			tags: { ...DEFAULT_SETTINGS, syncedLyrics: true },
 		});
 
 		const result = deezlp.prepare(links);
@@ -84,7 +85,7 @@ describe('Testing the Deezlp class', () => {
 	}, 90000);
 
 	test('Should download deezer FLAC tracks', async () => {
-		// config settings for 128kbps
+		// config settings for FLAC
 		deezlp.setSettings({
 			maxBitrate: TRACK_FORMATS.FLAC,
 			tagFile: true,
