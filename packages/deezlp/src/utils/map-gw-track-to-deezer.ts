@@ -155,7 +155,7 @@ export const mapGwTrackToDeezer = (track: GWTrack): EnrichedDeezerTrack => {
 		alternative: undefined, // not provided
 		copyright: undefined, // not provided
 		alternative_albums: undefined, // not provided
-		position: undefined, // not provided
+		// position: undefined, // not provided
 		size: undefined, // not provided
 		song_collaborators,
 		song_contributors,

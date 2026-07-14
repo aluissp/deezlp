@@ -1,4 +1,4 @@
-import { Deezlp, type DownloadPayload, type DownloadJob } from 'deezlp';
+import { Deezlp } from 'deezlp';
 import { resolve } from 'path';
 import { TRACK_FORMATS } from 'deezer';
 import type { LoggerService } from './logger.service';
@@ -41,7 +41,6 @@ export class DownloadService {
 
 		// 6. Listen to the download progress
 		session.on('job:status', job => {
-			// job.
 			if (job.status === 'downloading') {
 				this.logger.info(`Downloading ${job.payload?.title} by ${job.payload?.artist?.name}: (${job?.progress?.toFixed(2)}%)`);
 			} else if (job.status === 'tagging') {

@@ -70,9 +70,9 @@ describe('Testing the Deezlp class', () => {
 			overwriteFile: false,
 		});
 
-		const result = deezlp.download(links);
+		const result = deezlp.prepare(links);
 
-		await result.done;
+		await result.start();
 
 		expect(result.jobs.length).toBe(2);
 		expect(result.jobs?.[0]?.status).toBe(DownloadStatus.finished);
@@ -92,9 +92,9 @@ describe('Testing the Deezlp class', () => {
 			overwriteFile: false,
 		});
 
-		const result = deezlp.download(links);
+		const result = deezlp.prepare(links);
 
-		await result.done;
+		await result.start();
 
 		expect(result.jobs.length).toBe(2);
 		expect(result.jobs?.[0]?.status).toBe(DownloadStatus.finished);
@@ -115,9 +115,9 @@ describe('Testing the Deezlp class', () => {
 			tracknameTemplate: '%tracknumber% - %title%',
 		});
 
-		const result = deezlp.download(albumLink);
+		const result = deezlp.prepare(albumLink);
 
-		await result.done;
+		await result.start();
 
 		expect(result.jobs.length).toBe(1);
 		expect(result.jobs?.[0]?.status).toBe(DownloadStatus.finished);
