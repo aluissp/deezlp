@@ -49,14 +49,20 @@ export class DownloadService {
 
 				// album log
 			} else if (job.payload?.type === 'album') {
+				const progress = job.progress;
 				const album = job.payload?.enrichedTracks?.[0]?.album;
 				const artist = job.payload?.enrichedTracks?.[0]?.artist;
-				const currentTrackIndex = job.payload?.currentProgress?.trackIndex;
 				const total = job.payload?.enrichedTracks?.length;
-				if (job.status === 'downloading' && album && artist && currentTrackIndex && total) {
-					const track = job.payload?.enrichedTracks?.[currentTrackIndex];
+				if (job.status === 'downloading' && album && artist && progress && total) {
+					const track = job.payload?.enrichedTracks?.[progress - 1];
 					this.logger.info(
-						`Downloading album ${album?.title} by ${artist?.name} [${currentTrackIndex + 1}/${total}]: ${track?.title} (${job?.progress?.toFixed(2)}%)`,
+						`Downloading album ${album?.title} by ${artist?.name} [${progress}/${total}]: ${track?.title}...`,
+					);
+				}
+				if (job.status === 'tagging' && album && artist && progress && total) {
+					const track = job.payload?.enrichedTracks?.[progress - 1];
+					this.logger.info(
+						`Tagging album ${album?.title} by ${artist?.name} [${progress}/${total}]: ${track?.title}...`,
 					);
 				}
 			}
