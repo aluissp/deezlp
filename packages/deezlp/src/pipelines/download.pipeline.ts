@@ -108,7 +108,7 @@ export class DownloadPipeline extends EventEmitter {
 	}
 
 	private emitEvent(data: {
-		job: DownloadJob;
+		job: DownloadJob<DownloadPayload>;
 		status?: DownloadStatus;
 		attempts?: number;
 		progress?: number;

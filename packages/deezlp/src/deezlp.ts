@@ -3,6 +3,7 @@ import type { DownloadSession, Settings } from './interfaces';
 import { DEFAULT_SETTINGS } from './constants';
 import { NotLoggedInException } from './exceptions';
 import { DownloadPipeline } from './pipelines';
+import type { DownloadJob, DownloadPayload } from './entities';
 
 /**
  * Deezlp is the main class that manages the Deezer API interactions and provides methods to access and manipulate data related to tracks, albums, artists, playlists.
@@ -48,25 +49,24 @@ export class Deezlp {
 	}
 
 	/**
-	 * Start download urls
+	 * Prepare download jobs
 	 */
-	download(urls: string | string[]) {
+	prepare(urls: string | string[]) {
 		if (!this.dz.loggedIn) throw new NotLoggedInException('You must be logged in to download tracks! Use arl or username/password to log in.');
 
 		const pipeline = new DownloadPipeline(this.dz, this.settings);
 
 		const jobs = pipeline.prepare(urls);
-		const donePromise = pipeline.start();
 
 		const session: DownloadSession = {
 			jobs,
-			cancelAll: pipeline.cancelAll,
-			cancelJob: pipeline.cancelJob,
+			cancelAll: pipeline.cancelAll.bind(pipeline),
+			cancelJob: pipeline.cancelJob.bind(pipeline),
 			on(event, callback) {
 				pipeline.on(event, callback);
 				return this;
 			},
-			done: donePromise,
+			start: pipeline.start.bind(pipeline),
 		};
 
 		return session;
