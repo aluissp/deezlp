@@ -50,7 +50,7 @@ export class Deezlp {
 	/**
 	 * Prepare download jobs
 	 */
-	prepare(urls: string | string[]): DownloadSession {
+	prepare(urls: string | string[]) {
 		if (!this.dz.loggedIn) throw new NotLoggedInException('You must be logged in to download tracks! Use arl or username/password to log in.');
 
 		const pipeline = new DownloadPipeline(this.dz, this.settings);

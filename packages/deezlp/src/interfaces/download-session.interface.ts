@@ -1,6 +1,6 @@
 import type { DownloadJob, DownloadPayload } from '@/entities';
 
-export interface DownloadSession {
+export type DownloadSession = {
 	jobs: DownloadJob<DownloadPayload>[];
 	cancelAll: () => void;
 	cancelJob: (jobId: string) => void;

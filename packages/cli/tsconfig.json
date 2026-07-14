@@ -39,5 +39,8 @@
   "include": [
     "./src/**/*.ts",
     "./src/**/*.json",
+  ],
+  "references": [
+    { "path": "../deezlp" }
   ]
 }
