@@ -1,4 +1,4 @@
-import { Command } from 'commander';
+import { Command, Option } from 'commander';
 import { bootstrapCli } from './bootstrap';
 import packageJson from '../../package.json' with { type: 'json' };
 
@@ -8,8 +8,7 @@ import packageJson from '../../package.json' with { type: 'json' };
  * available commands:
  *  - download
  *  - login
- *  - logout
- *  - search
+ *  - config
  * @returns {Command}
  */
 export function createCli(): Command {
@@ -17,7 +16,7 @@ export function createCli(): Command {
 
 	program.name('deezlp-cli').description('A CLI wrapper for deezlp').version(packageJson.version);
 
-	const { downloadService } = bootstrapCli();
+	const { downloadService, configService } = bootstrapCli();
 
 	// download command
 	program
@@ -25,11 +24,20 @@ export function createCli(): Command {
 		.description('Download tracks or albums')
 		.argument('<urls...>', 'The URLs of the track or album')
 		.option('-p, --path <path>', 'Downloads in the given folder')
-		.option('-b, --bitrate <type>', 'Overrides the default bitrate selected - 128, 320, flac')
+		.option('-b, --bitrate <bitrate>', 'Overrides the default bitrate selected - 128, 320, flac')
 		.option('--portable', 'Creates the config folder in the same directory where the script is launched')
-		.action(async (urls: string[], options: any) => {
-			downloadService.executeDownload(urls, options);
-		});
+		.action(async (urls: string[], options: any) => downloadService.executeDownload(urls, options));
+
+	// config command
+	program
+		.command('config')
+		.description('Configure download settings')
+		.option('-p, --path <path>', 'Downloads in the given folder')
+		.option('-b, --bitrate <bitrate>', 'Overrides the default bitrate selected - 128, 320, flac')
+		.option('-s, --show', 'Shows the current configuration')
+		.addOption(new Option('--sl, --synclyrics <yes|no>', 'Enable syncs lyrics with the downloaded tracks').choices(['yes', 'no']))
+		.addOption(new Option('--tsl, --tagsynclyrics <yes|no>', 'Tags the downloaded tracks with the synced lyrics').choices(['yes', 'no']))
+		.action((options: any) => configService.execute(options));
 
 	return program;
 }
