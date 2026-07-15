@@ -1,8 +1,7 @@
 import { join } from 'path';
 import { existsSync } from 'fs';
 import { Deezlp } from '@/deezlp';
-import { getMusicFolder } from 'deezer';
-import { TRACK_FORMATS } from '@/constants';
+import { getMusicFolder, TRACK_FORMATS } from 'deezer';
 import { DownloadStatus } from '@/entities';
 import { DEFAULT_SETTINGS } from '@/constants';
 import { beforeAll, describe, expect, test } from 'bun:test';
