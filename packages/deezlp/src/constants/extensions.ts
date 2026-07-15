@@ -12,3 +12,6 @@ export const extensions = {
 } as const;
 
 export type TrackExtensions = '.mp3' | '.flac';
+
+// Re-exporting TRACK_FORMATS for external usage
+export { TRACK_FORMATS };

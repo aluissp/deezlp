@@ -4,65 +4,64 @@ import { getMusicFolder, TRACK_FORMATS } from 'deezer';
 /**
  * What should I do with featured artists?
  */
-export const FeaturesOption = {
-	/* Do nothing */
-	NO_CHANGE: '0',
-	/* Remove from track title */
-	REMOVE_TITLE: '1',
-	/* Remove from track title and album title */
-	REMOVE_TITLE_ALBUM: '3',
-	/* Move to track title */
-	MOVE_TITLE: '2',
-};
+// export const FeaturesOption = {
+// 	/* Do nothing */
+// 	NO_CHANGE: '0',
+// 	/* Remove from track title */
+// 	REMOVE_TITLE: '1',
+// 	/* Remove from track title and album title */
+// 	REMOVE_TITLE_ALBUM: '3',
+// 	/* Move to track title */
+// 	MOVE_TITLE: '2',
+// };
 
 export const DEFAULT_SETTINGS: Settings = {
 	downloadLocation: getMusicFolder(),
 	tracknameTemplate: '%artist% - %title%',
-	albumTracknameTemplate: '%tracknumber% - %title%',
-	playlistTracknameTemplate: '%artist% - %title%',
-	createPlaylistFolder: true,
-	playlistNameTemplate: '%playlist%',
+	// albumTracknameTemplate: '%tracknumber% - %title%',
+	// playlistTracknameTemplate: '%artist% - %title%',
+	// createPlaylistFolder: true,
+	// playlistNameTemplate: '%playlist%',
 	createArtistFolder: true,
 	artistNameTemplate: '%artist%',
 	createAlbumFolder: true,
 	albumNameTemplate: '%album%',
-	createCDFolder: true,
-	createStructurePlaylist: false,
+	// createCDFolder: true,
+	// createStructurePlaylist: false,
 	maxAttempts: 3, // Maximum number of attempts to download a file
-	// createSingleFolder: false,
-	padTracks: true,
-	padSingleDigit: true,
-	paddingSize: 0,
+	// createSingleFolder: false, // disabled
+	// padTracks: true,
+	// padSingleDigit: true, // disabled
+	// paddingSize: 0,
 	illegalCharacterReplacer: '_',
-	queueConcurrency: 10,
 	maxBitrate: TRACK_FORMATS.MP3_128,
-	feelingLucky: false,
-	fallbackBitrate: false,
-	fallbackSearch: false,
-	fallbackISRC: false,
-	logErrors: true,
-	logSearched: false,
+	// feelingLucky: false,
+	// fallbackBitrate: false,
+	// fallbackSearch: false,
+	// fallbackISRC: false,
+	// logErrors: true,
+	// logSearched: false,
 	overwriteFile: true,
 	tagFile: true,
-	createM3U8File: false,
-	playlistFilenameTemplate: 'playlist',
+	// createM3U8File: false,
+	// playlistFilenameTemplate: 'playlist',
 	syncedLyrics: false,
 	embeddedArtworkSize: 800,
 	embeddedArtworkPNG: false,
 	// localArtworkSize: 1200,
 	// localArtworkFormat: 'jpg',
 	saveArtwork: true,
-	coverImageTemplate: 'cover',
+	// coverImageTemplate: 'cover',
 	saveArtworkArtist: true,
-	artistImageTemplate: 'folder',
+	// artistImageTemplate: 'folder',
 	jpegImageQuality: 90,
-	albumVariousArtists: true,
-	removeAlbumVersion: false,
-	removeDuplicateArtists: true,
-	featuredToTitle: FeaturesOption.NO_CHANGE,
-	titleCasing: 'nothing',
-	artistCasing: 'nothing',
-	executeCommand: '',
+	// albumVariousArtists: true,
+	// removeAlbumVersion: false,
+	// removeDuplicateArtists: true,
+	// featuredToTitle: FeaturesOption.NO_CHANGE,
+	// titleCasing: 'nothing',
+	// artistCasing: 'nothing',
+	// executeCommand: '',
 	tags: {
 		// title: true,
 		// artist: true,
@@ -95,7 +94,7 @@ export const DEFAULT_SETTINGS: Settings = {
 		useNullSeparator: false,
 		// saveID3v1: true,
 		multiArtistSeparator: 'default',
-		singleAlbumArtist: false,
+		// singleAlbumArtist: false,
 		coverDescriptionUTF8: false,
 	},
 };
