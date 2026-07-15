@@ -1,12 +1,13 @@
 {
   "name": "deezlp",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "aluissp",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "repository": "https://github.com/aluissp/deezlp.git",
+  "homepage": "https://github.com/aluissp/deezlp/tree/main/packages/deezlp#deezlp",
   "exports": {
     ".": {
       "import": {
