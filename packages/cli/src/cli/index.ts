@@ -16,7 +16,7 @@ export function createCli(): Command {
 
 	program.name('deezlp-cli').description('A CLI wrapper for deezlp').version(packageJson.version);
 
-	const { downloadService, configService } = bootstrapCli();
+	const { downloadService, configService, loginService } = bootstrapCli();
 
 	// download command
 	program
@@ -38,6 +38,14 @@ export function createCli(): Command {
 		.addOption(new Option('--sl, --synclyrics <yes|no>', 'Enable syncs lyrics with the downloaded tracks').choices(['yes', 'no']))
 		.addOption(new Option('--tsl, --tagsynclyrics <yes|no>', 'Tags the downloaded tracks with the synced lyrics').choices(['yes', 'no']))
 		.action((options: any) => configService.execute(options));
+
+	// login command
+	program
+		.command('login')
+		.description('Login to your Deezer account')
+		.option('-a, --arl <arl>', 'The ARL token for login')
+		.option('-l, --logout', 'Logout from your Deezer account')
+		.action((options: any) => loginService.execute(options));
 
 	return program;
 }
