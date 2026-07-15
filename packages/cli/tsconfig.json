@@ -40,7 +40,7 @@
     "./src/**/*.ts",
     "./src/**/*.json",
   ],
-  "references": [
-    { "path": "../deezlp" }
-  ]
+  // "references": [
+  //   { "path": "../deezlp" }
+  // ]
 }

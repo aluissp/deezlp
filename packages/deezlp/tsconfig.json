@@ -1,38 +1,45 @@
 {
   "compilerOptions": {
-    // Environment setup & latest features
+    // Base options
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    // Strictness
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    // If transpiling with typescript
+    "module": "ESNext",
+    "sourceMap": true,
+    // If you're building a library
+    "declaration": true,
+    // If you're building a library in a monorepo
+    "composite": true,
+    "declarationMap": true,
+    // If your code doesn't run in the browser
     "lib": [
       "ESNext"
     ],
-    "target": "ESNext",
-    "module": "Preserve",
-    "moduleDetection": "force",
-    "allowJs": true,
     "types": [
       "bun",
     ],
-    "declaration": true,
-    "composite": true,
-    "declarationMap": true,
     // Bundler mode
     "moduleResolution": "bundler",
-    // "allowImportingTsExtensions": true,
-    "verbatimModuleSyntax": true,
-    // "noEmit": true,
     // Best practices
-    "strict": true,
-    "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
     // Some stricter flags (disabled by default)
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noPropertyAccessFromIndexSignature": false,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "rootDir": "./src",
-    "outDir": "./dist",
+    "ignoreDeprecations": "6.0",
+    // "rootDir": "./src",
+    // "outDir": "./dist",
+    // "baseUrl": "./",
     "paths": {
       "@/*": [
         "./src/*"
