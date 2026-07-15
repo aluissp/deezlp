@@ -19,8 +19,10 @@ export class AlbumDownloadStrategy implements DownloadStrategy<AlbumDownloadPayl
 		const totalTracks = album.enrichedTracks.length;
 
 		// Start downloading each track in the album
-		onUpdate?.({ status: 'downloading' });
 		const trackPromises = album.enrichedTracks.map(async (track, index) => {
+			// Update progress
+			onUpdate?.({ status: 'downloading', progress: index + 1 });
+
 			// Progress tracking
 			album.currentProgress = {
 				trackIndex: index,
@@ -102,6 +104,7 @@ export class AlbumDownloadStrategy implements DownloadStrategy<AlbumDownloadPayl
 			});
 
 			// 10. Apply metadata to the downloaded track
+			onUpdate?.({ status: 'tagging', progress: index + 1 });
 			album.currentProgress.progressStatus = 'tagging';
 			this.taggerService.tagTrack(track, writePath, extension as TrackExtensions);
 

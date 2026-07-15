@@ -117,6 +117,10 @@ export class DownloadPipeline extends EventEmitter {
 		downloadPath?: string;
 	}) {
 		const { job, status, progress, attempts, message, error, downloadPath } = data;
+
+		// If the progress is the same as the previous one, do not emit the event
+		if (job.progress === progress) return;
+
 		this.updateJob({ job, status, progress, attempts, message, error, downloadPath });
 
 		this.emit(JobStatus, job);
