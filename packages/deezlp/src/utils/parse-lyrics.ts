@@ -19,7 +19,7 @@ export const parseLyrics = (gwLyrics: GWLyrics): Lyrics | undefined => {
 		.map((line, index, array) => {
 			const currentLine = line.line;
 			const timestamp = line.lrc_timestamp ?? '';
-			const milliseconds = parseInt(line.milliseconds ?? '0');
+			// const milliseconds = parseInt(line.milliseconds ?? '0');
 
 			if (currentLine !== '') return `${timestamp}${currentLine}\r\n`;
 
