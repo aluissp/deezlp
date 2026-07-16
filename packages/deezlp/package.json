@@ -1,19 +1,51 @@
 {
   "name": "deezlp",
   "version": "1.0.0",
-  "type": "module",
-  "private": true,
-  "main": "./src/index.ts",
-  "types": "./src/index.ts",
-  "scripts": {
-    "test": "bun test",
-    "test:watch": "bun test --watch"
+  "author": "aluissp",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
   },
+  "engines": {
+    "node": ">=24"
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "type-check": "tsc --noEmit",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "prepublishOnly": "bun run build",
+    "pack:check": "npm pack --dry-run"
+  },
+  "type": "module",
+  "types": "./dist/index.d.ts",
   "dependencies": {
     "browser-id3-writer": "^6.3.1",
     "date-fns": "^4.4.0",
     "deezer": "workspace:*",
     "got": "^15.0.7",
     "metaflac-js2": "^1.0.8"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1"
   }
 }
