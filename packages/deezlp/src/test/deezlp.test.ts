@@ -11,8 +11,8 @@ describe('Testing the Deezlp class', () => {
 	let token: string = process.env.VITE_DEEZER_ARL_TOKEN || '';
 
 	// const trackId = 105920318 // Gorriones
-	const trackId = 1380101222; // Life goes on
-	const isrcTrackId = 'USAT22007153'; // Life goes on
+	// const trackId = 1380101222; // Life goes on
+	// const isrcTrackId = 'USAT22007153'; // Life goes on
 	const links = [
 		'https://www.deezer.com/mx/track/99976952?host=6864903961&utm_campaign=clipboard-generic&utm_source=user_sharing&utm_content=track-99976952&deferredFl=1&universal_link=1',
 		'https://www.deezer.com/mx/track/562774642?host=6864903961&utm_campaign=clipboard-generic&utm_source=user_sharing&utm_content=track-562774642&deferredFl=1&universal_link=1',

@@ -9,10 +9,9 @@ export class DeezerTrackUrlResolver {
 	/**
 	 * Resolves the urls for a given Deezer track based on the preferred bitrate.
 	 * @param track The enriched Deezer track object containing track information and token.
-	 * @param options Optional parameters for resolving the track URL (this should remove)
 	 * @returns A promise that resolves to the (bitrate/url) and set it in `track.bitrate`, `track.urls[formatName] = url` and `track.album.bitrate` if available.
 	 */
-	public async resolve(track: EnrichedDeezerTrack, options?: { shouldFallback: boolean; feelingLucky: boolean }): Promise<void> {
+	public async resolve(track: EnrichedDeezerTrack): Promise<void> {
 		// 1. Get preferred bitrate
 		let preferredBitrate = track.bitrate ?? TRACK_FORMATS.MP3_128;
 
