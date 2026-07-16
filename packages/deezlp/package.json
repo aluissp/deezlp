@@ -41,11 +41,11 @@
   "dependencies": {
     "browser-id3-writer": "^6.3.1",
     "date-fns": "^4.4.0",
-    "deezer": "workspace:*",
     "got": "^15.0.7",
     "metaflac-js2": "^1.0.8"
   },
   "devDependencies": {
+    "deezer": "workspace:*",
     "tsup": "^8.5.1"
   }
 }
