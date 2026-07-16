@@ -91,7 +91,7 @@ export const DEFAULT_SETTINGS: Settings = {
 		source: true,
 		rating: false,
 		// savePlaylistAsCompilation: false,
-		useNullSeparator: false,
+		// useNullSeparator: false,
 		// saveID3v1: true,
 		multiArtistSeparator: 'default',
 		// singleAlbumArtist: false,
