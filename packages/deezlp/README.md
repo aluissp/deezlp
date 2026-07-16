@@ -46,13 +46,13 @@ To use this library, you need to authenticate using a Deezer session cookie call
 A quick example to start downloading music:
 
 ```ts
-import { Deezlp } from 'deezlp';
+import { Deezlp, AUDIO_QUALITIES } from 'deezlp';
 
 const deezlp = new Deezlp();
 
 // Customize the settings according to your needs
 deezlp.setSettings({
-	maxBitrate: 3, // Audio quality (e.g., MP3 320kbps / FLAC)
+	maxBitrate: AUDIO_QUALITIES.MP3_128, // Audio quality (e.g., MP3 128kbps, 320kbps / FLAC)
 	tagFile: true, // Embed ID3 tags and cover art into the downloaded file
 	syncedLyrics: true, // Download synchronized lyrics (.lrc)
 	overwriteFile: false, // Avoid overwriting existing files

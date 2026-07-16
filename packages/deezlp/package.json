@@ -1,6 +1,6 @@
 {
   "name": "deezlp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "aluissp",
   "type": "module",
   "main": "./dist/index.cjs",

@@ -2,5 +2,5 @@ export * from './settings';
 export * from './extensions';
 export * from './lyrics-status';
 
-// Re-exporting TRACK_FORMATS for external usage
-export { TRACK_FORMATS } from 'deezer'
+// Re-exporting only available AUDIO_QUALITIES for external usage
+export { FORMATS_NO_360 as AUDIO_QUALITIES } from 'deezer';
