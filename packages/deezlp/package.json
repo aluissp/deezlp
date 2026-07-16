@@ -8,6 +8,14 @@
   "types": "./dist/index.d.ts",
   "repository": "https://github.com/aluissp/deezlp.git",
   "homepage": "https://github.com/aluissp/deezlp/tree/main/packages/deezlp#deezlp",
+  "keywords": [
+    "deezlp",
+    "mp3",
+    "deezer",
+    "download",
+    "flac",
+    "music"
+  ],
   "exports": {
     ".": {
       "import": {
