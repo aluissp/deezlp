@@ -1,5 +1,10 @@
 import type { TRACK_FORMATS } from 'deezer';
 
+/**
+ * Tagging options
+ *
+ * Helps to determine which tags should be saved in the downloaded files.
+ */
 export interface Tags {
 	// title?: boolean; // not needed, always saved
 	// artist?: boolean; // not needed, always saved if exists
@@ -26,10 +31,13 @@ export interface Tags {
 	 */
 	multiArtistSeparator?: 'default' | 'comma' | 'nothing';
 	// album?: boolean; // not needed, always saved if exists
+	/** Whether to save album artwork (cover img) */
 	cover?: boolean;
 	// trackNumber?: boolean; // not needed, always saved if exists
+	/** Whether to save the total number of tracks in the album */
 	trackTotal?: boolean; // not needed, always saved if exists
 	// discNumber?: boolean; // not needed, always saved if exists
+	/** Whether to save the total number of discs in the album */
 	discTotal?: boolean; // not needed, always saved if exists
 	// albumArtist?: boolean; // not needed, always saved if exists
 	// genre?: boolean; // not needed, always saved if exists
@@ -42,15 +50,20 @@ export interface Tags {
 	// bpm?: boolean; // not needed, always saved if exists
 	// replayGain?: boolean; // not needed, always saved if exists
 	// label?: boolean; // not needed, always saved if exists
+	/** Whether to save lyrics */
 	lyrics?: boolean;
+	/** Whether to save synced lyrics */
 	syncedLyrics?: boolean;
+	/** Whether to save copyright information */
 	copyright?: boolean;
+	/** Whether to save composer information */
 	composer?: boolean;
+	/** Whether to save involved people information */
 	involvedPeople?: boolean;
 	/** Add source information */
 	source?: boolean;
 	// savePlaylistAsCompilation?: boolean; // not user for now
-	useNullSeparator?: boolean;
+	// useNullSeparator?: boolean; // disabled, not user for now
 	/** Compatibility with ID3v1 (the oldest format) */
 	// saveID3v1?: boolean; // not user for now
 	// singleAlbumArtist?: boolean;
@@ -60,9 +73,22 @@ export interface Tags {
 	rating?: boolean;
 }
 
+/**
+ * Settings interface
+ *
+ * Defines the structure of the settings object used in the application.
+ *
+ * It includes various options for tagging, file management, and download preferences.
+ */
 export interface Settings {
+	/**
+	 * Tagging options
+	 *
+	 * Helps to determine which tags should be saved in the downloaded files.
+	 */
 	tags: Tags;
 	// executeCommand: string;
+	/** The location where downloaded files will be saved */
 	downloadLocation: string;
 
 	// padSingleDigit?: boolean; // disabled
@@ -70,22 +96,30 @@ export interface Settings {
 	// clearQueueOnExit?: boolean; // disabled
 	// autoCheckForUpdates?: boolean; // disabled
 	// feelingLucky?: boolean; // disabled
+	/** The template for the track name */
 	tracknameTemplate?: string;
 	// albumTracknameTemplate?: string; // disabled
 	// playlistTracknameTemplate?: string; // disabled
 	// createPlaylistFolder?: boolean; // disabled
 	// playlistNameTemplate?: string; // disabled
+	/** Whether to create a folder for each artist */
 	createArtistFolder?: boolean;
+	/** The template for the artist name */
 	artistNameTemplate?: string;
+	/** Whether to create a folder for each album */
 	createAlbumFolder?: boolean;
+	/** The template for the album name */
 	albumNameTemplate?: string;
 	// createCDFolder?: boolean; // disabled
 	// createStructurePlaylist?: boolean; // disabled
+	/** The maximum number of attempts to download a file */
 	maxAttempts: number;
 	// createSingleFolder?: boolean; // disabled
 	// padTracks?: boolean; // disabled
 	// paddingSize?: number; // disabled
+	/** The character to replace illegal characters with */
 	illegalCharacterReplacer?: string;
+	/** The maximum audio quality to download. */
 	maxBitrate?: (typeof TRACK_FORMATS)[keyof typeof TRACK_FORMATS];
 	// fallbackBitrate?: boolean; // disabled
 	// fallbackSearch?: boolean; // disabled
