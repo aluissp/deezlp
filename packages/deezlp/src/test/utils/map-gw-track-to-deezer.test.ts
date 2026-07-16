@@ -10,7 +10,7 @@ describe('Testing the generateTrackItem function', () => {
 
 	beforeAll(async () => {
 		deezer = new DeezerCore();
-		await deezer.loginViaArl(process.env.VITE_DEEZER_ARL_TOKEN || '');
+		await deezer.loginViaArl(process.env.DEEZER_ARL_TOKEN || '');
 		track = await deezer.gw.getTrack(trackId); // Life goes on
 	});
 

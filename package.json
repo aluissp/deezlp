@@ -1,8 +1,9 @@
 {
   "name": "deezlp",
   "author": "aluissp",
-  "description": "Deezlp is a simple library highly inspired on deemix.",
+  "description": "A unofficial monorepo with helpful deezer packages",
   "private": true,
+  "license": "Apache-2.0",
   "engines": {
     "node": ">=24"
   },
