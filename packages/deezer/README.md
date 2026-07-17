@@ -1,15 +1,5 @@
-# deezer
+# Deezer API Wrapper
 
-To install dependencies:
+This is a TypeScript wrapper for the Deezer API. It provides a set of methods to interact with the Deezer platform, allowing developers to access and manipulate data related to tracks, albums, artists, playlists, and more.
 
-```bash
-bun install
-```
-
-To run:
-
-```bash
-bun run index.ts
-```
-
-This project was created using `bun init` in bun v1.3.14. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+This wrapper is used like dependency in the `deezlp` package and `cli` package internally.

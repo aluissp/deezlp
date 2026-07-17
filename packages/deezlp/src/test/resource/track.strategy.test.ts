@@ -6,7 +6,7 @@ import { beforeAll, describe, expect, test } from 'bun:test';
 
 describe('Testing the TrackStrategy class components', () => {
 	let dz: DeezerCore;
-	let token: string = process.env.VITE_DEEZER_ARL_TOKEN || '';
+	let token: string = process.env.DEEZER_ARL_TOKEN || '';
 
 	const trackResolved1: ResolvedURL = { id: '105920318', kind: 'id', type: 'track' }; // Gorriones
 	const trackResolved2: ResolvedURL = { id: '1380101222', kind: 'id', type: 'track' }; // Life goes on
