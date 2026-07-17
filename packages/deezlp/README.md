@@ -133,7 +133,7 @@ Here's the default `Tags` settings:
 ## Limitations
 
 - The `deezlp` library is designed to be used in **Node.js** or **Bun** environments. It may not work in browser environments.
-- Fow now, the library **does not support** downloading **playlists**, **artists** or **podcasts** links.
+- For now, the library **does not support** downloading **playlists**, **artists** or **podcasts** links.
 
 ## Running Tests
 
@@ -146,4 +146,4 @@ bun run test
 ```
 
 The `NODE_OPTIONS="--openssl-legacy-provider"` is disabled by default in Node, however, if you run the tests using Bun it will be enabled by default.
-This is importan because the `decryptChunk` function uses the legacy Blowfish `bf-cbc` algorithm. Bun has already enabled this algorithm, but Node.js has deprecated it by security reasons, you must use the `NODE_OPTIONS` environment variable to enable it.
+This is important because the `decryptChunk` function uses the legacy Blowfish `bf-cbc` algorithm. Bun has already enabled this algorithm, but Node.js has deprecated it by security reasons, you must use the `NODE_OPTIONS` environment variable to enable it.

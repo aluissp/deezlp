@@ -8,7 +8,7 @@ import { DownloadPipeline } from './pipelines';
  * Deezlp is the main class that manages the Deezer API interactions and provides methods to access and manipulate data related to tracks, albums, artists, playlists.
  *
  * @author aluissp
- * @version 1.0.6
+ * @version 1.0.7
  * */
 export class Deezlp {
 	private dz: DeezerCore;
