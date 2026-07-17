@@ -8,7 +8,7 @@ import { beforeAll, describe, expect, test } from 'bun:test';
 
 describe('Testing the Deezlp class', () => {
 	let deezlp: Deezlp;
-	let token: string = process.env.VITE_DEEZER_ARL_TOKEN || '';
+	let token: string = process.env.DEEZER_ARL_TOKEN || '';
 
 	// const trackId = 105920318 // Gorriones
 	// const trackId = 1380101222; // Life goes on
