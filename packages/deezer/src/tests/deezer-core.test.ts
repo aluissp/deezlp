@@ -9,7 +9,7 @@ describe('Testing DeezerCore class', () => {
 
 	beforeAll(async () => {
 		deezer = new DeezerCore();
-		token = process.env.VITE_DEEZER_ARL_TOKEN;
+		token = process.env.DEEZER_ARL_TOKEN;
 	});
 
 	test('Should login via ARL', async () => {
