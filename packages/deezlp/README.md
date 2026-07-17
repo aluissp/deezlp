@@ -4,6 +4,18 @@ A powerful and fast Deezer music downloader with full TypeScript support, enrich
 
 ---
 
+## Table of Contents
+
+- [deezlp](#deezlp)
+	- [Table of Contents](#table-of-contents)
+	- [Features](#features)
+	- [Installation](#installation)
+	- [How to get your Token (ARL)](#how-to-get-your-token-arl)
+	- [Usage](#usage)
+	- [Settings](#settings)
+	- [Limitations](#limitations)
+	- [Running Tests](#running-tests)
+
 ## Features
 
 - **Extreme performance** built on top of Bun and TypeScript.
@@ -75,7 +87,55 @@ await session.start();
 console.log('Downloads completed successfully!');
 ```
 
-## Testing
+## Settings
+
+You can override the default settings by calling the `setSettings` method. The available settings are:
+
+| Setting                    | Type              | Default                    | Description                                                 |
+| -------------------------- | ----------------- | -------------------------- | ----------------------------------------------------------- |
+| `downloadLocation`         | `string`          | Your default Music folder. | The location where downloaded files will be saved.          |
+| `maxBitrate`               | `AUDIO_QUALITIES` | `AUDIO_QUALITIES.MP3_128`  | The maximum audio quality to download.                      |
+| `tracknameTemplate`        | `string`          | %artist% - %title%         | The template for the track name.                            |
+| `artistNameTemplate`       | `string`          | %artist%                   | The template for the artist name.                           |
+| `albumNameTemplate`        | `string`          | %album%                    | The template for the album name.                            |
+| `createArtistFolder`       | `boolean`         | true                       | Whether to create a folder for each artist.                 |
+| `createAlbumFolder`        | `boolean`         | true                       | Whether to create a folder for each album.                  |
+| `maxAttempts`              | `number`          | 3                          | The maximum number of attempts to download a file.          |
+| `illegalCharacterReplacer` | `string`          | '\_'                       | The character to replace illegal characters with.           |
+| `overwriteFile`            | `boolean`         | false                      | Whether to overwrite existing files.                        |
+| `tagFile`                  | `boolean`         | true                       | Whether to tag downloaded file.                             |
+| `syncedLyrics`             | `boolean`         | true                       | Whether to save synced lyrics.                              |
+| `embeddedArtworkSize`      | `number`          | 800                        | Size of the embedded artwork (cover img).                   |
+| `embeddedArtworkPNG`       | `boolean`         | false                      | Whether to use PNG format for embedded artwork (cover img). |
+| `saveArtwork`              | `boolean`         | true                       | Whether to save album artwork (cover img).                  |
+| `saveArtworkArtist`        | `boolean`         | true                       | Whether to save artist artwork (cover img).                 |
+| `jpegImageQuality`         | `number`          | 90                         | JPEG image quality, `embeddedArtworkPNG` must be false.     |
+| `tags`                     | `Tags`            |                            | Tagging options.                                            |
+
+Here's the default `Tags` settings:
+
+| Tags                   | Type                           | Default | Description                                              |
+| ---------------------- | ------------------------------ | ------- | -------------------------------------------------------- |
+| `artist`               | `boolean`                      | true    | Tag all artists (collaborators).                         |
+| `multiArtistSeparator` | 'default', 'comma' , 'nothing' | default | Indicates how to separate multiple artists.              |
+| `cover`                | `boolean`                      | true    | Whether to save album artwork (cover img).               |
+| `trackTotal`           | `boolean`                      | false   | Whether to save the total number of tracks in the album. |
+| `discTotal`            | `boolean`                      | false   | Whether to save the total number of discs in the album.  |
+| `lyrics`               | `boolean`                      | true    | Whether to save unsync lyrics.                           |
+| `syncedLyrics`         | `boolean`                      | false   | Whether to save synced lyrics.                           |
+| `copyright`            | `boolean`                      | true    | Whether to save copyright information.                   |
+| `composer`             | `boolean`                      | true    | Whether to save composer information.                    |
+| `involvedPeople`       | `boolean`                      | true    | Whether to save involved people information.             |
+| `source`               | `boolean`                      | true    | Whether to save source information.                      |
+| `coverDescriptionUTF8` | `boolean`                      | false   | Whether to write cover description in UTF-8.             |
+| `rating`               | `boolean`                      | false   | Whether to save rating information.                      |
+
+## Limitations
+
+- The `deezlp` library is designed to be used in **Node.js** or **Bun** environments. It may not work in browser environments.
+- Fow now, the library **does not support** downloading **playlists**, **artists** or **podcasts** links.
+
+## Running Tests
 
 If you clone the repository and want to run the tests, you can do so with the following command:
 
