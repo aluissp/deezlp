@@ -53,7 +53,7 @@ export class ConfigService {
 
 		for (const [format, aliases] of Object.entries(this.bitrateTextNumberMap)) {
 			if ((aliases as readonly string[]).includes(bitrate)) {
-				return Number(format);
+				return Number(format) as (typeof TRACK_FORMATS)[keyof typeof TRACK_FORMATS];
 			}
 		}
 

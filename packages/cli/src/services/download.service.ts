@@ -55,15 +55,11 @@ export class DownloadService {
 				const total = job.payload?.enrichedTracks?.length;
 				if (job.status === 'downloading' && album && artist && progress && total) {
 					const track = job.payload?.enrichedTracks?.[progress - 1];
-					this.logger.info(
-						`Downloading album ${album?.title} by ${artist?.name} [${progress}/${total}]: ${track?.title}...`,
-					);
+					this.logger.info(`Downloading album ${album?.title} by ${artist?.name} [${progress}/${total}]: ${track?.title}...`);
 				}
 				if (job.status === 'tagging' && album && artist && progress && total) {
 					const track = job.payload?.enrichedTracks?.[progress - 1];
-					this.logger.info(
-						`Tagging album ${album?.title} by ${artist?.name} [${progress}/${total}]: ${track?.title}...`,
-					);
+					this.logger.info(`Tagging album ${album?.title} by ${artist?.name} [${progress}/${total}]: ${track?.title}...`);
 				}
 			}
 		});
@@ -79,7 +75,7 @@ export class DownloadService {
 
 		for (const [format, aliases] of Object.entries(this.bitrateTextNumberMap)) {
 			if ((aliases as readonly string[]).includes(bitrate)) {
-				return Number(format);
+				return Number(format) as (typeof TRACK_FORMATS)[keyof typeof TRACK_FORMATS];
 			}
 		}
 
