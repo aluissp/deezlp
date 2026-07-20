@@ -3,23 +3,12 @@
   "private": true,
   "type": "module",
   "version": "1.0.0",
-  "main": "dist/main.cjs",
-  "bin": {
-    "deezlp": "dist/main.cjs"
-  },
+  "main": "src/main.ts",
   "scripts": {
-    "build": "tsup",
-    "compile": "bunx pkg . --out-path out --no-bytecode"
-  },
-  "pkg": {
-    "targets": [
-      "node20-macos-x64",
-      "node20-macos-arm64",
-      "node20-linux-x64",
-      "node20-linux-arm64",
-      "node20-win-x64",
-      "node20-win-arm64"
-    ]
+    "compile": "bun run build:linux && bun run build:win",
+    "build:macos": "bun build --compile --minify ./src/main.ts --target=bun-darwin-arm64 --outfile ./dist/deezlp",
+    "build:linux": "bun build --compile --minify ./src/main.ts --target=bun-linux-x64 --outfile ./dist/deezlp && upx ./dist/deezlp",
+    "build:win": "bun build --compile --minify ./src/main.ts --target=bun-windows-x64 --outfile ./dist/deezlp.exe && upx ./dist/deezlp.exe"
   },
   "dependencies": {
     "commander": "^15.0.0",
@@ -28,9 +17,7 @@
   },
   "devDependencies": {
     "@types/winston": "^2.4.4",
-    "@yao-pkg/pkg": "^6.21.0",
     "deezer": "workspace:*",
-    "deezlp": "workspace:*",
-    "tsup": "^8.5.1"
+    "deezlp": "workspace:*"
   }
 }
