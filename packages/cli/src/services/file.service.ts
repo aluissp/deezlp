@@ -1,7 +1,6 @@
 import { join, sep } from 'path';
 import { getConfigFolder } from 'deezer';
-import type { Settings } from 'deezlp';
-import { DEFAULT_SETTINGS } from 'deezlp/src/constants';
+import { DEFAULT_SETTINGS, type Settings } from 'deezlp';
 import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'fs';
 
 export class FileService {

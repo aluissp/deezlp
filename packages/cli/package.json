@@ -3,14 +3,21 @@
   "private": true,
   "type": "module",
   "version": "1.0.0",
+  "main": "src/main.ts",
+  "scripts": {
+    "compile": "bun run build:linux && bun run build:win",
+    "build:macos": "bun build --compile --minify ./src/main.ts --target=bun-darwin-arm64 --outfile ./dist/deezlp",
+    "build:linux": "bun build --compile --minify ./src/main.ts --target=bun-linux-x64 --outfile ./dist/deezlp && upx ./dist/deezlp",
+    "build:win": "bun build --compile --minify ./src/main.ts --target=bun-windows-x64 --outfile ./dist/deezlp.exe && upx ./dist/deezlp.exe"
+  },
   "dependencies": {
     "commander": "^15.0.0",
-    "deezer": "workspace:*",
-    "deezlp": "workspace:*",
     "picocolors": "^1.1.1",
     "winston": "^3.19.0"
   },
   "devDependencies": {
-    "@types/winston": "^2.4.4"
+    "@types/winston": "^2.4.4",
+    "deezer": "workspace:*",
+    "deezlp": "workspace:*"
   }
 }

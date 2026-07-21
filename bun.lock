@@ -12,15 +12,18 @@
     "packages/cli": {
       "name": "cli",
       "version": "1.0.0",
+      "bin": {
+        "deezlp": "dist/main.cjs",
+      },
       "dependencies": {
         "commander": "^15.0.0",
-        "deezer": "workspace:*",
-        "deezlp": "workspace:*",
         "picocolors": "^1.1.1",
         "winston": "^3.19.0",
       },
       "devDependencies": {
         "@types/winston": "^2.4.4",
+        "deezer": "workspace:*",
+        "deezlp": "workspace:*",
       },
     },
     "packages/deezer": {
@@ -34,15 +37,15 @@
     },
     "packages/deezlp": {
       "name": "deezlp",
-      "version": "1.0.0",
+      "version": "1.0.7",
       "dependencies": {
         "browser-id3-writer": "^6.3.1",
         "date-fns": "^4.4.0",
-        "deezer": "workspace:*",
         "got": "^15.0.7",
         "metaflac-js2": "^1.0.8",
       },
       "devDependencies": {
+        "deezer": "workspace:*",
         "tsup": "^8.5.1",
       },
     },
