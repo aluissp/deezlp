@@ -24,3 +24,12 @@ cd deezlp/packages/cli
 bun install
 bun run compile
 ```
+
+Notice you need install upx to compress the binary, you can install it with the following command:
+
+```bash
+# linux
+sudo apt install upx
+# arco
+sudo pacman -S upx
+```
