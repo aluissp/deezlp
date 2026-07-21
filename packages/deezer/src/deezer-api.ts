@@ -45,16 +45,15 @@ export class DeezerApi {
 
 			if (!response?.error) return response;
 
-			await this.handleAPIError(response.error, endpoint, args);
+			return this.handleAPIError(response.error, endpoint, args);
 		} catch (error: any) {
 			if (error.code && ['ECONNABORTED', 'ECONNREFUSED', 'ECONNRESET', 'ENETRESET', 'ETIMEDOUT'].includes(error.code || '')) {
-				await this.retryCall(endpoint, args);
-
-				// `${endpoint} ${args}:: ${e.name}: ${e.message}`
-				throw new APIException(`${endpoint} ${args}:: ${error.name}: ${error.message} (code: ${error.code})`);
+				return this.retryCall(endpoint, args);
 			}
 
-			throw new Error('An unexpected error occurred while fetching data from Deezer API.');
+			// `${endpoint} ${args}:: ${e.name}: ${e.message}`
+			throw new APIException(`${endpoint} ${args}:: ${error.name}: ${error.message} (code: ${error.code})`);
+			// throw new Error('An unexpected error occurred while fetching data from Deezer API.');
 		}
 	}
 
@@ -64,13 +63,13 @@ export class DeezerApi {
 		return this.call(endpoint, args);
 	}
 
-	private async handleAPIError(error: DeezerExceptionResponse, endpoint: string, args: APIArgs = {}) {
+	private handleAPIError(error: DeezerExceptionResponse, endpoint: string, args: APIArgs = {}) {
 		if (!error?.code) throw new APIException(error?.message || 'An unknown error occurred while fetching data from Deezer API.');
 
 		const message = error.message || '';
 
 		// Retry the call for quota and service busy errors
-		if ([DeezerExceptionCodes.QUOTA, DeezerExceptionCodes.SERVICE_BUSY].includes(error.code)) await this.retryCall(endpoint, args);
+		if ([DeezerExceptionCodes.QUOTA, DeezerExceptionCodes.SERVICE_BUSY].includes(error.code)) return this.retryCall(endpoint, args);
 
 		if (error.code === DeezerExceptionCodes.ITEMS_LIMIT_EXCEEDED) throw new ItemsLimitExceededException(`ItemsLimitExceededException: ${message}`);
 
