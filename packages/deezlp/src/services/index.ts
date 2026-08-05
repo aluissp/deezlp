@@ -3,3 +3,4 @@ export * from './crypto.service';
 export * from './crypto.service';
 export * from './tagger.service';
 export * from './audio-streamer.service';
+export * from './lyrics-parser.service';
