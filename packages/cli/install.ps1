@@ -3,7 +3,7 @@
 # Setup
 $RepoUser   = "aluissp"
 $RepoName   = "deezlp"
-$Version    = "cli-v1.0.0"
+$Version    = "cli-v1.1.0"
 $BinaryName = "deezlp.exe"
 $Url        = "https://github.com/$RepoUser/$RepoName/releases/download/$Version/$BinaryName"
 
