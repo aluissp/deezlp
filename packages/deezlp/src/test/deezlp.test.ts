@@ -1,9 +1,10 @@
 import { join } from 'path';
-import { existsSync } from 'fs';
 import { Deezlp } from '@/deezlp';
-import { getMusicFolder, TRACK_FORMATS } from 'deezer';
+import rootLrc from './root.json';
+import { existsSync, unlinkSync } from 'fs';
 import { DownloadStatus } from '@/entities';
 import { DEFAULT_SETTINGS } from '@/constants';
+import { getMusicFolder, TRACK_FORMATS } from 'deezer';
 import { beforeAll, describe, expect, test } from 'bun:test';
 
 describe('Testing the Deezlp class', () => {
@@ -135,4 +136,16 @@ describe('Testing the Deezlp class', () => {
 			});
 		});
 	}, 90000);
+
+	test('Should parse json sync lyrics', async () => {
+		// Clean file
+		const filePath = '/home/luis/Música/Deezlp Music/Deftones/Adrenaline/Deftones - Root.lrc';
+		if (existsSync(filePath)) unlinkSync(filePath);
+
+		// Parse the root.json filed
+		const { savedPath } = await deezlp.parseJsonSyncLyrics(JSON.stringify(rootLrc));
+		const expectedPath = existsSync(savedPath);
+
+		expect(expectedPath).toBe(true);
+	});
 });
