@@ -5,7 +5,7 @@ import { pipeline } from 'stream/promises';
 import { USER_AGENT_HEADER, type DeezerTrack } from 'deezer';
 import type { EnrichedDeezerTrack, Settings } from '@/interfaces';
 import got, { HTTPError, ReadError, TimeoutError, type Got } from 'got';
-import { createWriteStream, existsSync, mkdirSync, unlinkSync, writeFileSync } from 'fs';
+import { createWriteStream, existsSync, mkdirSync, readdirSync, unlinkSync, writeFileSync } from 'fs';
 
 export class FileService {
 	private api: Got;
@@ -191,7 +191,8 @@ export class FileService {
 		// filename = filename.replaceAll('%albumartist%', this.fixName(track.album?.artist?.name, c));
 		if (track?.track_position !== undefined)
 			filename = filename.replaceAll('%tracknumber%', track.track_position < 10 ? '0' + track.track_position : track.track_position.toString());
-		if (track.album && 'nb_tracks' in track.album && track.album.nb_tracks !== undefined) filename = filename.replaceAll('%tracktotal%', track.album.nb_tracks.toString());
+		if (track.album && 'nb_tracks' in track.album && track.album.nb_tracks !== undefined)
+			filename = filename.replaceAll('%tracktotal%', track.album.nb_tracks.toString());
 
 		// if (track.album.genre.length) {
 		// 	filename = filename.replaceAll('%genre%', this.fixName(track.album.genre[0], c));
@@ -253,5 +254,13 @@ export class FileService {
 		albumName = albumName.replaceAll('\\', '/');
 
 		return albumName;
+	}
+
+	getFilesInDirectory(directoryPath: string): string[] {
+		if (!existsSync(directoryPath)) return [];
+
+		return readdirSync(directoryPath, { withFileTypes: true })
+			.filter(dirent => dirent.isFile())
+			.map(dirent => dirent.name);
 	}
 }

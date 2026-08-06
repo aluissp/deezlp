@@ -3,7 +3,7 @@ import type { DownloadSession, Settings } from './interfaces';
 import { DEFAULT_SETTINGS } from './constants';
 import { NotLoggedInException } from './exceptions';
 import { DownloadPipeline } from './pipelines';
-import { FileService, LyricsParserService } from './services';
+import { LyricsParserService } from './services';
 
 /**
  * Deezlp is the main class that manages the Deezer API interactions and provides methods to access and manipulate data related to tracks, albums, artists, playlists.
@@ -22,7 +22,7 @@ export class Deezlp {
 		this.settings = settings ?? DEFAULT_SETTINGS;
 		this.settings.maxBitrate = this.settings?.maxBitrate ?? TRACK_FORMATS.MP3_128;
 
-		this.lrcParser = new LyricsParserService(this.dz, this.settings, new FileService(this.settings));
+		this.lrcParser = new LyricsParserService(this.dz, this.settings);
 	}
 
 	/**
@@ -49,6 +49,7 @@ export class Deezlp {
 	 */
 	setSettings(settings: Partial<Settings>) {
 		this.settings = { ...this.settings, ...settings };
+		this.lrcParser.setSettings = this.settings;
 	}
 
 	/**

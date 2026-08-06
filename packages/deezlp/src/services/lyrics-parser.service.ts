@@ -1,15 +1,23 @@
 import { join } from 'path';
 import { parseLyrics } from '@/utils';
+import { FileService } from './file.service';
 import { DeezerCore, type GWLyrics } from 'deezer';
-import type { FileService } from './file.service';
 import type { PipeDzLyrics, Settings } from '@/interfaces';
 
 export class LyricsParserService {
+	private fileService: FileService;
+
 	constructor(
 		private deezer: DeezerCore,
 		private settings: Settings,
-		private fileService: FileService,
-	) {}
+	) {
+		this.fileService = new FileService(this.settings);
+	}
+
+	set setSettings(settings: Partial<Settings>) {
+		this.settings = { ...this.settings, ...settings };
+		this.fileService = new FileService(this.settings);
+	}
 
 	/**
 	 * Parse the JSON string of synchronized lyrics from Pipe Deezer api
@@ -49,11 +57,20 @@ export class LyricsParserService {
 			const { fileName: trackFileName, filePath: trackFilePath } = this.fileService.buildTrackPath(track);
 			fileName = trackFileName;
 			filePath = trackFilePath;
+
+			// Check if the file exists in the directory
+			const existingFile = this.findSongByTitle(filePath, track.title)?.split('/').pop();
+			if (existingFile) fileName = existingFile.replace('.mp3', '').replace('.flac', '');
 		}
 
 		// 5. Save the synced lyrics if they exist
 		this.fileService.saveSyncedLyrics(filePath, fileName, parsedLyrics?.sync);
 
 		return { savedPath: join(filePath, fileName + '.lrc') };
+	}
+
+	private findSongByTitle(filePath: string, title: string) {
+		const files = this.fileService.getFilesInDirectory(filePath);
+		return files.find(file => file.toLowerCase().includes(title.toLowerCase()));
 	}
 }
