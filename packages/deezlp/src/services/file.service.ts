@@ -1,11 +1,11 @@
 import { join } from 'path';
 import { tmpdir } from 'os';
 import { extensions } from '@/constants';
-import { USER_AGENT_HEADER } from 'deezer';
 import { pipeline } from 'stream/promises';
+import { USER_AGENT_HEADER, type DeezerTrack } from 'deezer';
 import type { EnrichedDeezerTrack, Settings } from '@/interfaces';
 import got, { HTTPError, ReadError, TimeoutError, type Got } from 'got';
-import { createWriteStream, existsSync, mkdirSync, unlinkSync, writeFileSync } from 'fs';
+import { createWriteStream, existsSync, mkdirSync, readdirSync, unlinkSync, writeFileSync } from 'fs';
 
 export class FileService {
 	private api: Got;
@@ -139,7 +139,7 @@ export class FileService {
 		return { embeddedCoverURL, embeddedCoverPath };
 	}
 
-	buildTrackPath(track: EnrichedDeezerTrack) {
+	buildTrackPath(track: EnrichedDeezerTrack | DeezerTrack) {
 		const fileNameTemplate = this.settings.tracknameTemplate ?? '%artist% - %title%';
 		let fileName = this.generateTrackName(track, fileNameTemplate);
 		let filePath = this.settings.downloadLocation ?? '.';
@@ -174,7 +174,7 @@ export class FileService {
 		return txt.normalize('NFC');
 	}
 
-	private generateTrackName(track: EnrichedDeezerTrack, filename: string): string {
+	private generateTrackName(track: EnrichedDeezerTrack | DeezerTrack, filename: string): string {
 		const c = this.settings.illegalCharacterReplacer;
 
 		filename = filename.replaceAll('%title%', this.fixName(track.title, c));
@@ -191,7 +191,8 @@ export class FileService {
 		// filename = filename.replaceAll('%albumartist%', this.fixName(track.album?.artist?.name, c));
 		if (track?.track_position !== undefined)
 			filename = filename.replaceAll('%tracknumber%', track.track_position < 10 ? '0' + track.track_position : track.track_position.toString());
-		if (track.album?.nb_tracks !== undefined) filename = filename.replaceAll('%tracktotal%', track.album.nb_tracks.toString());
+		if (track.album && 'nb_tracks' in track.album && track.album.nb_tracks !== undefined)
+			filename = filename.replaceAll('%tracktotal%', track.album.nb_tracks.toString());
 
 		// if (track.album.genre.length) {
 		// 	filename = filename.replaceAll('%genre%', this.fixName(track.album.genre[0], c));
@@ -203,7 +204,7 @@ export class FileService {
 		// filename = filename.replaceAll('%label%', this.fixName(track.album.label, c));
 		// filename = filename.replaceAll('%upc%', track.album.barcode);
 		// filename = filename.replaceAll('%album_id%', track.album.id);
-		if (track?.album?.nb_disk) filename = filename.replaceAll('%discnumber%', String(track.album.nb_disk));
+		if (track?.album && 'nb_disk' in track.album) filename = filename.replaceAll('%discnumber%', String(track.album.nb_disk));
 		// filename = filename.replaceAll('%year%', String(track.date.year));
 		// filename = filename.replaceAll('%date%', track.dateString);
 		filename = filename.replaceAll('%bpm%', String(track.bpm));
@@ -232,7 +233,7 @@ export class FileService {
 		return filename;
 	}
 
-	private generateArtistName(track: EnrichedDeezerTrack, artistName: string): string {
+	private generateArtistName(track: EnrichedDeezerTrack | DeezerTrack, artistName: string): string {
 		const c = this.settings.illegalCharacterReplacer;
 		artistName = artistName.replaceAll('%artist%', this.fixName(track.artist.name, c));
 		artistName = artistName.replaceAll('%artist_id%', String(track.artist.id));
@@ -242,7 +243,7 @@ export class FileService {
 		return artistName;
 	}
 
-	private generateAlbumName(track: EnrichedDeezerTrack, albumName: string): string {
+	private generateAlbumName(track: EnrichedDeezerTrack | DeezerTrack, albumName: string): string {
 		const c = this.settings.illegalCharacterReplacer;
 		albumName = albumName.replaceAll('%album%', this.fixName(track?.album?.title ?? '', c));
 		albumName = albumName.replaceAll('%album_id%', String(track?.album?.id));
@@ -253,5 +254,13 @@ export class FileService {
 		albumName = albumName.replaceAll('\\', '/');
 
 		return albumName;
+	}
+
+	getFilesInDirectory(directoryPath: string): string[] {
+		if (!existsSync(directoryPath)) return [];
+
+		return readdirSync(directoryPath, { withFileTypes: true })
+			.filter(dirent => dirent.isFile())
+			.map(dirent => dirent.name);
 	}
 }

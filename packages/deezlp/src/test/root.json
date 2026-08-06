@@ -1,0 +1,1898 @@
+{
+    "data": {
+        "track": {
+            "id": "776853",
+            "lyrics": {
+                "id": "1915640",
+                "text": "To be forced under\r\nI look unto your home because\r\nWe gave our eyes but no one will\r\nYes, I know, because\r\n\r\nTo heed the cause I will be barred\r\nBut you won't\r\nWe are here to love heart\r\nHe's up inside, we start to cry\r\nJust because I will afford\r\nLiving in me is so poor\r\nDeliver me there\r\n\r\nTo be judged by one or licked by three\r\nAnd your holes enclose\r\nWe gave our eyes but no one will\r\nYes, I know, because\r\n\r\nTo heed the cause I will be barred\r\nBut you won't\r\nWe are here to love heart\r\nHe's up inside, we start to cry\r\nJust because I will afford\r\nLiving in me is so poor\r\nDeliver me up\r\n\r\nCannot fuck to be me\r\nAnd you won't find me\r\nAnd you won't find me\r\nAnd you will don't know me, psycho\r\nI don't believe you will find me\r\nAnd you won't find me\r\nAnd you will so come from a psycho\r\nI don't believe you will find me\r\nAnd you won't find me\r\nAnd you will don't quit, psycho\r\nI don't believe you will find me\r\nI'm in trouble because playing God\r\n\r\nI and me, we go\r\nWith Jesus in a bowl of dirt\r\n\r\nYeah, yeah\r\nSo poor\r\nI will fly",
+                "synchronizedWordByWordLines": [
+                    {
+                        "start": 41650,
+                        "end": 42775,
+                        "words": [
+                            {
+                                "start": 41650,
+                                "end": 41737,
+                                "word": "To",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 41825,
+                                "end": 41900,
+                                "word": "be",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 42187,
+                                "end": 42312,
+                                "word": "forced",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 42400,
+                                "end": 42775,
+                                "word": "under",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 44075,
+                        "end": 51275,
+                        "words": [
+                            {
+                                "start": 44075,
+                                "end": 44087,
+                                "word": "I",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 44262,
+                                "end": 44737,
+                                "word": "look",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 44925,
+                                "end": 45512,
+                                "word": "unto",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 46387,
+                                "end": 46500,
+                                "word": "your",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 46600,
+                                "end": 49225,
+                                "word": "home",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 49287,
+                                "end": 51275,
+                                "word": "because",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 52100,
+                        "end": 56437,
+                        "words": [
+                            {
+                                "start": 52100,
+                                "end": 52187,
+                                "word": "We",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 52412,
+                                "end": 52887,
+                                "word": "gave",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 53025,
+                                "end": 53437,
+                                "word": "our",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 53537,
+                                "end": 54225,
+                                "word": "eyes",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 54787,
+                                "end": 54975,
+                                "word": "but",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 55137,
+                                "end": 55225,
+                                "word": "no",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 55687,
+                                "end": 56000,
+                                "word": "one",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 56175,
+                                "end": 56437,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 56700,
+                        "end": 63362,
+                        "words": [
+                            {
+                                "start": 56700,
+                                "end": 56912,
+                                "word": "Yes,",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 57250,
+                                "end": 57262,
+                                "word": "I",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 58162,
+                                "end": 58262,
+                                "word": "know,",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 62300,
+                                "end": 63362,
+                                "word": "because",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 63400,
+                        "end": 65387,
+                        "words": [
+                            {
+                                "start": 63400,
+                                "end": 63462,
+                                "word": "To",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 63500,
+                                "end": 63662,
+                                "word": "heed",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 63700,
+                                "end": 63775,
+                                "word": "the",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 63912,
+                                "end": 64212,
+                                "word": "cause",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 64300,
+                                "end": 64312,
+                                "word": "I",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 64437,
+                                "end": 64550,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 64750,
+                                "end": 64800,
+                                "word": "be",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 64937,
+                                "end": 65387,
+                                "word": "barred",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 65450,
+                        "end": 65925,
+                        "words": [
+                            {
+                                "start": 65450,
+                                "end": 65562,
+                                "word": "But",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 65625,
+                                "end": 65687,
+                                "word": "you",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 65775,
+                                "end": 65925,
+                                "word": "won't",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 66087,
+                        "end": 67862,
+                        "words": [
+                            {
+                                "start": 66087,
+                                "end": 66175,
+                                "word": "We",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 66487,
+                                "end": 66500,
+                                "word": "are",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 66612,
+                                "end": 66675,
+                                "word": "here",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 66762,
+                                "end": 66837,
+                                "word": "to",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 67162,
+                                "end": 67487,
+                                "word": "love",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 67550,
+                                "end": 67862,
+                                "word": "heart",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 68100,
+                        "end": 71637,
+                        "words": [
+                            {
+                                "start": 68100,
+                                "end": 68300,
+                                "word": "He's",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 68450,
+                                "end": 68487,
+                                "word": "up",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 68762,
+                                "end": 70137,
+                                "word": "inside,",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 70500,
+                                "end": 70625,
+                                "word": "we",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 70875,
+                                "end": 71175,
+                                "word": "start",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 71225,
+                                "end": 71300,
+                                "word": "to",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 71537,
+                                "end": 71637,
+                                "word": "cry",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 73887,
+                        "end": 75975,
+                        "words": [
+                            {
+                                "start": 73887,
+                                "end": 74012,
+                                "word": "Just",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 74212,
+                                "end": 74687,
+                                "word": "because",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 74775,
+                                "end": 74787,
+                                "word": "I",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 74925,
+                                "end": 75062,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 75375,
+                                "end": 75975,
+                                "word": "afford",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 76037,
+                        "end": 77962,
+                        "words": [
+                            {
+                                "start": 76037,
+                                "end": 76437,
+                                "word": "Living",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 76537,
+                                "end": 76737,
+                                "word": "in",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 76812,
+                                "end": 76887,
+                                "word": "me",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 77062,
+                                "end": 77150,
+                                "word": "is",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 77325,
+                                "end": 77412,
+                                "word": "so",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 77875,
+                                "end": 77962,
+                                "word": "poor",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 79950,
+                        "end": 82250,
+                        "words": [
+                            {
+                                "start": 79950,
+                                "end": 80725,
+                                "word": "Deliver",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 80762,
+                                "end": 80837,
+                                "word": "me",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 82162,
+                                "end": 82250,
+                                "word": "there",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 92637,
+                        "end": 100125,
+                        "words": [
+                            {
+                                "start": 92637,
+                                "end": 93887,
+                                "word": "To",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 95800,
+                                "end": 95850,
+                                "word": "be",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 96125,
+                                "end": 96450,
+                                "word": "judged",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 96662,
+                                "end": 96737,
+                                "word": "by",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 97150,
+                                "end": 98412,
+                                "word": "one",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 98537,
+                                "end": 98550,
+                                "word": "or",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 98850,
+                                "end": 99200,
+                                "word": "licked",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 99350,
+                                "end": 99437,
+                                "word": "by",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 99887,
+                                "end": 100125,
+                                "word": "three",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 100450,
+                        "end": 106037,
+                        "words": [
+                            {
+                                "start": 100450,
+                                "end": 100662,
+                                "word": "And",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 100900,
+                                "end": 101000,
+                                "word": "your",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 101900,
+                                "end": 103725,
+                                "word": "holes",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 103850,
+                                "end": 106037,
+                                "word": "enclose",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 106587,
+                        "end": 110912,
+                        "words": [
+                            {
+                                "start": 106587,
+                                "end": 106700,
+                                "word": "We",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 106900,
+                                "end": 107212,
+                                "word": "gave",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 107500,
+                                "end": 107912,
+                                "word": "our",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 108012,
+                                "end": 108825,
+                                "word": "eyes",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 109325,
+                                "end": 109475,
+                                "word": "but",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 109650,
+                                "end": 109737,
+                                "word": "no",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 110150,
+                                "end": 110437,
+                                "word": "one",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 110650,
+                                "end": 110912,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 111187,
+                        "end": 112575,
+                        "words": [
+                            {
+                                "start": 111187,
+                                "end": 111400,
+                                "word": "Yes,",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 111537,
+                                "end": 111550,
+                                "word": "I",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 111675,
+                                "end": 111762,
+                                "word": "know,",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 111862,
+                                "end": 112575,
+                                "word": "because",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 112662,
+                        "end": 119725,
+                        "words": [
+                            {
+                                "start": 112662,
+                                "end": 112750,
+                                "word": "To",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 113062,
+                                "end": 114687,
+                                "word": "heed",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 118200,
+                                "end": 118250,
+                                "word": "the",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 118375,
+                                "end": 118662,
+                                "word": "cause",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 118737,
+                                "end": 118750,
+                                "word": "I",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 118875,
+                                "end": 119012,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 119187,
+                                "end": 119262,
+                                "word": "be",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 119350,
+                                "end": 119725,
+                                "word": "barred",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 119850,
+                        "end": 120587,
+                        "words": [
+                            {
+                                "start": 119850,
+                                "end": 120100,
+                                "word": "But",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 120150,
+                                "end": 120225,
+                                "word": "you",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 120475,
+                                "end": 120587,
+                                "word": "won't",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 120625,
+                        "end": 122387,
+                        "words": [
+                            {
+                                "start": 120625,
+                                "end": 120712,
+                                "word": "We",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 120862,
+                                "end": 120875,
+                                "word": "are",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 121137,
+                                "end": 121225,
+                                "word": "here",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 121462,
+                                "end": 121537,
+                                "word": "to",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 121650,
+                                "end": 122200,
+                                "word": "love",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 122250,
+                                "end": 122387,
+                                "word": "heart",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 122462,
+                        "end": 125962,
+                        "words": [
+                            {
+                                "start": 122462,
+                                "end": 122675,
+                                "word": "He's",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 122875,
+                                "end": 123012,
+                                "word": "up",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 123150,
+                                "end": 124575,
+                                "word": "inside,",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 124875,
+                                "end": 124975,
+                                "word": "we",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 125187,
+                                "end": 125450,
+                                "word": "start",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 125512,
+                                "end": 125600,
+                                "word": "to",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 125862,
+                                "end": 125962,
+                                "word": "cry",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 128375,
+                        "end": 130250,
+                        "words": [
+                            {
+                                "start": 128375,
+                                "end": 128475,
+                                "word": "Just",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 128575,
+                                "end": 129025,
+                                "word": "because",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 129125,
+                                "end": 129137,
+                                "word": "I",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 129262,
+                                "end": 129475,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 129575,
+                                "end": 130250,
+                                "word": "afford",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 130275,
+                        "end": 132262,
+                        "words": [
+                            {
+                                "start": 130275,
+                                "end": 130787,
+                                "word": "Living",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 130887,
+                                "end": 131037,
+                                "word": "in",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 131125,
+                                "end": 131200,
+                                "word": "me",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 131362,
+                                "end": 131600,
+                                "word": "is",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 131637,
+                                "end": 131737,
+                                "word": "so",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 132187,
+                                "end": 132262,
+                                "word": "poor",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 134362,
+                        "end": 138400,
+                        "words": [
+                            {
+                                "start": 134362,
+                                "end": 135237,
+                                "word": "Deliver",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 136362,
+                                "end": 136425,
+                                "word": "me",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 137787,
+                                "end": 138400,
+                                "word": "up",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 139525,
+                        "end": 140812,
+                        "words": [
+                            {
+                                "start": 139525,
+                                "end": 139987,
+                                "word": "Cannot",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 140125,
+                                "end": 140400,
+                                "word": "fuck",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 140450,
+                                "end": 140512,
+                                "word": "to",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 140600,
+                                "end": 140687,
+                                "word": "be",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 140762,
+                                "end": 140812,
+                                "word": "me",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 141100,
+                        "end": 142012,
+                        "words": [
+                            {
+                                "start": 141100,
+                                "end": 141200,
+                                "word": "And",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 141250,
+                                "end": 141337,
+                                "word": "you",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 141387,
+                                "end": 141550,
+                                "word": "won't",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 141587,
+                                "end": 141900,
+                                "word": "find",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 141937,
+                                "end": 142012,
+                                "word": "me",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 142350,
+                        "end": 143212,
+                        "words": [
+                            {
+                                "start": 142350,
+                                "end": 142425,
+                                "word": "And",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 142487,
+                                "end": 142562,
+                                "word": "you",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 142612,
+                                "end": 142775,
+                                "word": "won't",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 142812,
+                                "end": 143112,
+                                "word": "find",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 143137,
+                                "end": 143212,
+                                "word": "me",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 143362,
+                        "end": 145175,
+                        "words": [
+                            {
+                                "start": 143362,
+                                "end": 143662,
+                                "word": "And",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 143700,
+                                "end": 143775,
+                                "word": "you",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 143862,
+                                "end": 144000,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 144162,
+                                "end": 144312,
+                                "word": "don't",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 144337,
+                                "end": 144412,
+                                "word": "know",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 144500,
+                                "end": 144575,
+                                "word": "me,",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 144662,
+                                "end": 145175,
+                                "word": "psycho",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 145437,
+                        "end": 146950,
+                        "words": [
+                            {
+                                "start": 145437,
+                                "end": 145450,
+                                "word": "I",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 145537,
+                                "end": 145650,
+                                "word": "don't",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 145700,
+                                "end": 145975,
+                                "word": "believe",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 146112,
+                                "end": 146200,
+                                "word": "you",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 146275,
+                                "end": 146425,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 146500,
+                                "end": 146850,
+                                "word": "find",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 146875,
+                                "end": 146950,
+                                "word": "me",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 147162,
+                        "end": 148237,
+                        "words": [
+                            {
+                                "start": 147162,
+                                "end": 147237,
+                                "word": "And",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 147425,
+                                "end": 147500,
+                                "word": "you",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 147562,
+                                "end": 147725,
+                                "word": "won't",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 147787,
+                                "end": 148150,
+                                "word": "find",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 148175,
+                                "end": 148237,
+                                "word": "me",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 148375,
+                        "end": 150112,
+                        "words": [
+                            {
+                                "start": 148375,
+                                "end": 148600,
+                                "word": "And",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 148650,
+                                "end": 148700,
+                                "word": "you",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 148750,
+                                "end": 148900,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 149075,
+                                "end": 149150,
+                                "word": "so",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 149225,
+                                "end": 149350,
+                                "word": "come",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 149400,
+                                "end": 149500,
+                                "word": "from",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 149575,
+                                "end": 149587,
+                                "word": "a",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 149687,
+                                "end": 150112,
+                                "word": "psycho",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 150400,
+                        "end": 151887,
+                        "words": [
+                            {
+                                "start": 150400,
+                                "end": 150412,
+                                "word": "I",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 150512,
+                                "end": 150625,
+                                "word": "don't",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 150662,
+                                "end": 150950,
+                                "word": "believe",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 151062,
+                                "end": 151175,
+                                "word": "you",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 151250,
+                                "end": 151387,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 151475,
+                                "end": 151787,
+                                "word": "find",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 151812,
+                                "end": 151887,
+                                "word": "me",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 152237,
+                        "end": 153150,
+                        "words": [
+                            {
+                                "start": 152237,
+                                "end": 152312,
+                                "word": "And",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 152350,
+                                "end": 152437,
+                                "word": "you",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 152500,
+                                "end": 152625,
+                                "word": "won't",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 152737,
+                                "end": 153025,
+                                "word": "find",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 153087,
+                                "end": 153150,
+                                "word": "me",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 153487,
+                        "end": 155175,
+                        "words": [
+                            {
+                                "start": 153487,
+                                "end": 153550,
+                                "word": "And",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 153587,
+                                "end": 153650,
+                                "word": "you",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 153725,
+                                "end": 153850,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 154037,
+                                "end": 154187,
+                                "word": "don't",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 154337,
+                                "end": 154487,
+                                "word": "quit,",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 154725,
+                                "end": 155175,
+                                "word": "psycho",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 155312,
+                        "end": 156850,
+                        "words": [
+                            {
+                                "start": 155312,
+                                "end": 155325,
+                                "word": "I",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 155425,
+                                "end": 155550,
+                                "word": "don't",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 155575,
+                                "end": 155862,
+                                "word": "believe",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 155987,
+                                "end": 156087,
+                                "word": "you",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 156187,
+                                "end": 156337,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 156400,
+                                "end": 156712,
+                                "word": "find",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 156750,
+                                "end": 156850,
+                                "word": "me",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 157350,
+                        "end": 169112,
+                        "words": [
+                            {
+                                "start": 157350,
+                                "end": 157550,
+                                "word": "I'm",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 157637,
+                                "end": 157762,
+                                "word": "in",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 157825,
+                                "end": 158400,
+                                "word": "trouble",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 158487,
+                                "end": 158900,
+                                "word": "because",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 158937,
+                                "end": 159187,
+                                "word": "playing",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 159375,
+                                "end": 169112,
+                                "word": "God",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 169212,
+                        "end": 179250,
+                        "words": [
+                            {
+                                "start": 169212,
+                                "end": 169225,
+                                "word": "I",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 171162,
+                                "end": 171550,
+                                "word": "and",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 171725,
+                                "end": 171800,
+                                "word": "me,",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 174000,
+                                "end": 174112,
+                                "word": "we",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 174512,
+                                "end": 179250,
+                                "word": "go",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 179362,
+                        "end": 185162,
+                        "words": [
+                            {
+                                "start": 179362,
+                                "end": 179587,
+                                "word": "With",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 179875,
+                                "end": 181525,
+                                "word": "Jesus",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 182200,
+                                "end": 182262,
+                                "word": "in",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 182325,
+                                "end": 182337,
+                                "word": "a",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 182587,
+                                "end": 184100,
+                                "word": "bowl",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 184862,
+                                "end": 185050,
+                                "word": "of",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 185075,
+                                "end": 185162,
+                                "word": "dirt",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 185300,
+                        "end": 187537,
+                        "words": [
+                            {
+                                "start": 185300,
+                                "end": 187312,
+                                "word": "Yeah,",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 187425,
+                                "end": 187537,
+                                "word": "yeah",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 187662,
+                        "end": 187812,
+                        "words": [
+                            {
+                                "start": 187662,
+                                "end": 187700,
+                                "word": "So",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 187737,
+                                "end": 187812,
+                                "word": "poor",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    },
+                    {
+                        "start": 187962,
+                        "end": 207700,
+                        "words": [
+                            {
+                                "start": 187962,
+                                "end": 187975,
+                                "word": "I",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 188075,
+                                "end": 189012,
+                                "word": "will",
+                                "__typename": "LyricsSynchronizedWord"
+                            },
+                            {
+                                "start": 203612,
+                                "end": 207700,
+                                "word": "fly",
+                                "__typename": "LyricsSynchronizedWord"
+                            }
+                        ],
+                        "__typename": "LyricsSynchronizedWordByWordLine"
+                    }
+                ],
+                "__typename": "Lyrics",
+                "synchronizedLines": [
+                    {
+                        "lrcTimestamp": "[00:41.19]",
+                        "line": "To be forced under",
+                        "lineTranslated": "Ser obligado debajo",
+                        "milliseconds": 41190,
+                        "duration": 1930,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[00:43.12]",
+                        "line": "I look unto your home because",
+                        "lineTranslated": "Miro hacia tu hogar porque",
+                        "milliseconds": 43120,
+                        "duration": 8140,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[00:51.26]",
+                        "line": "We gave our eyes but no one will",
+                        "lineTranslated": "Dimos nuestros ojos pero nadie lo hará",
+                        "milliseconds": 51260,
+                        "duration": 5260,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[00:56.52]",
+                        "line": "Yes, I know, because",
+                        "lineTranslated": "Sí, lo sé, porque",
+                        "milliseconds": 56520,
+                        "duration": 5760,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:02.28]",
+                        "line": "To heed the cause I will be barred",
+                        "lineTranslated": "Para atender la causa se me prohibirá",
+                        "milliseconds": 62280,
+                        "duration": 2630,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:04.91]",
+                        "line": "But you won't",
+                        "lineTranslated": "Pero tú no",
+                        "milliseconds": 64910,
+                        "duration": 870,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:05.78]",
+                        "line": "We are here to love heart",
+                        "lineTranslated": "Estamos aquí para amar el corazón",
+                        "milliseconds": 65780,
+                        "duration": 1790,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:07.57]",
+                        "line": "He's up inside, we start to cry",
+                        "lineTranslated": "Él está arriba dentro, empezamos a llorar",
+                        "milliseconds": 67570,
+                        "duration": 5330,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:12.90]",
+                        "line": "Just because I will afford",
+                        "lineTranslated": "Solo porque me lo permitiré",
+                        "milliseconds": 72900,
+                        "duration": 2500,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:15.40]",
+                        "line": "Living in me is so poor",
+                        "lineTranslated": "Vivir en mí es tan pobre",
+                        "milliseconds": 75400,
+                        "duration": 3850,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:19.25]",
+                        "line": "Deliver me there",
+                        "lineTranslated": "Líbrame allí",
+                        "milliseconds": 79250,
+                        "duration": 15650,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:34.90]",
+                        "line": "To be judged by one or licked by three",
+                        "lineTranslated": "Ser juzgado por uno o lamido por tres",
+                        "milliseconds": 94900,
+                        "duration": 5250,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:40.15]",
+                        "line": "And your holes enclose",
+                        "lineTranslated": "Y tus agujeros encierran",
+                        "milliseconds": 100150,
+                        "duration": 5620,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:45.77]",
+                        "line": "We gave our eyes but no one will",
+                        "lineTranslated": "Dimos nuestros ojos pero nadie lo hará",
+                        "milliseconds": 105770,
+                        "duration": 4800,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:50.57]",
+                        "line": "Yes, I know, because",
+                        "lineTranslated": "Sí, lo sé, porque",
+                        "milliseconds": 110570,
+                        "duration": 6450,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:57.02]",
+                        "line": "To heed the cause I will be barred",
+                        "lineTranslated": "Para atender la causa se me prohibirá",
+                        "milliseconds": 117020,
+                        "duration": 2300,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[01:59.32]",
+                        "line": "But you won't",
+                        "lineTranslated": "Pero tú no",
+                        "milliseconds": 119320,
+                        "duration": 760,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:00.08]",
+                        "line": "We are here to love heart",
+                        "lineTranslated": "Estamos aquí para amar el corazón",
+                        "milliseconds": 120080,
+                        "duration": 1880,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:01.96]",
+                        "line": "He's up inside, we start to cry",
+                        "lineTranslated": "Él está arriba dentro, empezamos a llorar",
+                        "milliseconds": 121960,
+                        "duration": 5410,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:07.37]",
+                        "line": "Just because I will afford",
+                        "lineTranslated": "Solo porque me lo permitiré",
+                        "milliseconds": 127370,
+                        "duration": 2490,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:09.86]",
+                        "line": "Living in me is so poor",
+                        "lineTranslated": "Vivir en mí es tan pobre",
+                        "milliseconds": 129860,
+                        "duration": 2440,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:12.30]",
+                        "line": "Deliver me up",
+                        "lineTranslated": "Líbrame arriba",
+                        "milliseconds": 132300,
+                        "duration": 6810,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:19.11]",
+                        "line": "Cannot fuck to be me",
+                        "lineTranslated": "No puedo follar para ser yo",
+                        "milliseconds": 139110,
+                        "duration": 1490,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:20.60]",
+                        "line": "And you won't find me",
+                        "lineTranslated": "Y no me encontrarás",
+                        "milliseconds": 140600,
+                        "duration": 1070,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:21.67]",
+                        "line": "And you won't find me",
+                        "lineTranslated": "Y no me encontrarás",
+                        "milliseconds": 141670,
+                        "duration": 1230,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:22.90]",
+                        "line": "And you will don't know me, psycho",
+                        "lineTranslated": "Y no me conocerás, psicópata",
+                        "milliseconds": 142900,
+                        "duration": 2030,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:24.93]",
+                        "line": "I don't believe you will find me",
+                        "lineTranslated": "No creo que me encuentres",
+                        "milliseconds": 144930,
+                        "duration": 1670,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:26.60]",
+                        "line": "And you won't find me",
+                        "lineTranslated": "Y no me encontrarás",
+                        "milliseconds": 146600,
+                        "duration": 1060,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:27.66]",
+                        "line": "And you will so come from a psycho",
+                        "lineTranslated": "Y tú vendrás así de un psicópata",
+                        "milliseconds": 147660,
+                        "duration": 1970,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:29.63]",
+                        "line": "I don't believe you will find me",
+                        "lineTranslated": "No creo que me encuentres",
+                        "milliseconds": 149630,
+                        "duration": 1760,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:31.39]",
+                        "line": "And you won't find me",
+                        "lineTranslated": "Y no me encontrarás",
+                        "milliseconds": 151390,
+                        "duration": 1310,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:32.70]",
+                        "line": "And you will don't quit, psycho",
+                        "lineTranslated": "Y no dejarás de hacerlo, psicópata",
+                        "milliseconds": 152700,
+                        "duration": 1630,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:34.33]",
+                        "line": "I don't believe you will find me",
+                        "lineTranslated": "No creo que me encuentres",
+                        "milliseconds": 154330,
+                        "duration": 1930,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:36.26]",
+                        "line": "I'm in trouble because playing God",
+                        "lineTranslated": "Estoy en problemas porque juego a ser Dios",
+                        "milliseconds": 156260,
+                        "duration": 5540,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:48.49]",
+                        "line": "I and me, we go",
+                        "lineTranslated": "Yo y yo, vamos",
+                        "milliseconds": 168490,
+                        "duration": 9940,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[02:58.43]",
+                        "line": "With Jesus in a bowl of dirt",
+                        "lineTranslated": "Con Jesús en un cuenco de tierra",
+                        "milliseconds": 178430,
+                        "duration": 10280,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[03:08.71]",
+                        "line": "Yeah, yeah",
+                        "lineTranslated": "Sí, sí",
+                        "milliseconds": 188710,
+                        "duration": 13870,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[03:22.58]",
+                        "line": "So poor",
+                        "lineTranslated": "Tan pobre",
+                        "milliseconds": 202580,
+                        "duration": 4490,
+                        "__typename": "LyricsSynchronizedLine"
+                    },
+                    {
+                        "lrcTimestamp": "[03:27.07]",
+                        "line": "I will fly",
+                        "lineTranslated": "Volaré",
+                        "milliseconds": 207070,
+                        "duration": 7880,
+                        "__typename": "LyricsSynchronizedLine"
+                    }
+                ],
+                "licence": "Letras autorizadas y aprobadas por LyricFind",
+                "copyright": "Warner Chappell Music, Inc.",
+                "writers": "Abe Cunningham, Chi Cheng, Chino Camilo Moreno, Stephen Carpenter"
+            },
+            "__typename": "Track"
+        }
+    },
+    "extensions": {
+        "queryCost": 23
+    }
+}

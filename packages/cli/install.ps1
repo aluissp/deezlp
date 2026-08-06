@@ -3,7 +3,7 @@
 # Setup
 $RepoUser   = "aluissp"
 $RepoName   = "deezlp"
-$Version    = "cli-v1.0.0"
+$Version    = "cli-v1.1.0"
 $BinaryName = "deezlp.exe"
 $Url        = "https://github.com/$RepoUser/$RepoName/releases/download/$Version/$BinaryName"
 
@@ -40,14 +40,14 @@ if ((Test-Path $TargetPath) -and ((Get-Item $TargetPath).Length -gt 0)) {
 }
 
 # 4. Check if the target directory is already in the user's PATH
-$UserPath = [Environment]::GetEnvironmentVariable("Path", [Environment]::VariableTarget::User)
+$UserPath = [Environment]::GetEnvironmentVariable("Path", "User")
 
 if ($UserPath -notlike "*$TargetDir*") {
     Write-Host "The binary directory is not in your PATH." -ForegroundColor Yellow
     Write-Host "Setting it up permanently..." -ForegroundColor Gray
 
     $NewPath = $UserPath + ";" + $TargetDir
-    [Environment]::SetEnvironmentVariable("Path", $NewPath, [Environment]::VariableTarget::User)
+    [Environment]::SetEnvironmentVariable("Path", $NewPath, "User")
 
     Write-Host "The binary directory has been added to your PATH." -ForegroundColor Green
     Write-Host "NOTE: To start using 'deezlp', you need to close this terminal and open a new one." -ForegroundColor Yellow

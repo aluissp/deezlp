@@ -6,7 +6,7 @@ set -e
 # Setup
 REPO_USER="aluissp"
 REPO_NAME="deezlp"
-VERSION="cli-v1.0.0"
+VERSION="cli-v1.1.0"
 BINARY_NAME="deezlp"
 URL="https://github.com/${REPO_USER}/${REPO_NAME}/releases/download/${VERSION}/${BINARY_NAME}"
 
