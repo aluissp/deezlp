@@ -1,5 +1,5 @@
 import { Deezlp } from 'deezlp';
-import { ConfigService, DownloadService, FileService, LoggerService, LoginService, PromptService } from '@/services';
+import { ConfigService, DownloadService, FileService, LoggerService, LoginService, LyricsParserService, PromptService } from '@/services';
 
 export function bootstrapCli() {
 	const dl = new Deezlp();
@@ -11,6 +11,7 @@ export function bootstrapCli() {
 	const loginService = new LoginService(dl, logger, fileService, promptService);
 	const downloadService = new DownloadService(dl, logger, fileService, loginService);
 	const configService = new ConfigService(fileService, logger);
+	const lyricsParserService = new LyricsParserService(dl, logger);
 
-	return { loginService, downloadService, configService, fileService };
+	return { loginService, downloadService, configService, fileService, lyricsParserService };
 }

@@ -16,7 +16,7 @@ export function createCli(): Command {
 
 	program.name('deezlp-cli').description('A CLI wrapper for deezlp').version(packageJson.version);
 
-	const { downloadService, configService, loginService } = bootstrapCli();
+	const { downloadService, configService, loginService, lyricsParserService } = bootstrapCli();
 
 	// download command
 	program
@@ -46,6 +46,13 @@ export function createCli(): Command {
 		.option('-a, --arl <arl>', 'The ARL token for login')
 		.option('-l, --logout', 'Logout from your Deezer account')
 		.action((options: any) => loginService.execute(options));
+
+	// parse lrc command
+	program
+		.command('lrc')
+		.description('Parse lrc JSON lyrics')
+		.argument('<jsonFiles...>', 'The jsonFiles of the lrc lyrics')
+		.action((jsonFiles: string[]) => lyricsParserService.execute(jsonFiles));
 
 	return program;
 }
