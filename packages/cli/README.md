@@ -8,10 +8,10 @@ Run the following command to install the CLI tool:
 
 ```bash
 # linux
-curl -sSL https://raw.githubusercontent.com/aluissp/deezlp/refs/heads/dev/packages/cli/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/aluissp/deezlp/refs/heads/main/packages/cli/install.sh | bash
 
 # windows
-irm https://raw.githubusercontent.com/aluissp/deezlp/refs/heads/dev/packages/cli/install.ps1 | iex
+irm https://raw.githubusercontent.com/aluissp/deezlp/refs/heads/main/packages/cli/install.ps1 | iex
 ```
 
 ## From the source

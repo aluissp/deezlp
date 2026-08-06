@@ -2,7 +2,7 @@
   "name": "cli",
   "private": true,
   "type": "module",
-  "version": "1.0.0",
+  "version": "cli-v1.1.0",
   "main": "src/main.ts",
   "scripts": {
     "compile": "bun run build:linux && bun run build:win",
