@@ -71,6 +71,6 @@ export class LyricsParserService {
 
 	private findSongByTitle(filePath: string, title: string) {
 		const files = this.fileService.getFilesInDirectory(filePath);
-		return files.find(file => file.toLowerCase().includes(title.toLowerCase()));
+		return files.filter(file => file.includes('.mp3') || file.includes('.flac')).find(file => file.toLowerCase().includes(title.toLowerCase()));
 	}
 }
