@@ -139,7 +139,7 @@ describe('Testing the Deezlp class', () => {
 
 	test('Should parse json sync lyrics', async () => {
 		// Clean file
-		const filePath = '/home/luis/Música/Deezlp Music/Deftones/Adrenaline/Deftones - Root.lrc';
+		const filePath = '/home/luis/Música/Deezlp Music/Deftones/Adrenaline/06 - Root.lrc';
 		if (existsSync(filePath)) unlinkSync(filePath);
 
 		// Parse the root.json filed

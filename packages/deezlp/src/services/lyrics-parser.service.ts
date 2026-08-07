@@ -28,7 +28,8 @@ export class LyricsParserService {
 		// 1. Parse the JSON string to get the PipeDzLyrics object
 		const { data } = JSON.parse(syncLrcJson) as PipeDzLyrics;
 
-		const synchronizedLines = data.track.lyrics.synchronizedLines ?? [];
+		const synchronizedLines =
+			data.track.lyrics.synchronizedLines ?? this.getSyncLinesFromSyncLinesWordByWord(data.track.lyrics.synchronizedWordByWordLines) ?? [];
 
 		const lyrics: GWLyrics = {
 			LYRICS_ID: data.track.lyrics.id,
@@ -72,5 +73,27 @@ export class LyricsParserService {
 	private findSongByTitle(filePath: string, title: string) {
 		const files = this.fileService.getFilesInDirectory(filePath);
 		return files.filter(file => file.includes('.mp3') || file.includes('.flac')).find(file => file.toLowerCase().includes(title.toLowerCase()));
+	}
+
+	private getSyncLinesFromSyncLinesWordByWord(
+		syncWordByWord: PipeDzLyrics['data']['track']['lyrics']['synchronizedWordByWordLines'],
+	): PipeDzLyrics['data']['track']['lyrics']['synchronizedLines'] {
+		return syncWordByWord?.map(sync => {
+			const line = sync.words?.map(data => data.word).join(' ') ?? sync.word ?? '';
+
+			return {
+				milliseconds: sync.start,
+				duration: sync.end - sync.start,
+				lrcTimestamp: this.msToTimestamp(sync.start),
+				line,
+			};
+		});
+	}
+
+	private msToTimestamp(ms: number): string {
+		const totalSeconds = ms / 1000;
+		const minutes = Math.floor(totalSeconds / 60);
+		const seconds = totalSeconds % 60;
+		return `[${String(minutes).padStart(2, '0')}:${seconds.toFixed(2).padStart(5, '0')}]`;
 	}
 }

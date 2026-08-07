@@ -134,6 +134,8 @@ export class FileService {
 			embeddedCoverURL += `-000000-${quality}-0-0.jpg`;
 		}
 
+		coverName = this.fixName(coverName);
+
 		const embeddedCoverPath = join(this.TEMPDIR, `alb_${coverName}_${this.settings.embeddedArtworkSize}.${format}`);
 
 		return { embeddedCoverURL, embeddedCoverPath };
