@@ -27,17 +27,17 @@ interface Lyrics {
 interface SynchronizedLine {
 	lrcTimestamp: string;
 	line: string;
-	lineTranslated: null;
+	lineTranslated?: string;
 	milliseconds: number;
 	duration: number;
-	__typename: string;
+	__typename?: string;
 }
 
 interface SynchronizedWordByWordLine {
 	start: number;
 	end: number;
 	words?: SynchronizedWordByWordLine[];
-	__typename: string;
+	__typename?: string;
 	word?: string;
 }
 

@@ -51,8 +51,8 @@ export function createCli(): Command {
 	program
 		.command('lrc')
 		.description('Parse lrc JSON lyrics')
-		.argument('<jsonFiles...>', 'The jsonFiles of the lrc lyrics')
-		.action((jsonFiles: string[]) => lyricsParserService.execute(jsonFiles));
+		.argument('<filePaths...>', 'The jsonFiles paths of the lrc lyrics')
+		.action((filePaths: string[]) => lyricsParserService.execute(filePaths));
 
 	return program;
 }
